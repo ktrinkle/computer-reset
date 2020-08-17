@@ -9,6 +9,7 @@ import { AppComponent } from '../app.component';
   templateUrl: './event.component.html',
   styleUrls: ['./event.component.scss']
 })
+
 export class EventComponent implements OnInit {
 
   events = [];
