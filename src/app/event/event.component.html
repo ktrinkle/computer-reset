@@ -1,0 +1,120 @@
+<div style="padding: 13px">
+    <mat-card style="margin-top:10px;">
+        <mat-card-header>
+            <mat-card-title>Event rules</mat-card-title>
+            <mat-card-subtitle>Before signing up for an event, you agree to the following rules:</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+        <ol><li>100% mask and social distancing environment. <ul><li>NO masks with exhaust valves
+            <li>No neck gaiters</li>
+            <li>No "protest" masks</li></ul> 
+            Disposable mask are available if you need one during the event.</li>
+            <li>No open-toed or high heel shoes. No sandals. No flip-flops.</li>
+            <li>No poaching someone else's pile.</li>
+            <li>No climbing or using the ladders - We will have volunteers available to help you get stuff 
+                down from 2nd and 3rd level pallet shelves.</li>
+            <li>Clean up after yourself. If you open and search a box, put everything back in it 
+                and put it back where it was before moving on. If you're drinking something, 
+                toss the bottle/cup in the trash, not the bushes.</li>
+            <li>Stay out of taped off and off-limits areas.</li>
+            <li>No photos, livestreaming, or filming without permission.</li>
+            <li>You are responsible for your own safety. The volunteer crew has 
+                spent a huge number of hours filling 15 40-cubic yard dumpsters and restacking/sorting 
+                things around the offices and warehouse area to help make things safe.</li>
+            <li>If a volunteer tells you to take a time out in front of a fan or to get some water, 
+                you <strong>will</strong> do it.</li>
+            <li>Don't make us make more rules.</li>
+            </ol><ul>
+            <li>Cash and PayPal accepted.</li>
+            <li>Parking will be in front for guests, in back for volunteers. 
+                When you pay you'll be able to pull around back and load up your pile.</li>
+        </ul>
+        <p><button class="primary" (click)="agreeClick();">I agree to these rules</button></p>
+    </mat-card-content>
+    <mat-card-actions>
+    </mat-card-actions>
+    </mat-card>
+    <div *ngIf="agreeInd">
+    <form ngForm="formName">
+    <mat-card *ngFor="let event of events" style="margin-top:10px;">
+        <mat-card-header>
+            <mat-card-title>Upcoming events</mat-card-title>
+            <mat-card-subtitle>These events are open for signup:</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+            <mat-table [dataSource]="events">
+                <!-- Date Definition -->
+                 <!-- Signup Definition -->
+                 <ng-container matColumnDef="signup">
+                    <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                    <mat-cell *matCellDef="let row"> <button mat-radio-button class="primary" [value]="row.id">Sign Up</button></mat-cell>
+                  </ng-container>
+                  
+                  <ng-container matColumnDef="eventDate">
+                  <mat-header-cell *matHeaderCellDef> Event Date </mat-header-cell>
+                  <mat-cell *matCellDef="let row"> {{row.eventStartTms | date:'fullDate'}} </mat-cell>
+                </ng-container>
+              
+                <!-- Start time Definition -->
+                <ng-container matColumnDef="eventStart">
+                  <mat-header-cell *matHeaderCellDef> Start Time </mat-header-cell>
+                  <mat-cell *matCellDef="let row"> {{row.eventStartTms | date:'shortTime'}} </mat-cell>
+                </ng-container>
+              
+                <!-- Title Definition -->
+                <ng-container matColumnDef="eventEnd">
+                  <mat-header-cell *matHeaderCellDef> End Time </mat-header-cell>
+                  <mat-cell *matCellDef="let row"> {{row.eventEndTms | date:'shortTime'}} </mat-cell>
+                </ng-container>
+                
+                <!-- Header and Row Declarations -->
+                <mat-header-row *matHeaderRowDef="['signup', 'eventDate', 'eventStart', 'eventEnd']"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: ['signup', 'eventDate', 'eventStart', 'eventEnd']"></mat-row>
+              </mat-table>
+
+              <p>
+                  ID is required for anyone to enter the warehouse. If your real name is different from your
+                  Facebook name, please fill your name in below:
+              </p>
+              <p>
+                <mat-form-field appearance="fill">
+                  <mat-label>Real Name</mat-label>
+                  <input matInput placeholder="Placeholder" [(ngModel)]="signUp.realname" name="realName">
+                  <mat-hint>Fill in your real name here if that doesn't match your Facebook name.</mat-hint>
+                </mat-form-field>
+                {{signUp.realname}}
+              </p>
+
+              <p>
+                <mat-form-field appearance="fill">
+                    <mat-label>Select your state*</mat-label>
+                    <mat-select>
+                      <mat-option value="option">Option</mat-option>
+                    </mat-select>
+                    <mat-hint align="end">Select the state you live in ^</mat-hint>
+                  </mat-form-field>
+                  {{signUp.stateCd}}
+              </p>
+
+              <p>
+                <mat-form-field appearance="fill">
+                    <mat-label>Select your city*</mat-label>
+                    <mat-select>
+                      <mat-option value="option">Option</mat-option>
+                    </mat-select>
+                    <mat-hint align="end">Select the city you live in ^</mat-hint>
+                  </mat-form-field>
+                  {{signUp.cityNm}}
+              </p>
+
+              <p>
+                User ID: {{signUp.userId}}
+              </p>
+
+        </mat-card-content>
+        <mat-card-actions>
+    </mat-card-actions>
+    </mat-card>
+    </form>
+    </div>
+    </div>
