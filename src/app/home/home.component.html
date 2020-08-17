@@ -1,0 +1,49 @@
+<div style="padding: 13px;">
+    <mat-card >
+      <mat-card-header>
+        <mat-card-subtitle><img src="assets/cr.svg" width="320px">
+        </mat-card-subtitle>
+      </mat-card-header>
+    </mat-card>
+    <mat-spinner *ngIf="events.length === 0"></mat-spinner>
+  
+      <mat-card *ngFor="let event of events" style="margin-top:10px;">
+          <mat-card-header>
+              <mat-card-title>Upcoming events</mat-card-title>
+              <mat-card-subtitle>These events are open for signup:</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+              <mat-table [dataSource]="events">
+                  <!-- Date Definition -->
+                  <ng-container matColumnDef="eventDate">
+                    <mat-header-cell *matHeaderCellDef> Event Date </mat-header-cell>
+                    <mat-cell *matCellDef="let row"> {{row.eventStartTms | date:'fullDate'}} </mat-cell>
+                  </ng-container>
+                
+                  <!-- Start time Definition -->
+                  <ng-container matColumnDef="eventStart">
+                    <mat-header-cell *matHeaderCellDef> Start Time </mat-header-cell>
+                    <mat-cell *matCellDef="let row"> {{row.eventStartTms | date:'shortTime'}} </mat-cell>
+                  </ng-container>
+                
+                  <!-- Title Definition -->
+                  <ng-container matColumnDef="eventEnd">
+                    <mat-header-cell *matHeaderCellDef> End Time </mat-header-cell>
+                    <mat-cell *matCellDef="let row"> {{row.eventEndTms | date:'shortTime'}} </mat-cell>
+                  </ng-container>
+                
+                   <!-- Signup Definition -->
+                   <ng-container matColumnDef="signup">
+                    <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                    <mat-cell *matCellDef="let row"> <button mat-button class="primary" (click)="pickEvent(row.id);">Sign Up</button></mat-cell>
+                  </ng-container>
+                  
+                  <!-- Header and Row Declarations -->
+                  <mat-header-row *matHeaderRowDef="['eventDate', 'eventStart', 'eventEnd', 'signup']"></mat-header-row>
+                  <mat-row *matRowDef="let row; columns: ['eventDate', 'eventStart', 'eventEnd', 'signup']"></mat-row>
+                </mat-table>
+          </mat-card-content>
+          <mat-card-actions>
+      </mat-card-actions>
+      </mat-card>
+  </div>
