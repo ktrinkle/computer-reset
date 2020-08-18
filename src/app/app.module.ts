@@ -21,8 +21,9 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTableModule } from '@angular/material/table';
 import { MatRadioModule } from '@angular/material/radio';
-import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { LoadingScreenComponent } from './loading-screen/loading-screen.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     HomeComponent,
     PrivacyComponent,
     AdminComponent,
-    EventComponent
+    EventComponent,
+    LoadingScreenComponent
   ],
   imports: [
     BrowserModule,
@@ -49,7 +51,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     MatInputModule,
     MatCheckboxModule,
     MatDatepickerModule,
-    MatSelectModule
+    MatSelectModule,
+    ReactiveFormsModule
     ],
   providers: [],
   bootstrap: [AppComponent]

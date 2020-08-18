@@ -23,7 +23,7 @@ export interface ClaimPrincipal {
   }
 
   export interface UserSmall {
-    facebookId: number;
+    facebookId: string;
     firstName: string;
     lastName: string;
   }
@@ -44,5 +44,22 @@ export interface ClaimPrincipal {
     cityNm: string,
     stateCd: string,
     realname: string
+  }
+
+  export interface StateList {
+    id: number,
+    stateCode: string,
+    stateName: string
+    usCities: string[]
+  }
+
+  export interface CityList {
+    id: number,
+    idState: number,
+    city: string,
+    county: string,
+    latitude: number,
+    longitude: number,
+    idStateNavigation: string
   }
 

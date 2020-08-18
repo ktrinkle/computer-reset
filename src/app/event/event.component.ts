@@ -1,8 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { DataService } from '../data.service';
 import { Router } from '@angular/router';
-import { Signup } from '../data';
+import { Signup, StateList, CityList } from '../data';
 import { AppComponent } from '../app.component';
+import { NgForm, FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-event',
@@ -16,6 +17,10 @@ export class EventComponent implements OnInit {
   public signUp: Signup = {realname: "", userId: 0, cityNm: "", stateCd: "", eventId: 0};
 
   public agreeInd: boolean = false;
+  public eventForm: FormGroup;
+  public states: StateList[];
+  public cities: CityList[];
+  public responseJson: string;
 
   public agreeClick(): void {
     this.agreeInd = true;
@@ -24,25 +29,51 @@ export class EventComponent implements OnInit {
   constructor(
     private dataService: DataService, 
     private router: Router, 
-    private appComponent: AppComponent
+    private appComponent: AppComponent,
+    private formBuilder: FormBuilder
     ) { }
 
-  ngOnInit(): void {
+  ngOnInit() {
+      this.eventForm = this.formBuilder.group({
+        eventId: new FormControl(),
+        realName: new FormControl(),
+        userId: new FormControl(),
+        cityNm: new FormControl(),
+        stateCd: new FormControl()
+      });
 
       //get routed event id if needed
       this.signUp.eventId = this.dataService.eventIdPass;
       this.dataService.eventIdPass = 0;
 
       this.dataService.getEvent().subscribe((data: any[])=>{
-        console.log(data);
         this.events = data;
       }) 
 
-      this.signUp.realname = this.appComponent.userInfo.realName;
-      this.signUp.userId = this.appComponent.userInfo.id;
-      this.signUp.cityNm = this.appComponent.userInfo.cityName;
-      this.signUp.stateCd = this.appComponent.userInfo.stateCode;
+      this.dataService.getState().subscribe(
+        result => { this.states = result; }
+        );
 
+      //default us to Texas
+      this.changeCityList(45);
+
+
+      this.signUp.realname = this.appComponent.userInfo.realName ?? "";
+      this.signUp.userId = this.appComponent.userInfo.id ?? 0;
+      this.signUp.cityNm = this.appComponent.userInfo.cityName ?? "";
+      this.signUp.stateCd = this.appComponent.userInfo.stateCode ?? "";
+
+  }
+
+  eventSubmit() {
+    //builds out signup object
+    
+  }
+
+  changeCityList(newState: number) {
+    this.dataService.getCity(newState).subscribe(
+      result => { this.cities = result; }
+      );
   }
 
 }

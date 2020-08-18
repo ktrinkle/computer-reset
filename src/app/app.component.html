@@ -1,13 +1,16 @@
+<!--div [hidden]="!appReady"-->
 <mat-toolbar color="primary">
   <h1>
-    Computer Reset signup 
+    Computer Reset Liquidation Signup 
   </h1>
   <button mat-button routerLink="/">Home</button>
   <button mat-button routerLink="/privacy">Privacy Policy</button>
   <button mat-button routerLink="/event">Event signup</button>
-  <button mat-button routerLink="/admin">Admin</button>
+  <button *ngIf="admin" mat-button routerLink="/admin">Admin</button>
   <button mat-button routerLink="./auth/logout">Logout</button>
   <div>{{userInfoSmall.firstName}} {{userInfoSmall.lastName}}</div>
 </mat-toolbar>
 
 <router-outlet></router-outlet>
+<!--/div-->
+<!--app-loading-screen [loading]="isLoading"></app-loading-screen-->
