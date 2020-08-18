@@ -29,13 +29,13 @@
             <li>Parking will be in front for guests, in back for volunteers. 
                 When you pay you'll be able to pull around back and load up your pile.</li>
         </ul>
-        <p><button class="primary" (click)="agreeClick();">I agree to these rules</button></p>
+        <p><button mat-button class="primary" (click)="agreeClick();">I agree to these rules</button></p>
     </mat-card-content>
     <mat-card-actions>
     </mat-card-actions>
     </mat-card>
     <div *ngIf="agreeInd">
-    <form ngForm="formName">
+    <form [formGroup]="eventForm" (ngSubmit)="eventSubmit()">
     <mat-card *ngFor="let event of events" style="margin-top:10px;">
         <mat-card-header>
             <mat-card-title>Upcoming events</mat-card-title>
@@ -47,7 +47,7 @@
                  <!-- Signup Definition -->
                  <ng-container matColumnDef="signup">
                     <mat-header-cell *matHeaderCellDef></mat-header-cell>
-                    <mat-cell *matCellDef="let row"> <button mat-radio-button class="primary" [value]="row.id">Sign Up</button></mat-cell>
+                    <mat-cell *matCellDef="let row"> <mat-radio-button name="eventId" [value]="row.id" id="eventId" formControlName="eventId"></mat-radio-button></mat-cell>
                   </ng-container>
                   
                   <ng-container matColumnDef="eventDate">
@@ -71,7 +71,6 @@
                 <mat-header-row *matHeaderRowDef="['signup', 'eventDate', 'eventStart', 'eventEnd']"></mat-header-row>
                 <mat-row *matRowDef="let row; columns: ['signup', 'eventDate', 'eventStart', 'eventEnd']"></mat-row>
               </mat-table>
-
               <p>
                   ID is required for anyone to enter the warehouse. If your real name is different from your
                   Facebook name, please fill your name in below:
@@ -79,8 +78,8 @@
               <p>
                 <mat-form-field appearance="fill">
                   <mat-label>Real Name</mat-label>
-                  <input matInput placeholder="Placeholder" [(ngModel)]="signUp.realname" name="realName">
-                  <mat-hint>Fill in your real name here if that doesn't match your Facebook name.</mat-hint>
+                  <input matInput [value]="signUp.realname" id="realName" formControlName="realName">
+                  <mat-hint>Fill in the name on your ID here.</mat-hint>
                 </mat-form-field>
                 {{signUp.realname}}
               </p>
@@ -88,8 +87,10 @@
               <p>
                 <mat-form-field appearance="fill">
                     <mat-label>Select your state*</mat-label>
-                    <mat-select>
-                      <mat-option value="option">Option</mat-option>
+                    <mat-select id="stateCd" formControlName="stateCd">
+                      <mat-option *ngFor="let state of states" [value]="state.id" (onSelectionChange)="changeCityList(state.id);">
+                        {{state.stateCode}}
+                      </mat-option>
                     </mat-select>
                     <mat-hint align="end">Select the state you live in ^</mat-hint>
                   </mat-form-field>
@@ -99,10 +100,12 @@
               <p>
                 <mat-form-field appearance="fill">
                     <mat-label>Select your city*</mat-label>
-                    <mat-select>
-                      <mat-option value="option">Option</mat-option>
-                    </mat-select>
-                    <mat-hint align="end">Select the city you live in ^</mat-hint>
+                    <mat-select id="cityNm" formControlName="cityNm">
+                      <mat-option *ngFor="let city of cities" [value]="city.city">
+                      {{city.city}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-hint align="end">Select the city you live in ^</mat-hint>
                   </mat-form-field>
                   {{signUp.cityNm}}
               </p>
