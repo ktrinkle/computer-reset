@@ -59,7 +59,7 @@ export class DataService {
       return this.httpClient.post(url, user, this.getServiceOptions());
     } 
 
-    public getState() {
+    public getState(): any {
       var url = this.REST_API_SERVER + '/api/computerreset/api/ref/state';
       return this.httpClient.get(url, this.getServiceOptions());
     }
