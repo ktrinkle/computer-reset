@@ -23,6 +23,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatRadioModule } from '@angular/material/radio';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatListModule } from '@angular/material/list';
 import { LoadingScreenComponent } from './loading-screen/loading-screen.component';
 
 @NgModule({
@@ -52,6 +53,7 @@ import { LoadingScreenComponent } from './loading-screen/loading-screen.componen
     MatCheckboxModule,
     MatDatepickerModule,
     MatSelectModule,
+    MatListModule,
     ReactiveFormsModule
     ],
   providers: [],

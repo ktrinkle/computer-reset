@@ -3,7 +3,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 
 import { throwError, Observable } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
-import { UserSmall, Timeslot, Signup, StateList, CityList } from './data';
+import { UserSmall, Timeslot, Signup, StateList, CityList, UserModel } from './data';
 
 
 @Injectable({
@@ -12,6 +12,9 @@ import { UserSmall, Timeslot, Signup, StateList, CityList } from './data';
 export class DataService {
 
   public eventIdPass: number;
+
+  public userSmall: UserSmall;
+  public userFull: UserModel;
 
   private REST_API_SERVER = "https://pcjrsidecar9525.azurewebsites.net";
 
@@ -48,6 +51,16 @@ export class DataService {
       return this.httpClient.get(url);
     }
     
+    public getAdmin(id: string){
+      var url = this.REST_API_SERVER + '/api/computerreset/api/users/admin/' + encodeURIComponent(id) + '';
+      return this.httpClient.get(url);
+    }
+
+    public getVolunteer(id: string){
+      var url = this.REST_API_SERVER + '/api/computerreset/api/users/volunteer/' + encodeURIComponent(id) + '';
+      return this.httpClient.get(url);
+    }
+
     public getEvent(){
       var url = this.REST_API_SERVER + '/api/computerreset/api/events/show/open';
       return this.httpClient.get(url);

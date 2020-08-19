@@ -5,30 +5,31 @@
             <mat-card-subtitle>Before signing up for an event, you agree to the following rules:</mat-card-subtitle>
         </mat-card-header>
         <mat-card-content>
-        <ol><li>100% mask and social distancing environment. <ul><li>NO masks with exhaust valves
-            <li>No neck gaiters</li>
-            <li>No "protest" masks</li></ul> 
-            Disposable mask are available if you need one during the event.</li>
-            <li>No open-toed or high heel shoes. No sandals. No flip-flops.</li>
-            <li>No poaching someone else's pile.</li>
-            <li>No climbing or using the ladders - We will have volunteers available to help you get stuff 
-                down from 2nd and 3rd level pallet shelves.</li>
-            <li>Clean up after yourself. If you open and search a box, put everything back in it 
+        <mat-list><mat-list-item>100% mask and social distancing environment.</mat-list-item>
+           <mat-list><mat-list-item>NO masks with exhaust valves</mat-list-item>
+            <mat-list-item>No neck gaiters</mat-list-item>
+            <mat-list-item>No "protest" masks</mat-list-item></mat-list> 
+            <mat-list-item>Disposable masks are available if you need one during the event.</mat-list-item>
+            <mat-list-item>No open-toed or high heel shoes. No sandals. No flip-flops.</mat-list-item>
+            <mat-list-item>No poaching someone else's pile.</mat-list-item>
+            <mat-list-item>No climbing or using the ladders - We will have volunteers available to help you get stuff 
+                down from 2nd and 3rd level pallet shelves.</mat-list-item>
+            <mat-list-item>Clean up after yourself. If you open and search a box, put everything back in it 
                 and put it back where it was before moving on. If you're drinking something, 
-                toss the bottle/cup in the trash, not the bushes.</li>
-            <li>Stay out of taped off and off-limits areas.</li>
-            <li>No photos, livestreaming, or filming without permission.</li>
-            <li>You are responsible for your own safety. The volunteer crew has 
+                toss the bottle/cup in the trash, not the bushes.</mat-list-item>
+            <mat-list-item>Stay out of taped off and off-limits areas.</mat-list-item>
+            <mat-list-item>No photos, livestreaming, or filming without permission.</mat-list-item>
+            <mat-list-item>You are responsible for your own safety. The volunteer crew has 
                 spent a huge number of hours filling 15 40-cubic yard dumpsters and restacking/sorting 
-                things around the offices and warehouse area to help make things safe.</li>
-            <li>If a volunteer tells you to take a time out in front of a fan or to get some water, 
-                you <strong>will</strong> do it.</li>
-            <li>Don't make us make more rules.</li>
-            </ol><ul>
-            <li>Cash and PayPal accepted.</li>
-            <li>Parking will be in front for guests, in back for volunteers. 
-                When you pay you'll be able to pull around back and load up your pile.</li>
-        </ul>
+                things around the offices and warehouse area to help make things safe.</mat-list-item>
+            <mat-list-item>If a volunteer tells you to take a time out in front of a fan or to get some water, 
+                you <strong>will</strong> do it.</mat-list-item>
+            <mat-list-item>Don't make us make more rules.</mat-list-item>
+            </mat-list><mat-list>
+            <mat-list-item>Cash and PayPal accepted.</mat-list-item>
+            <mat-list-item>Parking will be in front for guests, in back for volunteers. 
+                When you pay you'll be able to pull around back and load up your pile.</mat-list-item>
+        </mat-list>
         <p><button mat-button class="primary" (click)="agreeClick();">I agree to these rules</button></p>
     </mat-card-content>
     <mat-card-actions>
@@ -81,7 +82,7 @@
                   <input matInput [value]="signUp.realname" id="realName" formControlName="realName">
                   <mat-hint>Fill in the name on your ID here.</mat-hint>
                 </mat-form-field>
-                {{signUp.realname}}
+                {{signUp.realname}} {{signUp.firstName}} {{signUp.lastName}}
               </p>
 
               <p>
@@ -112,7 +113,7 @@
 
               <p>
                   <button mat-button class="primary" type="submit">Sign up!</button>
-                User ID: {{signUp.userId}}
+                User ID: {{signUp.fbId}}
               </p>
 
         </mat-card-content>
