@@ -74,7 +74,7 @@
                 <mat-header-row *matHeaderRowDef="['signup', 'eventDate', 'eventStart', 'eventEnd']"></mat-header-row>
                 <mat-row *matRowDef="let row; columns: ['signup', 'eventDate', 'eventStart', 'eventEnd']"></mat-row>
               </mat-table>
-              <mat-grid-list cols="3" height="1:3">
+              <mat-grid-list cols="3" height="1:6">
               <mat-grid-tile-header rowspan="1" colspan="3" color="accent">
                   ID is required for anyone to enter the warehouse. If your real name is different from your
                   Facebook name, please fill your name in below:
@@ -97,7 +97,6 @@
                     </mat-select>
                     <mat-hint align="end">Select the state you live in ^</mat-hint>
                   </mat-form-field>
-                  {{signUp.stateCd}}
                 </mat-grid-tile>
 
               <mat-grid-tile>
@@ -110,7 +109,6 @@
                   </mat-select>
                   <mat-hint align="end">Select the city you live in ^</mat-hint>
                   </mat-form-field>
-                  {{signUp.cityNm}}
                 </mat-grid-tile>
             </mat-grid-list>
         </mat-card-content>
