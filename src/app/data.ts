@@ -39,11 +39,13 @@ export interface ClaimPrincipal {
   }
 
   export interface Signup {
-    userId: number,
+    fbId: string,
     eventId: number,
     cityNm: string,
     stateCd: string,
-    realname: string
+    realname: string,
+    firstName: string;
+    lastName: string;   
   }
 
   export interface StateList {

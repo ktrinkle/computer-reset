@@ -14,7 +14,11 @@ import { NgForm, FormGroup, FormControl, Validators, FormBuilder } from '@angula
 export class EventComponent implements OnInit {
 
   events = [];
-  public signUp: Signup = {realname: "", userId: 0, cityNm: "", stateCd: "", eventId: 0};
+  public signUp: Signup = {realname: "", cityNm: "", stateCd: "", eventId: 0, 
+    fbId: this.dataService.userSmall.facebookId, 
+    firstName: this.dataService.userSmall.firstName, 
+    lastName: this.dataService.userSmall.lastName
+  };
 
   public agreeInd: boolean = false;
   public eventForm: FormGroup;
@@ -27,7 +31,7 @@ export class EventComponent implements OnInit {
   }
 
   constructor(
-    private dataService: DataService, 
+    public dataService: DataService, 
     private router: Router, 
     private appComponent: AppComponent,
     private formBuilder: FormBuilder
@@ -56,13 +60,7 @@ export class EventComponent implements OnInit {
 
       //default us to Texas
       this.changeCityList(45);
-
-
-      this.signUp.realname = this.appComponent.userInfo.realName ?? "";
-      this.signUp.userId = this.appComponent.userInfo.id ?? 0;
-      this.signUp.cityNm = this.appComponent.userInfo.cityName ?? "";
-      this.signUp.stateCd = this.appComponent.userInfo.stateCode ?? "";
-
+      
   }
 
   eventSubmit() {
