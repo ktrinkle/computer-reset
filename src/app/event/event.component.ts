@@ -74,7 +74,7 @@ export class EventComponent implements OnInit {
     }
 
     this.signUp.cityNm = this.eventForm.value.cityNm; //should we add client side for this?
-    this.signUp.stateCd = this.states.filter(state => state.id = this.eventForm.value.stateCd).toString(); //this may be a code
+    this.signUp.stateCd = this.states.filter(state => (state.id = this.eventForm.value.stateCd)).toString(); //this may be a code
 
     if (this.signUp.eventId == 0) {
       this.signUp.eventId = this.eventForm.value.eventId;
@@ -88,7 +88,7 @@ export class EventComponent implements OnInit {
     } else {
       //all is good, lets fire the web service
       this.dataService.signupForEvent(this.signUp).subscribe((data => {
-          this.submitResult = data;
+          this.submitResult = data.result;
       }));
     }
   }
