@@ -25,6 +25,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatListModule } from '@angular/material/list';
 import { LoadingScreenComponent } from './loading-screen/loading-screen.component';
+import { MatGridListModule } from '@angular/material/grid-list';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,8 @@ import { LoadingScreenComponent } from './loading-screen/loading-screen.componen
     MatDatepickerModule,
     MatSelectModule,
     MatListModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatGridListModule
     ],
   providers: [],
   bootstrap: [AppComponent]

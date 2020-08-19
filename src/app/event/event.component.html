@@ -49,44 +49,44 @@
                  <ng-container matColumnDef="signup">
                     <mat-header-cell *matHeaderCellDef></mat-header-cell>
                     <mat-cell *matCellDef="let row"> <mat-radio-button name="eventId" [value]="row.id" 
-                      id="eventId" formControlName="eventId" color="accent"></mat-radio-button></mat-cell>
+                      id="eventId" formControlName="eventId" color="primary"></mat-radio-button></mat-cell>
                   </ng-container>
                   
                   <ng-container matColumnDef="eventDate">
                   <mat-header-cell *matHeaderCellDef> Event Date </mat-header-cell>
-                  <mat-cell *matCellDef="let row"> {{row.eventStartTms | date:'fullDate'}} </mat-cell>
+                  <mat-cell *matCellDef="let row"> {{row.eventStartTms | date:'fullDateUTC'}} </mat-cell>
                 </ng-container>
               
                 <!-- Start time Definition -->
                 <ng-container matColumnDef="eventStart">
                   <mat-header-cell *matHeaderCellDef> Start Time </mat-header-cell>
-                  <mat-cell *matCellDef="let row"> {{row.eventStartTms | date:'shortTime'}} </mat-cell>
+                  <mat-cell *matCellDef="let row"> {{row.eventStartTms | date:'shortTimeUTC'}} </mat-cell>
                 </ng-container>
               
                 <!-- Title Definition -->
                 <ng-container matColumnDef="eventEnd">
                   <mat-header-cell *matHeaderCellDef> End Time </mat-header-cell>
-                  <mat-cell *matCellDef="let row"> {{row.eventEndTms | date:'shortTime'}} </mat-cell>
+                  <mat-cell *matCellDef="let row"> {{row.eventEndTms | date:'shortTimeUTC'}} </mat-cell>
                 </ng-container>
                 
                 <!-- Header and Row Declarations -->
                 <mat-header-row *matHeaderRowDef="['signup', 'eventDate', 'eventStart', 'eventEnd']"></mat-header-row>
                 <mat-row *matRowDef="let row; columns: ['signup', 'eventDate', 'eventStart', 'eventEnd']"></mat-row>
               </mat-table>
-              <p>
+              <mat-grid-list cols="3" rowheight="2:1">
+              <mat-grid-tile aria-rowspan="1" aria-colspan="3">
                   ID is required for anyone to enter the warehouse. If your real name is different from your
                   Facebook name, please fill your name in below:
-              </p>
-              <p>
+              </mat-grid-tile>
+              <mat-grid-tile>
                 <mat-form-field appearance="fill">
                   <mat-label>Real Name</mat-label>
                   <input matInput [value]="signUp.realname" id="realName" formControlName="realName">
                   <mat-hint>Fill in the name on your ID here.</mat-hint>
                 </mat-form-field>
-                {{signUp.realname}} {{signUp.firstName}} {{signUp.lastName}}
-              </p>
+              </mat-grid-tile>
 
-              <p>
+              <mat-grid-tile>
                 <mat-form-field appearance="fill">
                     <mat-label>Select your state*</mat-label>
                     <mat-select id="stateCd" formControlName="stateCd">
@@ -97,9 +97,9 @@
                     <mat-hint align="end">Select the state you live in ^</mat-hint>
                   </mat-form-field>
                   {{signUp.stateCd}}
-              </p>
+                </mat-grid-tile>
 
-              <p>
+              <mat-grid-tile>
                 <mat-form-field appearance="fill">
                     <mat-label>Select your city*</mat-label>
                     <mat-select id="cityNm" formControlName="cityNm">
@@ -110,11 +110,11 @@
                   <mat-hint align="end">Select the city you live in ^</mat-hint>
                   </mat-form-field>
                   {{signUp.cityNm}}
-              </p>
-
+                </mat-grid-tile>
+            </mat-grid-list>
         </mat-card-content>
         <mat-card-actions>
-          <button mat-raised-button color="accent" type="submit" [disabled]="!eventForm.valid">Sign up!</button>
+          <button mat-raised-button color="primary" type="submit" [disabled]="!eventForm.valid">Sign up!</button>
         <div *ngIf="submitResult">{{submitResult}}</div>
     </mat-card-actions>
     </mat-card>

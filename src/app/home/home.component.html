@@ -1,8 +1,19 @@
 <div style="padding: 13px;">
     <mat-card >
       <mat-card-header>
-        <mat-card-subtitle><img src="assets/cr.svg" width="320px">
+        <mat-card-subtitle>Welcome to the Computer Reset Liquidation Signup Site!
         </mat-card-subtitle>
+        <mat-card-content>
+          <p><img src="assets/cr.svg" width="320px" layout-align="center"></p>
+          <p>Events that are open for signup can be found below. 
+            Please note that events are not posted more than 10 days before the event date.</p>
+        </mat-card-content>
+        <mat-card-content color="warn" layout-align="center">
+        <mat-list>
+          <mat-list-item>Signing up for an event does not guarantee a slot. </mat-list-item>
+        <mat-list-item>Signups are handled on a first come, first served basis.</mat-list-item>
+      </mat-list>
+        </mat-card-content>
       </mat-card-header>
     </mat-card>
     <mat-spinner *ngIf="events.length === 0"></mat-spinner>
@@ -10,26 +21,26 @@
       <mat-card *ngFor="let event of events" style="margin-top:10px;">
           <mat-card-header>
               <mat-card-title>Upcoming events</mat-card-title>
-              <mat-card-subtitle>These events are open for signup:</mat-card-subtitle>
+              <mat-card-subtitle>These events are open for signup. All times are shown in Texas time.</mat-card-subtitle>
           </mat-card-header>
           <mat-card-content>
               <mat-table [dataSource]="events">
                   <!-- Date Definition -->
                   <ng-container matColumnDef="eventDate">
                     <mat-header-cell *matHeaderCellDef> Event Date </mat-header-cell>
-                    <mat-cell *matCellDef="let row"> {{row.eventStartTms | date:'fullDate'}} </mat-cell>
+                    <mat-cell *matCellDef="let row"> {{row.eventStartTms | date:'fullDateUTC'}} </mat-cell>
                   </ng-container>
                 
                   <!-- Start time Definition -->
                   <ng-container matColumnDef="eventStart">
                     <mat-header-cell *matHeaderCellDef> Start Time </mat-header-cell>
-                    <mat-cell *matCellDef="let row"> {{row.eventStartTms | date:'shortTime'}} </mat-cell>
+                    <mat-cell *matCellDef="let row"> {{row.eventStartTms | date:'shortTimeUTC'}} </mat-cell>
                   </ng-container>
                 
                   <!-- Title Definition -->
                   <ng-container matColumnDef="eventEnd">
                     <mat-header-cell *matHeaderCellDef> End Time </mat-header-cell>
-                    <mat-cell *matCellDef="let row"> {{row.eventEndTms | date:'shortTime'}} </mat-cell>
+                    <mat-cell *matCellDef="let row"> {{row.eventEndTms | date:'shortTimeUTC'}} </mat-cell>
                   </ng-container>
                 
                    <!-- Signup Definition -->
