@@ -37,7 +37,8 @@
     </mat-card>
     <div *ngIf="agreeInd">
     <form [formGroup]="eventForm" (ngSubmit)="eventSubmit()">
-    <mat-card style="margin-top:10px;">
+      <mat-spinner *ngIf="events.length === 0"></mat-spinner>
+      <mat-card style="margin-top:10px;">
         <mat-card-header>
             <mat-card-title>Upcoming events</mat-card-title>
             <mat-card-subtitle>These events are open for signup:</mat-card-subtitle>
@@ -73,7 +74,7 @@
                 <mat-header-row *matHeaderRowDef="['signup', 'eventDate', 'eventStart', 'eventEnd']"></mat-header-row>
                 <mat-row *matRowDef="let row; columns: ['signup', 'eventDate', 'eventStart', 'eventEnd']"></mat-row>
               </mat-table>
-              <mat-grid-list cols="3" rowheight="1">
+              <mat-grid-list cols="3">
               <mat-grid-tile rowspan="1" colspan="3">
                   ID is required for anyone to enter the warehouse. If your real name is different from your
                   Facebook name, please fill your name in below:
