@@ -25,6 +25,7 @@ export class EventComponent implements OnInit {
   public states: StateList[];
   public cities: CityList[];
   public responseJson: string;
+  public submitResult: string;
 
   public agreeClick(): void {
     this.agreeInd = true;
@@ -39,11 +40,11 @@ export class EventComponent implements OnInit {
 
   ngOnInit() {
       this.eventForm = this.formBuilder.group({
-        eventId: new FormControl(),
+        eventId: new FormControl(this.dataService.eventIdPass, [Validators.required]),
         realName: new FormControl(),
-        userId: new FormControl(),
-        cityNm: new FormControl(),
-        stateCd: new FormControl()
+        facebookId: new FormControl(this.dataService.userSmall.facebookId, [Validators.required]),
+        cityNm: new FormControl('', [Validators.required]),
+        stateCd: new FormControl('', [Validators.required])
       });
 
       //get routed event id if needed
@@ -60,13 +61,18 @@ export class EventComponent implements OnInit {
 
       //default us to Texas
       this.changeCityList(45);
+
+      console.log(this.eventForm);
       
   }
 
   eventSubmit() {
-    //builds out signup object
-    
+    //builds out signup object. We already have the first pieces.
+
+    //if(this.eventForm.("eventId")
+    //this.signUp.
   }
+    
 
   changeCityList(newState: number) {
     this.dataService.getCity(newState).subscribe(

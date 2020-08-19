@@ -29,7 +29,7 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
 
     this.dataService.getEvent().subscribe((data: any[])=>{
-      console.log(data);
+      //console.log(data);
       this.events = data;
     })  
   }

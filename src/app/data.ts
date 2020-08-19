@@ -17,7 +17,7 @@ export interface ClaimPrincipal {
     cityName: string;
     stateCode: string;
     realName: string;
-    facebookId: number;
+    facebookId: string;
     adminFlag: boolean;
     volunteerFlag: boolean;
   }
