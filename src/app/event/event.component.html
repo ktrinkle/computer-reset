@@ -54,19 +54,19 @@
                   
                   <ng-container matColumnDef="eventDate">
                   <mat-header-cell *matHeaderCellDef> Event Date </mat-header-cell>
-                  <mat-cell *matCellDef="let row"> {{row.eventStartTms | date:'fullDateUTC'}} </mat-cell>
+                  <mat-cell *matCellDef="let row"> {{row.eventStartTms | date:'fullDate'}} </mat-cell>
                 </ng-container>
               
                 <!-- Start time Definition -->
                 <ng-container matColumnDef="eventStart">
                   <mat-header-cell *matHeaderCellDef> Start Time </mat-header-cell>
-                  <mat-cell *matCellDef="let row"> {{row.eventStartTms | date:'shortTimeUTC'}} </mat-cell>
+                  <mat-cell *matCellDef="let row"> {{row.eventStartTms | date:'shortTime'}} </mat-cell>
                 </ng-container>
               
                 <!-- Title Definition -->
                 <ng-container matColumnDef="eventEnd">
                   <mat-header-cell *matHeaderCellDef> End Time </mat-header-cell>
-                  <mat-cell *matCellDef="let row"> {{row.eventEndTms | date:'shortTimeUTC'}} </mat-cell>
+                  <mat-cell *matCellDef="let row"> {{row.eventEndTms | date:'shortTime'}} </mat-cell>
                 </ng-container>
                 
                 <!-- Header and Row Declarations -->
@@ -74,7 +74,7 @@
                 <mat-row *matRowDef="let row; columns: ['signup', 'eventDate', 'eventStart', 'eventEnd']"></mat-row>
               </mat-table>
               <mat-grid-list cols="3" rowheight="2:1">
-              <mat-grid-tile aria-rowspan="1" aria-colspan="3">
+              <mat-grid-tile rowspan="1" colspan="3">
                   ID is required for anyone to enter the warehouse. If your real name is different from your
                   Facebook name, please fill your name in below:
               </mat-grid-tile>

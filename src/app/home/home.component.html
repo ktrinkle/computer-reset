@@ -1,8 +1,9 @@
 <div style="padding: 13px;">
-    <mat-card >
+    <mat-card>
       <mat-card-header>
         <mat-card-subtitle>Welcome to the Computer Reset Liquidation Signup Site!
         </mat-card-subtitle>
+      </mat-card-header>
         <mat-card-content>
           <p><img src="assets/cr.svg" width="320px" layout-align="center"></p>
           <p>Events that are open for signup can be found below. 
@@ -14,7 +15,6 @@
         <mat-list-item>Signups are handled on a first come, first served basis.</mat-list-item>
       </mat-list>
         </mat-card-content>
-      </mat-card-header>
     </mat-card>
     <mat-spinner *ngIf="events.length === 0"></mat-spinner>
   
@@ -28,19 +28,19 @@
                   <!-- Date Definition -->
                   <ng-container matColumnDef="eventDate">
                     <mat-header-cell *matHeaderCellDef> Event Date </mat-header-cell>
-                    <mat-cell *matCellDef="let row"> {{row.eventStartTms | date:'fullDateUTC'}} </mat-cell>
+                    <mat-cell *matCellDef="let row"> {{row.eventStartTms | date:'fullDate'}} </mat-cell>
                   </ng-container>
                 
                   <!-- Start time Definition -->
                   <ng-container matColumnDef="eventStart">
                     <mat-header-cell *matHeaderCellDef> Start Time </mat-header-cell>
-                    <mat-cell *matCellDef="let row"> {{row.eventStartTms | date:'shortTimeUTC'}} </mat-cell>
+                    <mat-cell *matCellDef="let row"> {{row.eventStartTms | date:'shortTime'}} </mat-cell>
                   </ng-container>
                 
                   <!-- Title Definition -->
                   <ng-container matColumnDef="eventEnd">
                     <mat-header-cell *matHeaderCellDef> End Time </mat-header-cell>
-                    <mat-cell *matCellDef="let row"> {{row.eventEndTms | date:'shortTimeUTC'}} </mat-cell>
+                    <mat-cell *matCellDef="let row"> {{row.eventEndTms | date:'shortTime'}} </mat-cell>
                   </ng-container>
                 
                    <!-- Signup Definition -->
