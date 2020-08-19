@@ -5,32 +5,32 @@
             <mat-card-subtitle>Before signing up for an event, you agree to the following rules:</mat-card-subtitle>
         </mat-card-header>
         <mat-card-content>
-        <mat-list><mat-list-item>100% mask and social distancing environment.</mat-list-item>
-           <mat-list><mat-list-item>NO masks with exhaust valves</mat-list-item>
-            <mat-list-item>No neck gaiters</mat-list-item>
-            <mat-list-item>No "protest" masks</mat-list-item></mat-list> 
-            <mat-list-item>Disposable masks are available if you need one during the event.</mat-list-item>
-            <mat-list-item>No open-toed or high heel shoes. No sandals. No flip-flops.</mat-list-item>
-            <mat-list-item>No poaching someone else's pile.</mat-list-item>
-            <mat-list-item>No climbing or using the ladders - We will have volunteers available to help you get stuff 
+        <mat-list><mat-list-item>1. 100% mask and social distancing environment.</mat-list-item>
+           <mat-list><mat-list-item mat-line>a. NO masks with exhaust valves</mat-list-item>
+            <mat-list-item mat-line>b. No neck gaiters</mat-list-item>
+            <mat-list-item mat-line>c. No "protest" masks</mat-list-item></mat-list> 
+            <mat-list-item mat-line>Disposable masks are available if you need one during the event.</mat-list-item>
+            <mat-list-item>2. No open-toed or high heel shoes. No sandals. No flip-flops.</mat-list-item>
+            <mat-list-item>3. No poaching someone else's pile.</mat-list-item>
+            <mat-list-item>4. No climbing or using the ladders - We will have volunteers available to help you get stuff 
                 down from 2nd and 3rd level pallet shelves.</mat-list-item>
-            <mat-list-item>Clean up after yourself. If you open and search a box, put everything back in it 
+            <mat-list-item>5. Clean up after yourself. If you open and search a box, put everything back in it 
                 and put it back where it was before moving on. If you're drinking something, 
                 toss the bottle/cup in the trash, not the bushes.</mat-list-item>
-            <mat-list-item>Stay out of taped off and off-limits areas.</mat-list-item>
-            <mat-list-item>No photos, livestreaming, or filming without permission.</mat-list-item>
-            <mat-list-item>You are responsible for your own safety. The volunteer crew has 
+            <mat-list-item>6. Stay out of taped off and off-limits areas.</mat-list-item>
+            <mat-list-item>7. No photos, livestreaming, or filming without permission.</mat-list-item>
+            <mat-list-item>8. You are responsible for your own safety. The volunteer crew has 
                 spent a huge number of hours filling 15 40-cubic yard dumpsters and restacking/sorting 
                 things around the offices and warehouse area to help make things safe.</mat-list-item>
-            <mat-list-item>If a volunteer tells you to take a time out in front of a fan or to get some water, 
+            <mat-list-item>9. If a volunteer tells you to take a time out in front of a fan or to get some water, 
                 you <strong>will</strong> do it.</mat-list-item>
-            <mat-list-item>Don't make us make more rules.</mat-list-item>
-            </mat-list><mat-list>
+            <mat-list-item>10. Don't make us make more rules.</mat-list-item>
+            <mat-divider></mat-divider>
             <mat-list-item>Cash and PayPal accepted.</mat-list-item>
             <mat-list-item>Parking will be in front for guests, in back for volunteers. 
                 When you pay you'll be able to pull around back and load up your pile.</mat-list-item>
         </mat-list>
-        <p><button mat-button class="primary" (click)="agreeClick();">I agree to these rules</button></p>
+        <p><button mat-button class="accent" (click)="agreeClick();">I agree to these rules</button></p>
     </mat-card-content>
     <mat-card-actions>
     </mat-card-actions>
@@ -48,7 +48,8 @@
                  <!-- Signup Definition -->
                  <ng-container matColumnDef="signup">
                     <mat-header-cell *matHeaderCellDef></mat-header-cell>
-                    <mat-cell *matCellDef="let row"> <mat-radio-button name="eventId" [value]="row.id" id="eventId" formControlName="eventId"></mat-radio-button></mat-cell>
+                    <mat-cell *matCellDef="let row"> <mat-radio-button name="eventId" [value]="row.id" 
+                      id="eventId" formControlName="eventId" class="accent"></mat-radio-button></mat-cell>
                   </ng-container>
                   
                   <ng-container matColumnDef="eventDate">
@@ -112,7 +113,7 @@
               </p>
 
               <p>
-                  <button mat-button class="primary" type="submit">Sign up!</button>
+                  <button mat-button class="accent" type="submit">Sign up!</button>
                 User ID: {{signUp.fbId}}
               </p>
 
