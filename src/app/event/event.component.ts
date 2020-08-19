@@ -69,10 +69,32 @@ export class EventComponent implements OnInit {
   eventSubmit() {
     //builds out signup object. We already have the first pieces.
 
-    //if(this.eventForm.("eventId")
-    //this.signUp.
+    if (this.eventForm.value.realName) {
+      this.signUp.realname = this.eventForm.value.realName;
+    }
+
+    this.signUp.cityNm = this.eventForm.value.cityNm; //should we add client side for this?
+    this.signUp.stateCd = this.eventForm.value.stateCd; //this may be a code
+
+    if (this.signUp.eventId == 0) {
+      this.signUp.eventId = this.eventForm.value.eventId;
+    }
+
+    //final checks. This is in case of form hacking.
+    if (this.signUp.eventId == 0) {
+      this.submitResult = "You may have not selected an event. Please try again.";
+    } else if (!this.signUp.cityNm || !this.signUp.stateCd ) {
+      this.submitResult = "We did not find a city or state selected. Please try again.";
+    } else {
+      //all is good, lets fire the web service
+      this.dataService.signupForEvent(this.signUp).subscribe((data => {
+          this.submitResult = data;
+      }));
+    }
   }
-    
+  
+  //onchange handler next to clear status for submitResult
+  //onchange for state
 
   changeCityList(newState: number) {
     this.dataService.getCity(newState).subscribe(
