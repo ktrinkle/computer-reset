@@ -9,12 +9,12 @@
           <p>Events that are open for signup can be found below. 
             Please note that events are not posted more than 10 days before the event date.</p>
         </mat-card-content>
-        <mat-card-content color="warn" layout-align="center">
-        <mat-list>
-          <mat-list-item>Signing up for an event does not guarantee a slot. </mat-list-item>
-        <mat-list-item>Signups are handled on a first come, first served basis.</mat-list-item>
+        <mat-card-content class="alertmessage">
+          <mat-list>
+        <mat-list-item><mat-icon>warning</mat-icon> Signing up for an event does not guarantee a slot.</mat-list-item>
+        <mat-list-item><mat-icon>warning</mat-icon> Signups are handled on a first come, first served basis.</mat-list-item>
       </mat-list>
-        </mat-card-content>
+    </mat-card-content>
     </mat-card>
     <mat-spinner *ngIf="events.length === 0"></mat-spinner>
   

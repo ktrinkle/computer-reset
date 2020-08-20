@@ -16,7 +16,7 @@ export class DataService {
   public userSmall: UserSmall;
   public userFull: UserModel;
 
-  private REST_API_SERVER = "https://pcjrsidecar9525.azurewebsites.net";
+  private REST_API_SERVER = "https://computerresetliquidation.azurewebsites.net";
 
   constructor(private httpClient: HttpClient) { }
 
@@ -26,6 +26,18 @@ export class DataService {
         headers: new HttpHeaders({
             'Content-Type': 'application/json; charset=utf-8',
             'Accept': 'application/json'
+        })
+    };
+
+    return httpOptions;
+  }
+
+  getServicePlainOptions(): any {
+
+    const httpOptions = {
+        headers: new HttpHeaders({
+            'Content-Type': 'application/json; charset=utf-8',
+            'Accept': 'text/plain'
         })
     };
 
@@ -84,9 +96,7 @@ export class DataService {
 
     public signupForEvent(eventReq: Signup): any {
       var url = this.REST_API_SERVER + '/api/computerreset/api/events/signup';
-      return this.httpClient.post(url, eventReq, {headers : new HttpHeaders({ 'Content-Type': 'application/json' }),
-        responseType: 'json',
-        withCredentials: true,
+      return this.httpClient.post(url, eventReq, {headers : this.getServicePlainOptions()
       });
 
 
