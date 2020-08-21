@@ -13,7 +13,7 @@ export class DataService {
 
   public eventIdPass: number;
 
-  public userSmall: UserSmall;
+  public userSmall: UserSmall = {firstName: "", lastName: "", facebookId: "", accessToken: ""};
   public userFull: UserModel;
 
   private REST_API_SERVER = "https://computerresetliquidation.azurewebsites.net";
@@ -25,7 +25,8 @@ export class DataService {
     const httpOptions = {
         headers: new HttpHeaders({
             'Content-Type': 'application/json; charset=utf-8',
-            'Accept': 'application/json'
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${this.userSmall.accessToken}`
         })
     };
 
@@ -37,7 +38,8 @@ export class DataService {
     const httpOptions = {
         headers: new HttpHeaders({
             'Content-Type': 'application/json; charset=utf-8',
-            'Accept': 'text/plain'
+            'Accept': 'text/plain',
+            'Authorization': `Bearer ${this.userSmall.accessToken}`
         })
     };
 
