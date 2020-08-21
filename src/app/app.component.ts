@@ -14,8 +14,6 @@ export class AppComponent implements OnInit{
   appReady = false;
   admin = false;
 
-  private userInfoSmall: UserSmall = {firstName: "", lastName: "", facebookId: "0"};
-
   constructor(public dataService: DataService) { }
   
 
@@ -25,7 +23,9 @@ export class AppComponent implements OnInit{
     let lastName = azureInfo[0].user_claims[4].val;
  //   console.log('AzureAuth LastName:' + lastName);
     let facebookId = azureInfo[0].user_claims[0].val; //"10158647029715050";
-    let userInfoSmall = {firstName: firstName, lastName: lastName, facebookId: facebookId};
+    let accessToken = azureInfo[0].access_token;
+    let userInfoSmall = {firstName: firstName, lastName: lastName, 
+      facebookId: facebookId, accessToken: accessToken};
     //debug
     //userInfoSmall = {firstName: "Kevin", lastName: "Trinkle", facebookId: "10158647029715050"};
     return userInfoSmall;

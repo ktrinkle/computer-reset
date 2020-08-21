@@ -23,6 +23,7 @@ export interface ClaimPrincipal {
   }
 
   export interface UserSmall {
+    accessToken: string;
     facebookId: string;
     firstName: string;
     lastName: string;
