@@ -66,3 +66,11 @@ export interface ClaimPrincipal {
     idStateNavigation: string
   }
 
+  export interface ApiUser {
+    id: number;
+    username: string;
+    firstName: string;
+    lastName: string;
+    token?: string;
+  }
+

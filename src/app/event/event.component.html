@@ -20,19 +20,21 @@
             <mat-list-item>6. Stay out of taped off and off-limits areas.</mat-list-item>
             <mat-list-item>7. No photos, livestreaming, or filming without permission.</mat-list-item>
             <mat-list-item>8. You are responsible for your own safety. The volunteer crew has 
-                spent a huge number of hours filling 15 40-cubic yard dumpsters and restacking/sorting 
+                spent a huge number of hours filling 16 40-cubic yard dumpsters and restacking/sorting 
                 things around the offices and warehouse area to help make things safe.</mat-list-item>
             <mat-list-item>9. If a volunteer tells you to take a time out in front of a fan or to get some water, 
-                you <strong>will</strong> do it.</mat-list-item>
+                you will do it.</mat-list-item>
             <mat-list-item>10. Don't make us make more rules.</mat-list-item>
             <mat-divider></mat-divider>
             <mat-list-item>Cash and PayPal accepted.</mat-list-item>
             <mat-list-item>Parking will be in front for guests, in back for volunteers. 
                 When you pay you'll be able to pull around back and load up your pile.</mat-list-item>
         </mat-list>
-        <p><button mat-raised-button color="primary" (click)="agreeClick();">I agree to these rules</button></p>
-    </mat-card-content>
+        <mat-divider></mat-divider>
+          <div class="alertmessage"><mat-icon>warning</mat-icon>Events can be canceled at any time due to local weather conditions.</div>
+      </mat-card-content>
     <mat-card-actions>
+      <p><button mat-raised-button color="primary" (click)="agreeClick();">I agree to these rules</button></p>
     </mat-card-actions>
     </mat-card>
     <div *ngIf="agreeInd">
@@ -44,36 +46,39 @@
             <mat-card-subtitle>These events are open for signup:</mat-card-subtitle>
         </mat-card-header>
         <mat-card-content>
-            <mat-table [dataSource]="events">
-                <!-- Date Definition -->
-                 <!-- Signup Definition -->
-                 <ng-container matColumnDef="signup">
-                    <mat-header-cell *matHeaderCellDef></mat-header-cell>
-                    <mat-cell *matCellDef="let row"> <mat-radio-button name="eventId" [value]="row.id" 
-                      id="eventId" formControlName="eventId" color="primary"></mat-radio-button></mat-cell>
-                  </ng-container>
-                  
-                  <ng-container matColumnDef="eventDate">
-                  <mat-header-cell *matHeaderCellDef> Event Date </mat-header-cell>
-                  <mat-cell *matCellDef="let row"> {{row.eventStartTms | date:'fullDate'}} </mat-cell>
-                </ng-container>
-              
-                <!-- Start time Definition -->
-                <ng-container matColumnDef="eventStart">
-                  <mat-header-cell *matHeaderCellDef> Start Time </mat-header-cell>
-                  <mat-cell *matCellDef="let row"> {{row.eventStartTms | date:'shortTime'}} </mat-cell>
-                </ng-container>
-              
-                <!-- Title Definition -->
-                <ng-container matColumnDef="eventEnd">
-                  <mat-header-cell *matHeaderCellDef> End Time </mat-header-cell>
-                  <mat-cell *matCellDef="let row"> {{row.eventEndTms | date:'shortTime'}} </mat-cell>
-                </ng-container>
-                
-                <!-- Header and Row Declarations -->
-                <mat-header-row *matHeaderRowDef="['signup', 'eventDate', 'eventStart', 'eventEnd']"></mat-header-row>
-                <mat-row *matRowDef="let row; columns: ['signup', 'eventDate', 'eventStart', 'eventEnd']"></mat-row>
-              </mat-table>
+<!--new table-->
+<mat-radio-group id="eventId" name="eventId" required [(formGroup)]="eventForm" formControlName="eventId">
+<mat-table [dataSource]="events">
+  <!-- Signup Definition -->
+  <ng-container matColumnDef="signup">
+     <mat-header-cell *matHeaderCellDef></mat-header-cell>
+     <mat-cell *matCellDef="let row"> 
+       <mat-radio-button [value]="row.id" color="primary"></mat-radio-button>
+     </mat-cell>
+   </ng-container>
+   
+   <ng-container matColumnDef="eventDate">
+   <mat-header-cell *matHeaderCellDef> Event Date </mat-header-cell>
+   <mat-cell *matCellDef="let row"> {{row.eventStartTms | date:'fullDate'}} </mat-cell>
+ </ng-container>
+
+ <!-- Start time Definition -->
+ <ng-container matColumnDef="eventStart">
+   <mat-header-cell *matHeaderCellDef> Start Time </mat-header-cell>
+   <mat-cell *matCellDef="let row"> {{row.eventStartTms | date:'shortTime'}} </mat-cell>
+ </ng-container>
+
+ <!-- Title Definition -->
+ <ng-container matColumnDef="eventEnd">
+   <mat-header-cell *matHeaderCellDef> End Time </mat-header-cell>
+   <mat-cell *matCellDef="let row"> {{row.eventEndTms | date:'shortTime'}} </mat-cell>
+ </ng-container>
+ 
+ <!-- Header and Row Declarations -->
+ <mat-header-row *matHeaderRowDef="['signup', 'eventDate', 'eventStart', 'eventEnd']"></mat-header-row>
+ <mat-row *matRowDef="let row; columns: ['signup', 'eventDate', 'eventStart', 'eventEnd']"></mat-row>
+</mat-table>
+</mat-radio-group>
               <mat-grid-list cols="3" height="1:6">
               <mat-grid-tile-header rowspan="1" colspan="3" color="accent">
                   ID is required for anyone to enter the warehouse. If your real name is different from your
@@ -91,7 +96,7 @@
                 <mat-form-field appearance="fill">
                     <mat-label>Select your state*</mat-label>
                     <mat-select id="stateCd" formControlName="stateCd">
-                      <mat-option *ngFor="let state of states" [value]="state.id" (onSelectionChange)="changeCityList(state.id);">
+                      <mat-option *ngFor="let state of states" [value]="state.stateCode" (onSelectionChange)="changeCityList(state.id);">
                         {{state.stateCode}}
                       </mat-option>
                     </mat-select>
@@ -111,10 +116,10 @@
                   </mat-form-field>
                 </mat-grid-tile>
             </mat-grid-list>
-        </mat-card-content>
+            <div *ngIf="submitResult">{{submitResult}}</div>
+          </mat-card-content>
         <mat-card-actions>
           <button mat-raised-button color="primary" type="submit" [disabled]="!eventForm.valid">Sign up!</button>
-        <div *ngIf="submitResult">{{submitResult}}</div>
     </mat-card-actions>
     </mat-card>
     </form>
