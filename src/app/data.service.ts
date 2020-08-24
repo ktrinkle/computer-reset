@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { map } from 'rxjs/operators';
 
-import { throwError, Observable } from 'rxjs';
+import { throwError, Observable, BehaviorSubject } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
-import { UserSmall, Timeslot, Signup, StateList, CityList, UserModel } from './data';
+import { UserSmall, Timeslot, Signup, StateList, CityList, UserModel, ApiUser } from './data';
 
 
 @Injectable({
@@ -17,33 +18,12 @@ export class DataService {
   public userFull: UserModel;
 
   private REST_API_SERVER = "https://computerresetliquidation.azurewebsites.net";
+  //private REST_API_SERVER = "";
 
   constructor(private httpClient: HttpClient) { }
 
-  getServiceOptions(): any {
-
-    const httpOptions = {
-        headers: new HttpHeaders({
-            'Content-Type': 'application/json; charset=utf-8',
-            'Accept': 'application/json',
-            'Authorization': `Bearer ${this.userSmall.accessToken}`
-        })
-    };
-
-    return httpOptions;
-  }
-
-  getServicePlainOptions(): any {
-
-    const httpOptions = {
-        headers: new HttpHeaders({
-            'Content-Type': 'application/json; charset=utf-8',
-            'Accept': 'text/plain',
-            'Authorization': `Bearer ${this.userSmall.accessToken}`
-        })
-    };
-
-    return httpOptions;
+  public callToken(): any {
+    return this.userSmall.accessToken;
   }
 
   handleError(error: HttpErrorResponse) {
@@ -67,39 +47,34 @@ export class DataService {
     
     public getAdmin(id: string){
       var url = this.REST_API_SERVER + '/api/computerreset/api/users/admin/' + encodeURIComponent(id) + '';
-      return this.httpClient.get(url);
+      console.log(this.userSmall);
+      return this.httpClient.get(url, {responseType: 'text'});
     }
 
     public getVolunteer(id: string){
       var url = this.REST_API_SERVER + '/api/computerreset/api/users/volunteer/' + encodeURIComponent(id) + '';
-      return this.httpClient.get(url);
+      return this.httpClient.get(url, {responseType: 'text'});
     }
 
     public getEvent(){
       var url = this.REST_API_SERVER + '/api/computerreset/api/events/show/open';
+      console.log(this.userSmall);
       return this.httpClient.get(url);
     }
 
-      /** POST: calls after */
-    public userInfo(user: UserSmall): any {
-      var url = this.REST_API_SERVER + '/api/computerreset/api/users';
-      return this.httpClient.post(url, user, this.getServiceOptions());
-    } 
-
     public getState(): any {
       var url = this.REST_API_SERVER + '/api/computerreset/api/ref/state';
-      return this.httpClient.get(url, this.getServiceOptions());
+      return this.httpClient.get(url);
     }
 
     public getCity(id: number): any {
       let url = this.REST_API_SERVER + '/api/computerreset/api/ref/city/' + encodeURIComponent(id) + '';
-      return this.httpClient.get(url, this.getServiceOptions());
+      return this.httpClient.get(url);
     }
 
     public signupForEvent(eventReq: Signup): any {
       var url = this.REST_API_SERVER + '/api/computerreset/api/events/signup';
-      return this.httpClient.post(url, eventReq, {headers : this.getServicePlainOptions()
-      });
+      return this.httpClient.post(url, eventReq, {responseType: 'text'});
 
 
     }

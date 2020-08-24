@@ -1,4 +1,3 @@
 {
-    "appService.defaultWebAppToDeploy": "/subscriptions/5d449ffe-e4ce-4bdf-ae5b-8998535c6f42/resourceGroups/ComputerReset/providers/Microsoft.Web/sites/CR9525Signup",
     "appService.deploySubpath": "dist/computer-reset"
 }

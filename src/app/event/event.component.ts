@@ -1,9 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { DataService } from '../data.service';
 import { Router } from '@angular/router';
-import { Signup, StateList, CityList } from '../data';
+import { Signup, StateList, CityList, Timeslot } from '../data';
 import { AppComponent } from '../app.component';
-import { NgForm, FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
+import { FormGroup, FormControl, Validators, FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-event',
@@ -14,11 +15,14 @@ import { NgForm, FormGroup, FormControl, Validators, FormBuilder } from '@angula
 export class EventComponent implements OnInit {
 
   events = [];
+  dataSource = new MatTableDataSource<Timeslot>(this.events);
   public signUp: Signup = {realname: "", cityNm: "", stateCd: "", eventId: 0, 
-    fbId: this.dataService.userSmall.facebookId, 
-    firstName: this.dataService.userSmall.firstName, 
-    lastName: this.dataService.userSmall.lastName
+    fbId: localStorage.getItem('facebookId'), 
+    firstName: localStorage.getItem('firstName'), 
+    lastName: localStorage.getItem('lastName')
   };
+
+
 
   public agreeInd: boolean = false;
   public eventForm: FormGroup;
@@ -40,18 +44,19 @@ export class EventComponent implements OnInit {
 
   ngOnInit() {
       this.eventForm = this.formBuilder.group({
-        eventId: new FormControl(this.dataService.eventIdPass, [Validators.required]),
+        eventId: new FormControl(this.dataService.eventIdPass),
         realName: new FormControl(),
-        facebookId: new FormControl(this.dataService.userSmall.facebookId, [Validators.required]),
+        facebookId: new FormControl(localStorage.getItem('facebookId'), [Validators.required]),
         cityNm: new FormControl('', [Validators.required]),
-        stateCd: new FormControl('', [Validators.required])
+        stateCd: new FormControl('', [Validators.required]),
+        submitLock: new FormControl(true, [Validators.required])
       });
 
       //get routed event id if needed
       this.signUp.eventId = this.dataService.eventIdPass;
       this.dataService.eventIdPass = 0;
 
-      this.dataService.getEvent().subscribe((data: any[])=>{
+      this.dataService.getEvent().subscribe((data: Timeslot[])=>{
         this.events = data;
       }) 
 
@@ -59,10 +64,10 @@ export class EventComponent implements OnInit {
         result => { this.states = result; }
         );
 
-      //default us to Texas
+      //default us to Dallas, Tx
+      this.eventForm.patchValue({stateCd: "TX"});
       this.changeCityList(45);
-
-      console.log(this.eventForm);
+      this.eventForm.patchValue({cityNm: "Dallas"});
       
   }
 
@@ -73,22 +78,23 @@ export class EventComponent implements OnInit {
       this.signUp.realname = this.eventForm.value.realName;
     }
 
-    this.signUp.cityNm = this.eventForm.value.cityNm; //should we add client side for this?
-    this.signUp.stateCd = this.states.filter(state => (state.id = this.eventForm.value.stateCd)).toString(); //this may be a code
+    this.signUp.cityNm = this.eventForm.value.cityNm; 
+    this.signUp.stateCd = this.eventForm.value.stateCd; //this is a code now
 
-    if (this.signUp.eventId == 0) {
-      this.signUp.eventId = this.eventForm.value.eventId;
-    }
+    this.signUp.eventId = this.eventForm.value.eventId; //always take from form, assuming we pre-populate
 
     //final checks. This is in case of form hacking.
-    if (this.signUp.eventId == 0) {
+    if (this.signUp.eventId == 0 || !this.signUp.eventId) {
       this.submitResult = "You may have not selected an event. Please try again.";
+      this.eventForm.patchValue({submitLock: true});
     } else if (!this.signUp.cityNm || !this.signUp.stateCd ) {
       this.submitResult = "We did not find a city or state selected. Please try again.";
+      this.eventForm.patchValue({submitLock: true});
     } else {
       //all is good, lets fire the web service
       this.dataService.signupForEvent(this.signUp).subscribe((data => {
-          this.submitResult = data.result;
+          this.submitResult = data;
+          this.eventForm.patchValue({submitLock: false});
       }));
     }
   }
