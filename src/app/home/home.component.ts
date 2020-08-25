@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from '../data.service';
 import { Router } from '@angular/router';
+import { first } from 'rxjs/operators';
 
 @Component({
   selector: 'app-home',
@@ -31,7 +32,11 @@ export class HomeComponent implements OnInit {
     this.dataService.getEvent().subscribe((data: any[])=>{
       //console.log(data);
       this.events = data;
-    })  
+    });
+
+    localStorage.setItem('admin', 
+      this.dataService.getAdmin(localStorage.getItem('facebookId')).pipe(first()).toString());
+
   }
 
 }

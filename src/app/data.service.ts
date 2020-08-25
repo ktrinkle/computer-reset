@@ -47,7 +47,7 @@ export class DataService {
     
     public getAdmin(id: string){
       var url = this.REST_API_SERVER + '/api/computerreset/api/users/admin/' + encodeURIComponent(id) + '';
-      console.log(this.userSmall);
+      //console.log(this.userSmall);
       return this.httpClient.get(url, {responseType: 'text'});
     }
 

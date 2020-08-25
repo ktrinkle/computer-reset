@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ClaimPrincipal, UserSmall, UserModel } from './data';
 import { DataService } from './data.service';
 import { AuthenticationService } from './authentication/authentication.service';
-import { first } from 'rxjs/operators';
 import { Resolve } from '@angular/router';
 
 @Component({
@@ -15,7 +14,7 @@ export class AppComponent implements OnInit, Resolve<any>{
   title = 'Computer Reset Signup';
   isLoading = true;
   appReady = false;
-  admin = false;
+  admin = localStorage.getItem('admin'); //I think we need to subscribe?
 
   constructor(public authenticationService: AuthenticationService,
      public dataService: DataService) { }
