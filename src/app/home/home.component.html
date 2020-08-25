@@ -16,7 +16,7 @@
       </mat-list>
     </mat-card-content>
     </mat-card>
-    <mat-card style="margin-top:10px;" *ngIf="!events">
+    <mat-card style="margin-top:10px;" *ngIf="events.length===0">
       <mat-card-header>
           <mat-card-title>Loading events</mat-card-title>
           <mat-card-subtitle>Please wait...</mat-card-subtitle>
@@ -25,7 +25,7 @@
         <mat-spinner></mat-spinner>
       </mat-card-content>
     </mat-card>
-      <mat-card style="margin-top:10px;" *ngIf="events">
+      <mat-card style="margin-top:10px;" *ngIf="!(events.length===0)">
           <mat-card-header>
               <mat-card-title>Upcoming events</mat-card-title>
               <mat-card-subtitle>These events are open for signup. All times are shown in Texas time.</mat-card-subtitle>
