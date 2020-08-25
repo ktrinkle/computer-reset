@@ -4,10 +4,11 @@ import { HomeComponent } from './home/home.component';
 import { PrivacyComponent } from './privacy/privacy.component';
 import { EventComponent } from './event/event.component';
 import { AdminComponent } from './admin/admin.component';
+import { AppComponent } from './app.component';
 
 
 const routes: Routes = [
-  { path: '', redirectTo: 'home', pathMatch: 'full'},
+  { path: '', redirectTo: 'home', pathMatch: 'full', resolve: { '': AppComponent }},
   { path: 'home', component: HomeComponent },
   { path: 'privacy', component: PrivacyComponent },
   { path: 'event', component: EventComponent },

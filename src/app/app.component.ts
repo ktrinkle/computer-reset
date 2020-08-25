@@ -3,6 +3,7 @@ import { ClaimPrincipal, UserSmall, UserModel } from './data';
 import { DataService } from './data.service';
 import { AuthenticationService } from './authentication/authentication.service';
 import { first } from 'rxjs/operators';
+import { Resolve } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -10,7 +11,7 @@ import { first } from 'rxjs/operators';
   styleUrls: ['./app.component.scss']
 })
 
-export class AppComponent implements OnInit{
+export class AppComponent implements OnInit, Resolve<any>{
   title = 'Computer Reset Signup';
   isLoading = true;
   appReady = false;
@@ -18,6 +19,11 @@ export class AppComponent implements OnInit{
 
   constructor(public authenticationService: AuthenticationService,
      public dataService: DataService) { }
+
+  resolve() {
+      //make sure we have our token
+      return this.authenticationService.loginApi('byronpcjr','IdSFaWr7*@[');
+    }
   
 
   convertAzureUserAuth(azureInfo: ClaimPrincipal): UserSmall {
@@ -44,12 +50,12 @@ export class AppComponent implements OnInit{
     this.dataService.getAzureAuth().subscribe((data: ClaimPrincipal)=>{
    //   console.log(data);
       this.dataService.userSmall = this.convertAzureUserAuth(data);
-      console.log(this.dataService.userSmall);
+      //console.log(this.dataService.userSmall);
     });
 
-    this.authenticationService.loginApi('byronpcjr','IdSFaWr7*@[')
-      .pipe(first())
-      .subscribe();
+    //this.authenticationService.loginApi('byronpcjr','IdSFaWr7*@[')
+    //  .pipe(first())
+    //  .subscribe();
 
     //temporary
 
