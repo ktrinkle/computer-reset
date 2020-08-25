@@ -1,12 +1,79 @@
+.big-button{
+  width: 200px!important;
+  min-width: unset!important;
+  height: 50px!important;
+  text-align: center;
+  font-size: 110%;
+}
+
+.big-button-center {
+  padding: 15px 0;
+  width: 200px!important;
+  min-width: unset!important;
+  text-align: center;
+  font-size: 125%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .alertmessage {
-    background-color: #FFFF00;
-    color: #b71c1c;
-    font-size: 125%;
-    font-weight: bolder;
-    padding: 10px 10px 10px 10px;
-    width: auto;
-    text-align: left;
-    margin-left: auto;
-    margin-right: auto;
-    border-radius: 4px;
-  }
+  background-color: #AB47BC;
+  color: #ffffff;
+  width: auto;
+  text-align: left;
+  font-size: 110%;
+  line-height: 110%;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 4px;
+}
+
+div .weathermessage {
+  background-color: #FFFF00;
+  color: #b71c1c;
+  font-size: 125%;
+  line-height: 125%;
+  font-weight: bolder;
+  padding: 10px 0;
+  width: auto;
+  text-align: left;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 4px;
+}
+
+mat-list-item.mat-list-item {
+  margin-bottom: 14px;
+  font-size: 100%;
+  clear: all;
+  height: auto;
+}
+
+.mat-list-item alertmessage {
+  color: #ffffff;
+  text-align: center;
+}
+
+.mat-icon {
+  padding: 0 5px 0 0;
+}
+
+
+.textcenter {
+  text-align: center;
+}
+
+div .confirmmessage {
+  background-color: #1B5E20
+  ;
+  color: #ffffff;
+  font-size: 125%;
+  line-height: 125%;
+  padding: 10px 15px;
+  width: auto;
+  text-align: left;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 4px;
+}

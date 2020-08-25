@@ -31,7 +31,7 @@
                 When you pay you'll be able to pull around back and load up your pile.</mat-list-item>
         </mat-list>
         <mat-divider></mat-divider>
-          <div class="alertmessage"><mat-icon>warning</mat-icon>Events can be canceled at any time due to local weather conditions.</div>
+          <div class="weathermessage"><mat-icon>warning</mat-icon>Events can be canceled at any time due to local weather conditions.</div>
       </mat-card-content>
     <mat-card-actions>
       <p><button mat-raised-button color="primary" (click)="agreeClick();">I agree to these rules</button></p>
@@ -116,7 +116,7 @@
                   </mat-form-field>
                 </mat-grid-tile>
             </mat-grid-list>
-            <div *ngIf="submitResult">{{submitResult}}</div>
+            <div class="confirmmessage" *ngIf="submitResult">{{submitResult}}</div>
           </mat-card-content>
         <mat-card-actions>
           <button mat-raised-button color="primary" type="submit" [disabled]="!eventForm.valid">Sign up!</button>
