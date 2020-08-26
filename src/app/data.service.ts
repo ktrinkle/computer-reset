@@ -58,7 +58,6 @@ export class DataService {
 
     public getEvent(){
       var url = this.REST_API_SERVER + '/api/computerreset/api/events/show/open';
-      console.log(this.userSmall);
       return this.httpClient.get(url);
     }
 
