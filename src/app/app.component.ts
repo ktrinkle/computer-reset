@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ClaimPrincipal, UserSmall, UserModel } from './data';
 import { DataService } from './data.service';
 import { AuthenticationService } from './authentication/authentication.service';
 import { Resolve } from '@angular/router';
+import { first } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -10,7 +11,7 @@ import { Resolve } from '@angular/router';
   styleUrls: ['./app.component.scss']
 })
 
-export class AppComponent implements OnInit, Resolve<any>{
+export class AppComponent implements OnInit, OnDestroy, Resolve<any>{
   title = 'Computer Reset Signup';
   isLoading = true;
   appReady = false;
@@ -20,7 +21,6 @@ export class AppComponent implements OnInit, Resolve<any>{
      public dataService: DataService) { }
 
   resolve() {
-      //make sure we have our token
       return this.authenticationService.loginApi('byronpcjr','IdSFaWr7*@[');
     }
   
@@ -49,9 +49,11 @@ export class AppComponent implements OnInit, Resolve<any>{
     this.dataService.getAzureAuth().subscribe((data: ClaimPrincipal)=>{
    //   console.log(data);
       this.dataService.userSmall = this.convertAzureUserAuth(data);
+      this.dataService.getAdmin(localStorage.getItem('facebookId'));
       //console.log(this.dataService.userSmall);
     });
 
+    
     //this.authenticationService.loginApi('byronpcjr','IdSFaWr7*@[')
     //  .pipe(first())
     //  .subscribe();
@@ -59,6 +61,10 @@ export class AppComponent implements OnInit, Resolve<any>{
     //temporary
 
     //we don't have the admin piece yet...can move that to /home
+  }
+
+  ngOnDestroy() {
+    localStorage.clear();
   }
 }
 

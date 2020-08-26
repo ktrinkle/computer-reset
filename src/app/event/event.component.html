@@ -59,7 +59,10 @@
    
    <ng-container matColumnDef="eventDate">
    <mat-header-cell *matHeaderCellDef> Event Date </mat-header-cell>
-   <mat-cell *matCellDef="let row"> {{row.eventStartTms | date:'fullDate'}} </mat-cell>
+   <mat-cell *matCellDef="let row">
+    <span fxShow fxHide.lt-md>{{row.eventStartTms | date:'fullDate'}}</span>
+    <span fxHide fxShow.lt-md>{{row.eventStartTms | date:'shortDate'}}</span>
+      </mat-cell>
  </ng-container>
 
  <!-- Start time Definition -->
@@ -79,10 +82,14 @@
  <mat-row *matRowDef="let row; columns: ['signup', 'eventDate', 'eventStart', 'eventEnd']"></mat-row>
 </mat-table>
 </mat-radio-group>
-              <mat-grid-list cols="3" height="1:6">
+
+              <mat-grid-list cols="3">
               <mat-grid-tile-header rowspan="1" colspan="3" color="accent">
-                  ID is required for anyone to enter the warehouse. If your real name is different from your
-                  Facebook name, please fill your name in below:
+                <p>&nbsp;</p>
+                  <p>ID is required for anyone to enter the warehouse. If your real name is different from your
+                  Facebook name, please fill in your real name.</p><p color="primary">If you do not have ID that
+                    matches the name filled in when signing up, you will not be permitted to enter.
+                  </p>
               </mat-grid-tile-header>
               <mat-grid-tile>
                 <mat-form-field appearance="fill">
@@ -119,7 +126,8 @@
             <div class="confirmmessage" *ngIf="submitResult">{{submitResult}}</div>
           </mat-card-content>
         <mat-card-actions>
-          <button mat-raised-button color="primary" type="submit" [disabled]="!eventForm.valid">Sign up!</button>
+          <button mat-raised-button color="primary" type="submit" [disabled]="(!eventForm.valid || submitProcess)">Sign up!</button>
+          <div *ngIf="submitProcess">Please wait for your signup to process.</div>
     </mat-card-actions>
     </mat-card>
     </form>

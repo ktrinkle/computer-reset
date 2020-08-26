@@ -30,6 +30,7 @@ export class EventComponent implements OnInit {
   public cities: CityList[];
   public responseJson: string;
   public submitResult: string;
+  public submitProcess: boolean = false;
 
   public agreeClick(): void {
     this.agreeInd = true;
@@ -48,8 +49,7 @@ export class EventComponent implements OnInit {
         realName: new FormControl(),
         facebookId: new FormControl(localStorage.getItem('facebookId'), [Validators.required]),
         cityNm: new FormControl('', [Validators.required]),
-        stateCd: new FormControl('', [Validators.required]),
-        submitLock: new FormControl(true, [Validators.required])
+        stateCd: new FormControl('', [Validators.required])
       });
 
       //get routed event id if needed
@@ -68,12 +68,15 @@ export class EventComponent implements OnInit {
       this.eventForm.patchValue({stateCd: "TX"});
       this.changeCityList(45);
       this.eventForm.patchValue({cityNm: "Dallas"});
+
+      this.onChanges();
       
   }
 
   eventSubmit() {
     //builds out signup object. We already have the first pieces.
-
+    this.submitProcess = true;
+    
     if (this.eventForm.value.realName) {
       this.signUp.realname = this.eventForm.value.realName;
     }
@@ -86,20 +89,26 @@ export class EventComponent implements OnInit {
     //final checks. This is in case of form hacking.
     if (this.signUp.eventId == 0 || !this.signUp.eventId) {
       this.submitResult = "You may have not selected an event. Please try again.";
-      this.eventForm.patchValue({submitLock: true});
+      this.submitProcess = false;
     } else if (!this.signUp.cityNm || !this.signUp.stateCd ) {
       this.submitResult = "We did not find a city or state selected. Please try again.";
-      this.eventForm.patchValue({submitLock: true});
+      this.submitProcess = false;
     } else {
       //all is good, lets fire the web service
       this.dataService.signupForEvent(this.signUp).subscribe((data => {
           this.submitResult = data;
-          this.eventForm.patchValue({submitLock: false});
+          this.submitProcess = false;
       }));
     }
   }
   
   //onchange handler next to clear status for submitResult
+
+  onChanges(): void {
+    this.eventForm.valueChanges.subscribe(val => {
+      this.submitResult = null;
+    });
+  }
   //onchange for state
 
   changeCityList(newState: number) {
