@@ -12,12 +12,12 @@ export class AuthenticationService {
     private REST_API_SERVER = "https://computerresetliquidation.azurewebsites.net";
 
     constructor(private http: HttpClient) {
-        this.currentUserSubject = new BehaviorSubject<ApiUser>(JSON.parse(localStorage.getItem('currentUser')));
+        this.currentUserSubject = new BehaviorSubject<ApiUser>(JSON.parse(sessionStorage.getItem('currentUser')));
         this.currentUser = this.currentUserSubject.asObservable();
     }
 
     public get currentUserValue(): ApiUser {
-        console.log(this.currentUserSubject.value);
+        //console.log(this.currentUserSubject.value);
         return this.currentUserSubject.value;
     }
 
@@ -27,7 +27,7 @@ export class AuthenticationService {
         return this.http.post<any>(url, { username, password })
             .pipe(map(user => {
                 // store user details and jwt token in local storage to keep user logged in between page refreshes
-                localStorage.setItem('currentUser', JSON.stringify(user));
+                sessionStorage.setItem('currentUser', JSON.stringify(user));
                 this.currentUserSubject.next(user);
                 return user;
             }));
@@ -35,7 +35,7 @@ export class AuthenticationService {
 
     logout() {
         // remove user from local storage to log user out
-        localStorage.removeItem('currentUser');
+        sessionStorage.removeItem('currentUser');
         this.currentUserSubject.next(null);
     }
 }

@@ -10,7 +10,7 @@ import { first } from 'rxjs/operators';
 })
 export class HomeComponent implements OnInit {
 
-  events = [];
+  public events = [];
 
   constructor(private dataService: DataService, private router: Router) { }
 
@@ -34,8 +34,8 @@ export class HomeComponent implements OnInit {
       this.events = data;
     });
 
-    localStorage.setItem('admin', 
-      this.dataService.getAdmin(localStorage.getItem('facebookId')).pipe(first()).toString());
+    sessionStorage.setItem('admin', 
+      this.dataService.getAdmin(sessionStorage.getItem('facebookId')).pipe(first()).toString());
 
   }
 
