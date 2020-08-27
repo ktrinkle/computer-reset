@@ -23,7 +23,7 @@ export class DataService {
   constructor(private httpClient: HttpClient) { }
 
   public callToken(): any {
-    return this.userSmall.accessToken;
+    return sessionStorage.get('accessToken');
   }
 
   handleError(error: HttpErrorResponse) {
