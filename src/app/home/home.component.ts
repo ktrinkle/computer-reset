@@ -11,6 +11,7 @@ import { first } from 'rxjs/operators';
 export class HomeComponent implements OnInit {
 
   public events = [];
+  public fullName = "";
 
   constructor(private dataService: DataService, private router: Router) { }
 
@@ -29,13 +30,18 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
 
+    console.log("Home starting");
+
+    this.fullName = sessionStorage.getItem('firstName') + " " + sessionStorage.getItem('lastName');
+    console.log(sessionStorage.getItem('firstName'));
+
     this.dataService.getEvent().subscribe((data: any[])=>{
       //console.log(data);
       this.events = data;
     });
 
-    sessionStorage.setItem('admin', 
-      this.dataService.getAdmin(sessionStorage.getItem('facebookId')).pipe(first()).toString());
+    //sessionStorage.setItem('admin', 
+    //  this.dataService.getAdmin(sessionStorage.getItem('facebookId')).pipe(first()).toString());
 
   }
 
