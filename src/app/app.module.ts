@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, APP_INITIALIZER } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -11,6 +11,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { JwtInterceptor } from './httpinject.service';
+import { AppConfigService } from './app-config.service';
 
 import {MatInputModule} from '@angular/material/input';
 import {MatCheckboxModule} from '@angular/material/checkbox';
@@ -30,6 +31,10 @@ import { LoadingScreenComponent } from './loading-screen/loading-screen.componen
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { FlexLayoutModule } from '@angular/flex-layout';
+
+export function appInit(appConfigService: AppConfigService) {
+  return () => appConfigService.load();
+}
 
 @NgModule({
   declarations: [
@@ -69,7 +74,16 @@ import { FlexLayoutModule } from '@angular/flex-layout';
       [
           { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
       ],
+      [AppConfigService,
+        {
+          provide: APP_INITIALIZER,
+          useFactory: appInit,
+          multi: true,
+          deps: [AppConfigService]
+        }
+      ]
   ],
   bootstrap: [AppComponent]
 })
+
 export class AppModule { }

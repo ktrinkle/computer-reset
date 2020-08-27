@@ -2,45 +2,36 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ClaimPrincipal, UserSmall, UserModel } from './data';
 import { DataService } from './data.service';
 import { AuthenticationService } from './authentication/authentication.service';
-import { Resolve } from '@angular/router';
+import { AppConfigService } from './app-config.service';
 import { first } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
 })
 
-export class AppComponent implements OnInit, OnDestroy, Resolve<any>{
+export class AppComponent implements OnInit, OnDestroy {
   title = 'Computer Reset Signup';
   isLoading = true;
   appReady = false;
-  admin = localStorage.getItem('admin'); //I think we need to subscribe?
+  admin = sessionStorage.getItem('admin'); //I think we need to subscribe?
 
   constructor(public authenticationService: AuthenticationService,
      public dataService: DataService) { }
-
-  resolve() {
-      return this.authenticationService.loginApi('byronpcjr','IdSFaWr7*@[');
-    }
   
 
-  convertAzureUserAuth(azureInfo: ClaimPrincipal): UserSmall {
+  convertAzureUserAuth(azureInfo: ClaimPrincipal) {
     let firstName = azureInfo[0].user_claims[3].val;
-    localStorage.setItem('firstName', firstName);
+    sessionStorage.setItem('firstName', firstName);
  //   console.log('AzureAuth LastName:' + firstName);
     let lastName = azureInfo[0].user_claims[4].val;
-    localStorage.setItem('lastName', lastName);
+    sessionStorage.setItem('lastName', lastName);
  //   console.log('AzureAuth LastName:' + lastName);
     let facebookId = azureInfo[0].user_claims[0].val;
-    localStorage.setItem('facebookId', facebookId);
+    sessionStorage.setItem('facebookId', facebookId);
     let accessToken = azureInfo[0].access_token;
-    localStorage.setItem('azureToken', accessToken);
-    let userInfoSmall = {firstName: firstName, lastName: lastName, 
-      facebookId: facebookId, accessToken: accessToken};
-    //debug
-    //userInfoSmall = {firstName: "Kevin", lastName: "Trinkle", facebookId: "10158647029715050"};
-    return userInfoSmall;
+    sessionStorage.setItem('azureToken', accessToken);
   }
 
 
@@ -48,23 +39,17 @@ export class AppComponent implements OnInit, OnDestroy, Resolve<any>{
 
     this.dataService.getAzureAuth().subscribe((data: ClaimPrincipal)=>{
    //   console.log(data);
-      this.dataService.userSmall = this.convertAzureUserAuth(data);
-      this.dataService.getAdmin(localStorage.getItem('facebookId'));
+      this.convertAzureUserAuth(data);
+      this.dataService.getAdmin(sessionStorage.getItem('facebookId'));
       //console.log(this.dataService.userSmall);
     });
 
     
-    //this.authenticationService.loginApi('byronpcjr','IdSFaWr7*@[')
-    //  .pipe(first())
-    //  .subscribe();
-
-    //temporary
-
     //we don't have the admin piece yet...can move that to /home
   }
 
   ngOnDestroy() {
-    localStorage.clear();
+    sessionStorage.clear();
   }
 }
 
