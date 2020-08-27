@@ -36,6 +36,10 @@ export function appInit(appConfigService: AppConfigService) {
   return () => appConfigService.load();
 }
 
+export function appInitFb(appConfigService: AppConfigService) {
+  return () => appConfigService.loadFb();
+}
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -78,6 +82,14 @@ export function appInit(appConfigService: AppConfigService) {
         {
           provide: APP_INITIALIZER,
           useFactory: appInit,
+          multi: true,
+          deps: [AppConfigService]
+        }
+      ],
+      [AppConfigService,
+        {
+          provide: APP_INITIALIZER,
+          useFactory: appInitFb,
           multi: true,
           deps: [AppConfigService]
         }

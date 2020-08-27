@@ -1,4 +1,7 @@
-<!--div [hidden]="!appReady"-->
+<!--div class="loading-screen-wrapper" [hidden]="appReady">
+      <p>Booting your Computer Reset experience...</p>
+      <p><img src="../../assets/charlie.gif" /></p>
+</div-->
 <div> 
   <mat-toolbar color="primary">
     <div fxShow="true" fxHide.gt-sm="true">
@@ -16,7 +19,6 @@
       <button mat-button routerLink="/event">Event signup</button>
       <button *ngIf="admin" mat-button routerLink="/admin">Admin</button>
       <button mat-button routerLink="./auth/logout">Logout</button>
-      <div>{{dataService.userSmall.firstName}} {{dataService.userSmall.lastName}}</div>
     </div>
 
   </mat-toolbar>
@@ -28,7 +30,7 @@
         <button mat-button routerLink="/event">Event signup</button>
         <button *ngIf="admin" mat-button routerLink="/admin">Admin</button>
         <button mat-button routerLink="./auth/logout">Logout</button>
-        <div>{{dataService.userSmall.firstName}} {{dataService.userSmall.lastName}}</div>
+        <div>{{fullName}}</div>
         </div>
     </mat-sidenav>
     <mat-sidenav-content fxFlexFill>

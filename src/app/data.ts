@@ -45,8 +45,8 @@ export interface ClaimPrincipal {
     cityNm: string,
     stateCd: string,
     realname: string,
-    firstName: string;
-    lastName: string;   
+    firstNm: string;
+    lastNm: string;   
   }
 
   export interface StateList {

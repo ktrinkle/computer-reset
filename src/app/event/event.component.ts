@@ -18,8 +18,8 @@ export class EventComponent implements OnInit {
   dataSource = new MatTableDataSource<Timeslot>(this.events);
   public signUp: Signup = {realname: "", cityNm: "", stateCd: "", eventId: 0, 
     fbId: sessionStorage.getItem('facebookId'), 
-    firstName: sessionStorage.getItem('firstName'), 
-    lastName: sessionStorage.getItem('lastName')
+    firstNm: sessionStorage.getItem('firstName'), 
+    lastNm: sessionStorage.getItem('lastName')
   };
 
 
@@ -46,7 +46,7 @@ export class EventComponent implements OnInit {
   ngOnInit() {
       this.eventForm = this.formBuilder.group({
         eventId: new FormControl(this.dataService.eventIdPass),
-        realName: new FormControl(),
+        realName: new FormControl(sessionStorage.getItem('firstName') + " " + sessionStorage.getItem('lastName')),
         facebookId: new FormControl(sessionStorage.getItem('facebookId'), [Validators.required]),
         cityNm: new FormControl('', [Validators.required]),
         stateCd: new FormControl('', [Validators.required])
