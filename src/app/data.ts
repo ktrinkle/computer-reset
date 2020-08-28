@@ -22,13 +22,6 @@ export interface ClaimPrincipal {
     volunteerFlag: boolean;
   }
 
-  export interface UserSmall {
-    accessToken: string;
-    facebookId: string;
-    firstName: string;
-    lastName: string;
-  }
-
   export interface Timeslot {
     Id: number;
     eventStartTms: Date;
@@ -72,5 +65,13 @@ export interface ClaimPrincipal {
     firstName: string;
     lastName: string;
     token?: string;
+  }
+
+  export interface UserRetrieve {
+    cityName: string;
+    stateCode: string;
+    realName: string;
+    adminFlag: boolean;
+    volunteerFlag: boolean;
   }
 

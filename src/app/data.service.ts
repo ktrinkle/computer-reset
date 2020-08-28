@@ -4,7 +4,7 @@ import { map } from 'rxjs/operators';
 
 import { throwError, Observable, BehaviorSubject } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
-import { UserSmall, Timeslot, Signup, StateList, CityList, UserModel, ApiUser } from './data';
+import { UserRetrieve, Timeslot, Signup, StateList, CityList, UserModel, ApiUser } from './data';
 
 
 @Injectable({
@@ -14,7 +14,6 @@ export class DataService {
 
   public eventIdPass: number;
 
-  public userSmall: UserSmall = {firstName: "", lastName: "", facebookId: "", accessToken: ""};
   public userFull: UserModel;
 
   private REST_API_SERVER = "https://computerresetliquidation.azurewebsites.net";
@@ -45,15 +44,10 @@ export class DataService {
       return this.httpClient.get(url);
     }
     
-    public getAdmin(id: string){
-      var url = this.REST_API_SERVER + '/api/computerreset/api/users/admin/' + encodeURIComponent(id) + '';
+    public getUserInfo(id: string): any {
+      var url = this.REST_API_SERVER + '/api/computerreset/api/users/attrib/' + encodeURIComponent(id) + '';
       //console.log(this.userSmall);
-      return this.httpClient.get(url, {responseType: 'text'});
-    }
-
-    public getVolunteer(id: string){
-      var url = this.REST_API_SERVER + '/api/computerreset/api/users/volunteer/' + encodeURIComponent(id) + '';
-      return this.httpClient.get(url, {responseType: 'text'});
+      return this.httpClient.get(url);
     }
 
     public getEvent(){

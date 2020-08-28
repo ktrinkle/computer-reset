@@ -23,14 +23,18 @@ export class AppComponent implements OnInit, OnDestroy {
   
   ngOnInit() {
     //move our admin call here
-    console.log('App.component starting');
+    //console.log('App.component starting');
+    //admin returns webpage if null?
 
-    this.admin = this.dataService.getAdmin(sessionStorage.getItem('facebookId')).toPromise().toString();
-    sessionStorage.setItem('admin', this.admin);
-    console.log('Admin: ' + this.admin);
-    
-    //we don't have the admin piece yet...can move that to /home
-  }
+    /*this.dataService.getUserInfo(sessionStorage.getItem('facebookId'))
+      .subscribe(data => {
+        sessionStorage.setItem('admin', data.adminFlag);
+        this.admin = data.adminFlag ?? false;
+        sessionStorage.setItem('realName', data.realName);
+      }
+    );*/
+
+   }
 
   ngOnDestroy() {
     sessionStorage.clear();
