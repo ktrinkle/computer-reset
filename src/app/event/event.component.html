@@ -82,38 +82,37 @@
  <mat-row *matRowDef="let row; columns: ['signup', 'eventDate', 'eventStart', 'eventEnd']"></mat-row>
 </mat-table>
 </mat-radio-group>
-
-              <mat-grid-list cols="3">
-              <mat-grid-tile-header rowspan="1" colspan="3" color="accent">
-                <p>&nbsp;</p>
+<div class="content" fxLayout="row wrap" fxLayoutGap="16px grid">
+  <div fxFlex="100%" fxFlex.xs="100%" fxFlex.sm="100%" style="padding: 10px;">
+      <p>&nbsp;</p>
                   <p>ID is required for anyone to enter the warehouse. If your real name is different from your
                   Facebook name, please fill in your real name.</p><p color="primary">If you do not have ID that
                     matches the name filled in when signing up, you will not be permitted to enter.
                   </p>
-              </mat-grid-tile-header>
-              <mat-grid-tile>
-                <mat-form-field appearance="fill">
+                  <mat-form-field appearance="fill">
                   <mat-label>Real Name</mat-label>
                   <input matInput [value]="signUp.realname" id="realName" formControlName="realName">
                   <mat-hint>Fill in the name on your ID here.</mat-hint>
                 </mat-form-field>
-              </mat-grid-tile>
+              </div>
 
-              <mat-grid-tile>
+              <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="100%" style="vertical-align: middle; min-height: 75px; padding: 10px;">
+               <p>Please select the state you live in.</p>
                 <mat-form-field appearance="fill">
-                    <mat-label>Select your state*</mat-label>
+                              <mat-label>Select your state*</mat-label>
                     <mat-select id="stateCd" formControlName="stateCd">
                       <mat-option *ngFor="let state of states" [value]="state.stateCode" (onSelectionChange)="changeCityList(state.id);">
                         {{state.stateCode}}
                       </mat-option>
                     </mat-select>
                     <mat-hint align="end">Select the state you live in ^</mat-hint>
-                  </mat-form-field>
-                </mat-grid-tile>
+                    </mat-form-field>
+                  </div>
 
-              <mat-grid-tile>
-                <mat-form-field appearance="fill">
-                    <mat-label>Select your city*</mat-label>
+                  <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="100%" style="vertical-align: middle; min-height: 75px; padding: 10px;">
+                    <p>Please select the city or town that you live in.</p>
+                    <mat-form-field appearance="fill">
+                      <mat-label>Select your city*</mat-label>
                     <mat-select id="cityNm" formControlName="cityNm">
                       <mat-option *ngFor="let city of cities" [value]="city.city">
                       {{city.city}}
@@ -121,9 +120,10 @@
                   </mat-select>
                   <mat-hint align="end">Select the city you live in ^</mat-hint>
                   </mat-form-field>
-                </mat-grid-tile>
-            </mat-grid-list>
-            <div class="confirmmessage" *ngIf="submitResult">{{submitResult}}</div>
+                </div>
+</div>
+<div style="clear: all; padding: 10px;"
+              <div class="confirmmessage" *ngIf="submitResult">{{submitResult}}</div>
           </mat-card-content>
         <mat-card-actions>
           <button mat-raised-button color="primary" type="submit" [disabled]="(!eventForm.valid || submitProcess)">Sign up!</button>
