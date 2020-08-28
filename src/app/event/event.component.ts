@@ -1,10 +1,11 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Directive, Component, OnInit, Input } from '@angular/core';
 import { DataService } from '../data.service';
-import { Router } from '@angular/router';
 import { Signup, StateList, CityList, Timeslot } from '../data';
-import { AppComponent } from '../app.component';
 import { FormGroup, FormControl, Validators, FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatGridList } from '@angular/material/grid-list';
+import { MediaObserver } from '@angular/flex-layout';
+
+
 
 @Component({
   selector: 'app-event',
@@ -15,14 +16,12 @@ import { MatTableDataSource } from '@angular/material/table';
 export class EventComponent implements OnInit {
 
   events = [];
-  dataSource = new MatTableDataSource<Timeslot>(this.events);
+  
   public signUp: Signup = {realname: "", cityNm: "", stateCd: "", eventId: 0, 
     fbId: sessionStorage.getItem('facebookId'), 
     firstNm: sessionStorage.getItem('firstName'), 
     lastNm: sessionStorage.getItem('lastName')
   };
-
-
 
   public agreeInd: boolean = false;
   public eventForm: FormGroup;
@@ -38,8 +37,6 @@ export class EventComponent implements OnInit {
 
   constructor(
     public dataService: DataService, 
-    private router: Router, 
-    private appComponent: AppComponent,
     private formBuilder: FormBuilder
     ) { }
 
@@ -68,9 +65,14 @@ export class EventComponent implements OnInit {
       this.eventForm.patchValue({stateCd: "TX"});
       this.changeCityList(45);
       this.eventForm.patchValue({cityNm: "Dallas"});
-
+  
       this.onChanges();
       
+  }
+
+  ngOnDestroy() {
+    this.dataService.getState().unsubscribe();
+    this.dataService.getCity(1).unsubscribe();
   }
 
   eventSubmit() {
