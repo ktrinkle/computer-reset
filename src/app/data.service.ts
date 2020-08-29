@@ -60,8 +60,8 @@ export class DataService {
       return this.httpClient.get(url);
     }
 
-    public getCity(id: number): any {
-      let url = this.REST_API_SERVER + '/api/computerreset/api/ref/city/' + encodeURIComponent(id) + '';
+    public getCity(stateCd: string): any {
+      let url = this.REST_API_SERVER + '/api/computerreset/api/ref/citylist/' + encodeURIComponent(stateCd) + '';
       return this.httpClient.get(url);
     }
 

@@ -4,6 +4,8 @@ import { Signup, StateList, CityList, Timeslot } from '../data';
 import { FormGroup, FormControl, Validators, FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { MatGridList } from '@angular/material/grid-list';
 import { MediaObserver } from '@angular/flex-layout';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 
 
@@ -35,6 +37,8 @@ export class EventComponent implements OnInit {
     this.agreeInd = true;
   }
 
+  destroy$: Subject<void> = new Subject<void>();
+
   constructor(
     public dataService: DataService, 
     private formBuilder: FormBuilder
@@ -62,17 +66,26 @@ export class EventComponent implements OnInit {
         );
 
       //default us to Dallas, Tx
-      this.eventForm.patchValue({stateCd: "TX"});
-      this.changeCityList(45);
-      this.eventForm.patchValue({cityNm: "Dallas"});
-  
+      if (sessionStorage.getItem('stateCd') == null ) {
+        this.eventForm.patchValue({stateCd: "TX"});
+        this.changeCityList('TX');
+      } else {
+        this.eventForm.patchValue({stateCd: sessionStorage.getItem('stateCd')});
+        this.changeCityList(sessionStorage.getItem('stateCd'));
+      }
+
+      if (sessionStorage.getItem('cityNm') == null ) {
+        this.eventForm.patchValue({cityNm: "Dallas"});
+      } else {
+        this.eventForm.patchValue({cityNm: sessionStorage.getItem('cityNm')});
+      }
+
       this.onChanges();
       
   }
 
   ngOnDestroy() {
     this.dataService.getState().unsubscribe();
-    this.dataService.getCity(1).unsubscribe();
   }
 
   eventSubmit() {
@@ -113,10 +126,12 @@ export class EventComponent implements OnInit {
   }
   //onchange for state
 
-  changeCityList(newState: number) {
-    this.dataService.getCity(newState).subscribe(
-      result => { this.cities = result; }
-      );
+  changeCityList(newState: string) {
+    this.dataService.getCity(newState).pipe(
+      takeUntil(this.destroy$)).subscribe(result => { 
+        this.cities = result; 
+      }
+    );
   }
 
 }
