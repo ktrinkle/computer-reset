@@ -65,13 +65,26 @@ export class EventComponent implements OnInit {
         result => { this.states = result; }
         );
 
+      //add real name default
+      if (sessionStorage.getItem('realName') != null) {
+        this.eventForm.patchValue({realName: sessionStorage.getItem('realName')});
+      }
+      
       //default us to Dallas, Tx
       if (sessionStorage.getItem('stateCd') == null ) {
         this.eventForm.patchValue({stateCd: "TX"});
-        this.changeCityList('TX');
+        this.dataService.getCity("TX").pipe(
+          takeUntil(this.destroy$)).subscribe(result => { 
+            this.cities = result; 
+          }
+        );
       } else {
         this.eventForm.patchValue({stateCd: sessionStorage.getItem('stateCd')});
-        this.changeCityList(sessionStorage.getItem('stateCd'));
+        this.dataService.getCity(sessionStorage.getItem('stateCd')).pipe(
+          takeUntil(this.destroy$)).subscribe(result => { 
+            this.cities = result; 
+          }
+        );
       }
 
       if (sessionStorage.getItem('cityNm') == null ) {
@@ -126,8 +139,9 @@ export class EventComponent implements OnInit {
   }
   //onchange for state
 
-  changeCityList(newState: string) {
-    this.dataService.getCity(newState).pipe(
+  changeCityList(event) {
+    console.log("GetCity");
+    this.dataService.getCity(event.value).pipe(
       takeUntil(this.destroy$)).subscribe(result => { 
         this.cities = result; 
       }
