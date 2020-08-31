@@ -100,8 +100,8 @@
                <p>Please select the state you live in.</p>
                 <mat-form-field appearance="fill">
                               <mat-label>Select your state*</mat-label>
-                    <mat-select id="stateCd" formControlName="stateCd">
-                      <mat-option *ngFor="let state of states" [value]="state.stateCode" (onSelectionChange)="changeCityList(state.id);">
+                    <mat-select id="stateCd" formControlName="stateCd" (selectionChange)="changeCityList($event)">
+                      <mat-option *ngFor="let state of states" [value]="state.stateCode">
                         {{state.stateCode}}
                       </mat-option>
                     </mat-select>

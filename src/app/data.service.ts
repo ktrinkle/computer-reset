@@ -4,7 +4,7 @@ import { map } from 'rxjs/operators';
 
 import { throwError, Observable, BehaviorSubject } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
-import { UserRetrieve, Timeslot, Signup, StateList, CityList, UserModel, ApiUser } from './data';
+import { UserSmall, Timeslot, Signup, StateList, CityList, UserModel, ApiUser } from './data';
 
 
 @Injectable({
@@ -44,10 +44,10 @@ export class DataService {
       return this.httpClient.get(url);
     }
     
-    public getUserInfo(id: string): any {
-      var url = this.REST_API_SERVER + '/api/computerreset/api/users/attrib/' + encodeURIComponent(id) + '';
+    public getUserInfo(userReq: UserSmall): any {
+      var url = this.REST_API_SERVER + '/api/computerreset/api/users/attrib/';
       //console.log(this.userSmall);
-      return this.httpClient.get(url);
+      return this.httpClient.post(url, userReq);
     }
 
     public getEvent(){
