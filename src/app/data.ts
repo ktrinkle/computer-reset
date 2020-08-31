@@ -68,10 +68,16 @@ export interface ClaimPrincipal {
   }
 
   export interface UserRetrieve {
-    cityName: string;
-    stateCode: string;
-    realName: string;
+    cityNm: string;
+    stateCd: string;
+    realNm: string;
     adminFlag: boolean;
     volunteerFlag: boolean;
+  }
+
+  export interface UserSmall {
+    firstName: string;
+    lastName: string;
+    facebookId: string;
   }
 
