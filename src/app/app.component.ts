@@ -16,7 +16,7 @@ export class AppComponent implements OnInit, OnDestroy {
   isLoading = true;
   appReady = false;
   fullName = "";
-  admin = "false";
+  admin: boolean = false;
 
   constructor(public authenticationService: AuthenticationService,
      public dataService: DataService) { }
@@ -34,10 +34,14 @@ export class AppComponent implements OnInit, OnDestroy {
 
     this.dataService.getUserInfo(userLookup).subscribe(data => {
       this.admin = data.adminFlag ?? false;
-      sessionStorage.setItem('admin', this.admin);
+      sessionStorage.setItem('admin', this.admin.toString());
       sessionStorage.setItem('realName', data.realNm);
       sessionStorage.setItem('cityNm', data.cityNm);
       sessionStorage.setItem('stateCd', data.stateCd);
+      this.dataService.userFull.adminFlag = this.admin;
+      this.dataService.userFull.realName = data.realNm;
+      this.dataService.userFull.cityName = data.cityNm;
+      this.dataService.userFull.stateCode = data.stateCd;
       console.log(this.admin);
     });
 
