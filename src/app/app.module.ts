@@ -31,6 +31,9 @@ import { LoadingScreenComponent } from './loading-screen/loading-screen.componen
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { AdminfutureComponent } from './admin/adminfuture/adminfuture.component';
+import { AdmintodayComponent } from './admin/admintoday/admintoday.component';
+import { AdminuserComponent } from './admin/adminuser/adminuser.component';
 
 export function appInit(appConfigService: AppConfigService) {
   return () => appConfigService.load();
@@ -47,7 +50,10 @@ export function appInitFb(appConfigService: AppConfigService) {
     PrivacyComponent,
     AdminComponent,
     EventComponent,
-    LoadingScreenComponent
+    LoadingScreenComponent,
+    AdminfutureComponent,
+    AdmintodayComponent,
+    AdminuserComponent
   ],
   imports: [
     BrowserModule,
