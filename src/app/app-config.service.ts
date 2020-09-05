@@ -35,17 +35,14 @@ export class AppConfigService {
         .toPromise()
         .then(data => {data[0].user_claims.map( uc => {
             if(uc.typ.includes('givenname')) {
-              sessionStorage.setItem('firstName', uc.val);
               this.dataService.userFull.firstName = uc.val;
               //console.log('fn' + uc.val);
             }
             if(uc.typ.includes('surname')) {
-              sessionStorage.setItem('lastName', uc.val);
               this.dataService.userFull.lastName = uc.val;
               //console.log('Ln' + uc.val);
             }
             if(uc.typ.includes('nameidentifier')) {
-              sessionStorage.setItem('facebookId', uc.val);
               this.dataService.userFull.facebookId = uc.val;
               //console.log('fbId' + uc.val);
             }
@@ -53,11 +50,8 @@ export class AppConfigService {
           )
        });
       } else {
-        sessionStorage.setItem('firstName', 'Dev');
         this.dataService.userFull.firstName = 'Dev';
-        sessionStorage.setItem('lastName', 'Mode');
         this.dataService.userFull.lastName = 'Mode';
-        sessionStorage.setItem('facebookId', '10158647029715050');
         this.dataService.userFull.facebookId = '10158647029715050';
       }
 

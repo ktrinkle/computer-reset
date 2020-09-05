@@ -34,6 +34,9 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { AdminfutureComponent } from './admin/adminfuture/adminfuture.component';
 import { AdmintodayComponent } from './admin/admintoday/admintoday.component';
 import { AdminuserComponent } from './admin/adminuser/adminuser.component';
+import { MatTabsModule } from '@angular/material/tabs';
+import { CreateeventComponent } from './admin/createevent/createevent.component';
+
 
 export function appInit(appConfigService: AppConfigService) {
   return () => appConfigService.load();
@@ -53,7 +56,8 @@ export function appInitFb(appConfigService: AppConfigService) {
     LoadingScreenComponent,
     AdminfutureComponent,
     AdmintodayComponent,
-    AdminuserComponent
+    AdminuserComponent,
+    CreateeventComponent
   ],
   imports: [
     BrowserModule,
@@ -78,6 +82,7 @@ export function appInitFb(appConfigService: AppConfigService) {
     MatGridListModule,
     MatSidenavModule,
     FlexLayoutModule,
+    MatTabsModule,
     ],
     providers: [            
       // Http Interceptor(s) -  adds with Client Credentials
