@@ -27,22 +27,18 @@ export class AppComponent implements OnInit, OnDestroy {
     //admin returns webpage if null?
 
     var userLookup:UserSmall = {
-      firstName: sessionStorage.getItem('firstName'), 
-      lastName: sessionStorage.getItem('lastName'),
-      facebookId: sessionStorage.getItem('facebookId') 
+      firstName: this.dataService.userFull.firstName, 
+      lastName: this.dataService.userFull.lastName,
+      facebookId: this.dataService.userFull.facebookId
     };
 
     this.dataService.getUserInfo(userLookup).subscribe(data => {
       this.admin = data.adminFlag ?? false;
-      sessionStorage.setItem('admin', this.admin.toString());
-      sessionStorage.setItem('realName', data.realNm);
-      sessionStorage.setItem('cityNm', data.cityNm);
-      sessionStorage.setItem('stateCd', data.stateCd);
       this.dataService.userFull.adminFlag = this.admin;
       this.dataService.userFull.realName = data.realNm;
       this.dataService.userFull.cityName = data.cityNm;
       this.dataService.userFull.stateCode = data.stateCd;
-      console.log(this.admin);
+      //console.log(this.admin);
     });
 
     /*

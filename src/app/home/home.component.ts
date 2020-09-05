@@ -31,11 +31,13 @@ export class HomeComponent implements OnInit {
 
     //console.log("Home starting");
 
-    this.fullName = sessionStorage.getItem('firstName') + " " + sessionStorage.getItem('lastName');
+    this.fullName = this.dataService.userFull.firstName + " " + this.dataService.userFull.lastName;
 
     this.dataService.getEvent().subscribe((data: any[])=>{
       this.events = data;
     });
+
+    //console.log(this.dataService.userFull);
 
   }
 

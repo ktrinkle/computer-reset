@@ -1,1 +1,100 @@
-<p>adminfuture works!</p>
+<div style="padding: 13px;">
+    <mat-card>
+      <mat-card-header>
+          <mat-card-title>Future Events</mat-card-title>
+      </mat-card-header>
+          <mat-card-content>
+              <mat-table [dataSource]="events">
+                  <!-- Date Definition -->
+                  <ng-container matColumnDef="eventDate">
+                    <mat-header-cell *matHeaderCellDef> Event Date </mat-header-cell>
+                    <mat-cell *matCellDef="let row"> {{row.eventStartTms | date:'fullDate'}} </mat-cell>
+                  </ng-container>
+                
+                  <!-- Start time Definition -->
+                  <ng-container matColumnDef="eventStart">
+                    <mat-header-cell *matHeaderCellDef> Start Time </mat-header-cell>
+                    <mat-cell *matCellDef="let row"> {{row.eventStartTms | date:'shortTime'}} </mat-cell>
+                  </ng-container>
+                
+                  <!-- Title Definition -->
+                  <ng-container matColumnDef="eventEnd">
+                    <mat-header-cell *matHeaderCellDef> End Time </mat-header-cell>
+                    <mat-cell *matCellDef="let row"> {{row.eventEndTms | date:'shortTime'}} </mat-cell>
+                  </ng-container>
+                
+                   <!-- Signup Definition -->
+                   <ng-container matColumnDef="manage">
+                    <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                    <mat-cell *matCellDef="let row"> <button mat-raised-button color="accent" (click)="pickEvent(row.id);">Manage</button></mat-cell>
+                  </ng-container>
+                  
+                  <!-- Header and Row Declarations -->
+                  <mat-header-row *matHeaderRowDef="['eventDate', 'eventStart', 'eventEnd', 'manage']"></mat-header-row>
+                  <mat-row *matRowDef="let row; columns: ['eventDate', 'eventStart', 'eventEnd', 'manage']"></mat-row>
+                </mat-table>
+          </mat-card-content>
+          <mat-card-actions>
+      </mat-card-actions>
+      </mat-card>
+
+      <div *ngIf="eventId != 0">
+        <form [formGroup]="signupForm">
+          <mat-spinner *ngIf="eventSignedUp"></mat-spinner>
+          <mat-card style="margin-top:10px;">
+            <mat-card-header>
+                <mat-card-title>Signed up users</mat-card-title>
+                <mat-card-subtitle>Limit to people who have attended less than this number of events:
+                  <mat-form-field appearance="fill">
+                    <mat-label>Event count</mat-label>
+                    <input matInput [value]="maxEvents" id="maxEvents" formControlName="maxEvents" onChange="pullEventSignedUp(eventId)">
+                  </mat-form-field>
+                </mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+    <!--new table-->
+    <mat-table [dataSource]="eventSignedUp" multiTemplateDataRows>
+      <!-- Signup Definition -->
+      <ng-container matColumnDef="name">
+         <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
+         <mat-cell *matCellDef="let row"> 
+            {{row.fullNm}} ({{row.firstNm}} {{row.lastNm}})
+         </mat-cell>
+       </ng-container>
+       
+       <ng-container matColumnDef="personLoc">
+       <mat-header-cell *matHeaderCellDef> Location </mat-header-cell>
+       <mat-cell *matCellDef="let row">
+        {{row.cityNm}}, {{row.stateCd}}
+          </mat-cell>
+     </ng-container>
+    
+     <!-- Input box -->
+     <ng-container matColumnDef="signupNbr">
+       <mat-header-cell *matHeaderCellDef> Signup Number </mat-header-cell>
+       <mat-cell *matCellDef="let row"> 
+        <mat-form-field appearance="fill">
+          <mat-label>Signup slot</mat-label>
+          <input matInput [value]="row.attendNbr" id="{{row.id}}" formControlName="attendNbr" (change)="updateSignup($event)">
+        </mat-form-field>
+      </mat-cell>
+     </ng-container>
+    
+     <!-- Title Definition -->
+     <ng-container matColumnDef="eventEnd">
+       <mat-header-cell *matHeaderCellDef> End Time </mat-header-cell>
+       <mat-cell *matCellDef="let row"> {{row.eventEndTms | date:'shortTime'}} </mat-cell>
+     </ng-container>
+     
+     <!-- Header and Row Declarations -->
+     <mat-header-row *matHeaderRowDef="['name', 'personLoc', 'signupNbr']"></mat-header-row>
+     <mat-row *matRowDef="let row; columns: ['name', 'personLoc', 'signupNbr']"></mat-row>
+    </mat-table>
+              </mat-card-content>
+            <mat-card-actions>
+        </mat-card-actions>
+        </mat-card>
+        </form>
+        </div>
+    
+  </div>

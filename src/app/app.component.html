@@ -29,6 +29,10 @@
         <button mat-button routerLink="/privacy">Privacy Policy</button>
         <button mat-button routerLink="/event">Event signup</button>
         <button *ngIf="admin" mat-button routerLink="/admin">Admin</button>
+        <button *ngIf="admin" mat-button routerLink="/admin/today">Today's event</button>
+        <button *ngIf="admin" mat-button routerLink="/admin/future">Future events</button>
+        <button *ngIf="admin" mat-button routerLink="/admin/event">Schedule events</button>
+        <button *ngIf="admin" mat-button routerLink="/admin/user">User management</button>
         <button mat-button routerLink="./auth/logout">Logout</button>
         <div>{{fullName}}</div>
         </div>
