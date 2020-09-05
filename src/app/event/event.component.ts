@@ -1,4 +1,4 @@
-import { Directive, Component, OnInit, Input } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { DataService } from '../data.service';
 import { Signup, StateList, CityList, Timeslot } from '../data';
 import { FormGroup, FormControl, Validators, FormBuilder, ReactiveFormsModule } from '@angular/forms';
@@ -15,14 +15,14 @@ import { Subject } from 'rxjs';
   styleUrls: ['./event.component.scss']
 })
 
-export class EventComponent implements OnInit {
+export class EventComponent implements OnInit, OnDestroy {
 
   events = [];
   
   public signUp: Signup = {realname: "", cityNm: "", stateCd: "", eventId: 0, 
-    fbId: sessionStorage.getItem('facebookId'), 
-    firstNm: sessionStorage.getItem('firstName'), 
-    lastNm: sessionStorage.getItem('lastName')
+    fbId: this.dataService.userFull.facebookId, 
+    firstNm: this.dataService.userFull.firstName, 
+    lastNm: this.dataService.userFull.lastName
   };
 
   public agreeInd: boolean = false;
@@ -47,8 +47,8 @@ export class EventComponent implements OnInit {
   ngOnInit() {
       this.eventForm = this.formBuilder.group({
         eventId: new FormControl(this.dataService.eventIdPass),
-        realName: new FormControl(sessionStorage.getItem('firstName') + " " + sessionStorage.getItem('lastName')),
-        facebookId: new FormControl(sessionStorage.getItem('facebookId'), [Validators.required]),
+        realName: new FormControl(this.dataService.userFull.firstName + " " + this.dataService.userFull.lastName),
+        facebookId: new FormControl(this.dataService.userFull.facebookId, [Validators.required]),
         cityNm: new FormControl('', [Validators.required]),
         stateCd: new FormControl('', [Validators.required])
       });
@@ -66,12 +66,12 @@ export class EventComponent implements OnInit {
         );
 
       //add real name default
-      if (sessionStorage.getItem('realName') != null) {
-        this.eventForm.patchValue({realName: sessionStorage.getItem('realName')});
+      if (this.dataService.userFull.realName != null) {
+        this.eventForm.patchValue({realName: this.dataService.userFull.realName});
       }
       
       //default us to Dallas, Tx
-      if (sessionStorage.getItem('stateCd') == null ) {
+      if (this.dataService.userFull.stateCode == null ) {
         this.eventForm.patchValue({stateCd: "TX"});
         this.dataService.getCity("TX").pipe(
           takeUntil(this.destroy$)).subscribe(result => { 
@@ -79,18 +79,18 @@ export class EventComponent implements OnInit {
           }
         );
       } else {
-        this.eventForm.patchValue({stateCd: sessionStorage.getItem('stateCd')});
-        this.dataService.getCity(sessionStorage.getItem('stateCd')).pipe(
+        this.eventForm.patchValue({stateCd: this.dataService.userFull.stateCode});
+        this.dataService.getCity(this.dataService.userFull.stateCode).pipe(
           takeUntil(this.destroy$)).subscribe(result => { 
             this.cities = result; 
           }
         );
       }
 
-      if (sessionStorage.getItem('cityNm') == null ) {
+      if (this.dataService.userFull.cityName == null ) {
         this.eventForm.patchValue({cityNm: "Dallas"});
       } else {
-        this.eventForm.patchValue({cityNm: sessionStorage.getItem('cityNm')});
+        this.eventForm.patchValue({cityNm: this.dataService.userFull.cityName});
       }
 
       this.onChanges();

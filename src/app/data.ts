@@ -23,7 +23,7 @@ export interface ClaimPrincipal {
   }
 
   export interface Timeslot {
-    Id: number;
+    id: number;
     eventStartTms: Date;
     eventEndTms: Date;
     eventSlotCnt: number;
@@ -33,30 +33,30 @@ export interface ClaimPrincipal {
   }
 
   export interface Signup {
-    fbId: string,
-    eventId: number,
-    cityNm: string,
-    stateCd: string,
-    realname: string,
+    fbId: string;
+    eventId: number;
+    cityNm: string;
+    stateCd: string;
+    realname: string;
     firstNm: string;
     lastNm: string;   
   }
 
   export interface StateList {
-    id: number,
-    stateCode: string,
-    stateName: string
-    usCities: string[]
+    id: number;
+    stateCode: string;
+    stateName: string;
+    usCities: string[];
   }
 
   export interface CityList {
-    id: number,
-    idState: number,
-    city: string,
-    county: string,
-    latitude: number,
-    longitude: number,
-    idStateNavigation: string
+    id: number;
+    idState: number;
+    city: string;
+    county: string;
+    latitude: number;
+    longitude: number;
+    idStateNavigation: string;
   }
 
   export interface ApiUser {
@@ -81,4 +81,17 @@ export interface ClaimPrincipal {
     facebookId: string;
   }
 
-
+  export interface UserEventSignup {
+    id: number;
+    userid: number;
+    firstNm: string;
+    lastNm: string;   
+    realNm: string;
+    cityNm: string;
+    stateCd: string;
+    timeslotId: number;
+    signupTms: Date;
+    attendNbr: number;
+    eventCnt: number;
+    banFlag: boolean;
+  }

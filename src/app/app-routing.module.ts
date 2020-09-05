@@ -9,21 +9,29 @@ import { AdminGuard } from './admin/admin.guard';
 import { AdminfutureComponent } from './admin/adminfuture/adminfuture.component';
 import { AdmintodayComponent } from './admin/admintoday/admintoday.component';
 import { AdminuserComponent } from './admin/adminuser/adminuser.component';
+import { CreateeventComponent } from './admin/createevent/createevent.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full'},
   { path: 'home', component: HomeComponent },
   { path: 'privacy', component: PrivacyComponent },
   { path: 'event', component: EventComponent },
-  { path: 'admin', component: AdminComponent, canActivateChild: [AdminGuard] , children: [{
+  { path: 'admin', component: AdminComponent, canActivate: [AdminGuard] , children: [{
     path: 'future',
-    component: AdminfutureComponent
+    component: AdminfutureComponent,
+    canActivate: [AdminGuard] 
   }, {
     path: 'today',
-    component: AdmintodayComponent
+    component: AdmintodayComponent,
+    canActivate: [AdminGuard] 
+  }, {
+    path: 'event',
+    component: CreateeventComponent,
+    canActivate: [AdminGuard] 
   }, {
     path: 'user',
-    component: AdminuserComponent
+    component: AdminuserComponent,
+    canActivate: [AdminGuard] 
   }
   ]},
 ];

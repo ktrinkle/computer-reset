@@ -4,7 +4,7 @@ import { map } from 'rxjs/operators';
 
 import { throwError, Observable, BehaviorSubject } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
-import { UserSmall, Timeslot, Signup, StateList, CityList, UserModel, ApiUser } from './data';
+import { UserSmall, Timeslot, Signup, StateList, CityList, UserModel, ApiUser, UserEventSignup } from './data';
 
 
 @Injectable({
@@ -14,7 +14,8 @@ export class DataService {
 
   public eventIdPass: number;
 
-  public userFull: UserModel;
+  public userFull: UserModel = {id: 0, firstName: null, lastName: null, cityName: null,
+    stateCode: null, realName: null, facebookId: null, adminFlag: false, volunteerFlag: false};
 
   private REST_API_SERVER = "https://computerresetliquidation.azurewebsites.net";
   //private REST_API_SERVER = "";
@@ -55,6 +56,11 @@ export class DataService {
       return this.httpClient.get(url);
     }
 
+    public getEventFuture(facebookId: string) {
+      var url = this.REST_API_SERVER + '/api/computerreset/api/events/show/upcoming/' + encodeURIComponent(facebookId) + '';
+      return this.httpClient.get(url);
+    }
+
     public getState(): any {
       var url = this.REST_API_SERVER + '/api/computerreset/api/ref/state';
       return this.httpClient.get(url);
@@ -68,7 +74,19 @@ export class DataService {
     public signupForEvent(eventReq: Signup): any {
       var url = this.REST_API_SERVER + '/api/computerreset/api/events/signup';
       return this.httpClient.post(url, eventReq, {responseType: 'text'});
+    }
 
+    public getSignedUpUsers(eventId: number, maxEvents: number, facebookId: string ): any {
+      var url = this.REST_API_SERVER + '/api/events/signedup/' + encodeURIComponent(eventId) + '/'
+      + encodeURIComponent(maxEvents) + '/' + encodeURIComponent(facebookId) + '';
+      return this.httpClient.get(url);
+    }
+
+    public sendUserSlot(id: number, attendNbr: number, facebookId: string): any {
+      var url = this.REST_API_SERVER + '/api/events/signedup/' + encodeURIComponent(id) + '/'
+      + encodeURIComponent(attendNbr) + '/' + encodeURIComponent(facebookId) + '';
+      return this.httpClient.put(url, {responseType: 'text'});
 
     }
+
 }

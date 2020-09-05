@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-admin',
@@ -7,9 +8,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AdminComponent implements OnInit {
 
-  constructor() { }
+  public links = [
+    { label: "Today's Event", path: 'today' },
+    { label: 'Future events', path: 'future' },
+    { label: 'Schedule Events', path: 'event'},
+    { label: 'User Management', path: 'user' },
+  ];
+
+  constructor( public router: Router) { }
 
   ngOnInit(): void {
+    this.router.navigate(['/admin/today']);
   }
 
 }
