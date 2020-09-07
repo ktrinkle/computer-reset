@@ -1,7 +1,9 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
 import { DataService } from '../../data.service';
 import { Timeslot, UserEventSignup } from '../../data';
-import { FormGroup, FormControl, Validators, FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, FormControl, Validators, FormBuilder, ReactiveFormsModule, FormArray } from '@angular/forms';
+import { MatSnackBar, MAT_SNACK_BAR_DATA } from '@angular/material/snack-bar';
+import { Subject } from 'rxjs';
 
 
 @Component({
@@ -15,13 +17,18 @@ export class AdminfutureComponent implements OnInit, OnDestroy {
   public eventId = 0;
   public eventTimeslotSelect: Timeslot;
   public eventSignedUp: UserEventSignup[];
-  public maxEvents: number = 1;
+  public maxEvents: number;
   public signupForm: FormGroup;
   public signupLimit: number = 0;
+  public selectedRowIndex = -1;
+  public loadStatus = false;
 
 
   constructor(private dataService: DataService, 
-    private formBuilder: FormBuilder) { }
+    private formBuilder: FormBuilder,
+    private _snackBar: MatSnackBar) { }
+
+    private readonly onDestroy = new Subject<void>();
 
   public pickEvent(selectEvent: number) {
     //test if number works
@@ -48,12 +55,17 @@ export class AdminfutureComponent implements OnInit, OnDestroy {
 
   }
 
+  get s() {
+    return this.signupForm.get('signupIds') as FormArray; 
+    }
+
   ngOnInit() {
 
+    this.maxEvents = 1;
+
     this.signupForm = this.formBuilder.group({
-      id: new FormControl(''),
       attendNbr: new FormControl(''),
-      maxEvents: new FormControl(this.maxEvents)
+      maxEvents: new FormControl(this.maxEvents, [Validators.pattern('[0-9]*')])
     });
 
     this.dataService.getEventFuture(this.dataService.userFull.facebookId)
@@ -63,27 +75,78 @@ export class AdminfutureComponent implements OnInit, OnDestroy {
 
   }
 
-  ngOnDestroy() { }
+  ngOnDestroy() { 
+    this.onDestroy.next();
+  }
 
-  pullEventSignedUp(eventTimeslot: Timeslot ) {
-    console.log("pull eventsignedup");
-    this.dataService.getSignedUpUsers(eventTimeslot.id, this.maxEvents, this.dataService.userFull.facebookId)
-      .subscribe((data: UserEventSignup[]) => this.eventSignedUp = data);
+  changeSignupEvent(event: any) {
+      //eventtimeslotselect is already filled out.
+      this.maxEvents = event.target.value;
+      this.pullEventSignedUp(this.eventTimeslotSelect);
 
   }
 
-  updateSignup(event: any) {
+  async pullEventSignedUp(eventTimeslot: Timeslot ) {
+    //console.log("pull eventsignedup");
+    this.loadStatus = false;
+    this.signupForm = null;
+    console.log(this.maxEvents);
+    //replace form
+    this.signupForm = this.formBuilder.group({
+      attendNbr: new FormControl(''),
+      maxEvents: new FormControl(this.maxEvents, [Validators.pattern('[0-9]*')])
+    });
+    //trying a promise
+    this.eventSignedUp = [];
+    const promise = this.dataService.getSignedUpUsers(eventTimeslot.id, this.maxEvents, this.dataService.userFull.facebookId)
+    .then((data: UserEventSignup[]) => {
+        // Success
+        data.map((event: UserEventSignup) => {
+          //console.log(event);
+          this.signupForm.addControl(event.id.toString(), new FormControl(event.attendNbr, [Validators.pattern('[0-9]*')]));
+
+          //console.log(this.signupForm);
+          this.eventSignedUp.push(event); //does this blend
+          //console.log(this.eventSignedUp);
+        });
+      Object.assign(this, data);
+    })
+    .then(() => this.loadStatus = true);
+  }
+
+  async updateSignup(event: any) {
     //parse out event
-    var attendNbr = event.target.value;
-    console.log(event);
-    
-    //formField: string, id: number, attendNbr: number
-    /*if (attendNbr > this.signupLimit || attendNbr < 0) {
+    var attendNbrTxt = event.target.value;
+    var attendNbr: number = parseInt(attendNbrTxt);
+    var id = event.target.id;
+
+    if ((attendNbr > this.signupLimit || attendNbr < 0)) {
       this.signupForm.value.formField = null;
-      return "This value was invalid, please try again."
+      this.openSnackBar("This value is invalid. Please try again.");
     } else {
-      return this.dataService.sendUserSlot(id, attendNbr, this.dataService.userFull.facebookId);
-    }*/
+      this.openSnackBar(await this.dataService.sendUserSlot(id, attendNbr, this.dataService.userFull.facebookId));
+    }
   }
 
+  highlight(row){
+      this.selectedRowIndex = row.id;
+  }
+
+  openSnackBar(displayText: string) {
+    this._snackBar.openFromComponent(AlertComponent, {
+      duration: 5000,
+      data: displayText
+    });
+  }
+
+}
+
+//this may need to be a new component
+@Component({
+  selector: 'app-adminfuture-snackbar',
+  templateUrl: './adminfuture.snackbar.html',
+  styleUrls: ['./adminfuture.component.scss']
+})
+export class AlertComponent {
+  constructor(@Inject(MAT_SNACK_BAR_DATA) public data: any) { }
 }
