@@ -61,6 +61,11 @@ export class DataService {
       return this.httpClient.get(url);
     }
 
+    public getEventCurrent(facebookId: string) {
+      var url = this.REST_API_SERVER + '/api/computerreset/api/events/show/dayof/' + encodeURIComponent(facebookId) + '';
+      return this.httpClient.get(url);
+    }
+
     public getState(): any {
       var url = this.REST_API_SERVER + '/api/computerreset/api/ref/state';
       return this.httpClient.get(url);
@@ -76,17 +81,22 @@ export class DataService {
       return this.httpClient.post(url, eventReq, {responseType: 'text'});
     }
 
-    public getSignedUpUsers(eventId: number, maxEvents: number, facebookId: string ): any {
-      var url = this.REST_API_SERVER + '/api/events/signedup/' + encodeURIComponent(eventId) + '/'
+    public getSignedUpUsers(eventId: number, maxEvents: number, facebookId: string ): Promise<UserEventSignup[]> {
+      var url = this.REST_API_SERVER + '/api/computerreset/api/events/signedup/' + encodeURIComponent(eventId) + '/'
       + encodeURIComponent(maxEvents) + '/' + encodeURIComponent(facebookId) + '';
-      return this.httpClient.get(url);
+      return this.httpClient.get<UserEventSignup[]>(url).toPromise();
     }
 
-    public sendUserSlot(id: number, attendNbr: number, facebookId: string): any {
-      var url = this.REST_API_SERVER + '/api/events/signedup/' + encodeURIComponent(id) + '/'
-      + encodeURIComponent(attendNbr) + '/' + encodeURIComponent(facebookId) + '';
-      return this.httpClient.put(url, {responseType: 'text'});
+    public getSignupDayOf(eventId: number, maxEvents: number, facebookId: string ): Promise<UserEventSignup[]> {
+      var url = this.REST_API_SERVER + '/api/computerreset/api/events/signedup/' + encodeURIComponent(eventId) + '/'
+      + encodeURIComponent(facebookId) + '';
+      return this.httpClient.get<UserEventSignup[]>(url).toPromise();
+    }
 
+    public async sendUserSlot(id: number, attendNbr: number, facebookId: string): Promise<string> {
+      var url = this.REST_API_SERVER + '/api/computerreset/api/events/signedup/' + encodeURIComponent(id) + '/'
+      + encodeURIComponent(attendNbr) + '/' + encodeURIComponent(facebookId) + '';
+      return this.httpClient.put(url, null, {responseType: 'text'}).toPromise();
     }
 
 }

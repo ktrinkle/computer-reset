@@ -1,1 +1,87 @@
-<p>admintoday works!</p>
+<div style="padding: 13px;">
+    <mat-card>
+      <mat-card-header>
+          <mat-card-title>Current Events</mat-card-title>
+      </mat-card-header>
+          <mat-card-content>
+              <mat-table [dataSource]="events">
+                  <!-- Date Definition -->
+                  <ng-container matColumnDef="eventDate">
+                    <mat-header-cell *matHeaderCellDef> Event Date </mat-header-cell>
+                    <mat-cell *matCellDef="let row"> {{row.eventStartTms | date:'fullDate'}} </mat-cell>
+                  </ng-container>
+                
+                  <!-- Start time Definition -->
+                  <ng-container matColumnDef="eventStart">
+                    <mat-header-cell *matHeaderCellDef> Start Time </mat-header-cell>
+                    <mat-cell *matCellDef="let row"> {{row.eventStartTms | date:'shortTime'}} </mat-cell>
+                  </ng-container>
+                
+                  <!-- Title Definition -->
+                  <ng-container matColumnDef="eventEnd">
+                    <mat-header-cell *matHeaderCellDef> End Time </mat-header-cell>
+                    <mat-cell *matCellDef="let row"> {{row.eventEndTms | date:'shortTime'}} </mat-cell>
+                  </ng-container>
+                
+                   <!-- Signup Definition -->
+                   <ng-container matColumnDef="manage">
+                    <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                    <mat-cell *matCellDef="let row"> <button mat-raised-button color="accent" (click)="pickEvent(row.id);">Manage</button></mat-cell>
+                  </ng-container>
+                  
+                  <!-- Header and Row Declarations -->
+                  <mat-header-row *matHeaderRowDef="['eventDate', 'eventStart', 'eventEnd', 'manage']"></mat-header-row>
+                  <mat-row *matRowDef="let row; columns: ['eventDate', 'eventStart', 'eventEnd', 'manage']"
+                  [ngClass]="{'highlight': selectedRowIndex == row.id}" (click)="highlight(row)"></mat-row>
+                </mat-table>
+          </mat-card-content>
+          <mat-card-actions>
+      </mat-card-actions>
+      </mat-card>
+
+      <div *ngIf="eventId != 0">
+        <form [formGroup]="signupForm">
+          <mat-spinner *ngIf="!loadStatus"></mat-spinner>
+          <mat-card style="margin-top:10px;" *ngIf="loadStatus">
+            <mat-card-header>
+                <mat-card-title>Signed up users</mat-card-title>
+                <mat-card-subtitle>{{eventTimeslotSelect.eventStartTms | date:'E M/d/yyyy h:mm a'}} - 
+                  {{eventTimeslotSelect.eventEndTms | date:'h:mm a'}}</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+    <!--new table-->
+    <mat-table [dataSource]="eventSignedUp" multiTemplateDataRows>
+      <!-- Signup Definition -->
+      <ng-container matColumnDef="id">
+        <mat-header-cell *matHeaderCellDef>ID</mat-header-cell>
+        <mat-cell *matCellDef="let row"> 
+           {{row.attendNbr}}
+        </mat-cell>
+      </ng-container>
+      
+      <ng-container matColumnDef="name">
+         <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
+         <mat-cell *matCellDef="let row"> 
+            {{row.realNm}}
+         </mat-cell>
+       </ng-container>
+    
+     <!-- Toggle, coming soon -->
+     <ng-container matColumnDef="attended">
+       <mat-header-cell *matHeaderCellDef> Attended </mat-header-cell>
+       <mat-cell *matCellDef="let row;">
+      </mat-cell>
+     </ng-container>
+     
+     <!-- Header and Row Declarations -->
+     <mat-header-row *matHeaderRowDef="['id', 'name', 'attended']"></mat-header-row>
+     <mat-row *matRowDef="let row; columns: ['id', 'name', 'attended']"></mat-row>
+    </mat-table>
+              </mat-card-content>
+            <mat-card-actions>
+        </mat-card-actions>
+        </mat-card>
+        </form>
+        </div>
+    
+  </div>
