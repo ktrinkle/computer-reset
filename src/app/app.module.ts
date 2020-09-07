@@ -36,6 +36,7 @@ import { AdmintodayComponent } from './admin/admintoday/admintoday.component';
 import { AdminuserComponent } from './admin/adminuser/adminuser.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { CreateeventComponent } from './admin/createevent/createevent.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 
 export function appInit(appConfigService: AppConfigService) {
@@ -83,6 +84,7 @@ export function appInitFb(appConfigService: AppConfigService) {
     MatSidenavModule,
     FlexLayoutModule,
     MatTabsModule,
+    MatSnackBarModule
     ],
     providers: [            
       // Http Interceptor(s) -  adds with Client Credentials
