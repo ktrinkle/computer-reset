@@ -13,10 +13,10 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { JwtInterceptor } from './httpinject.service';
 import { AppConfigService } from './app-config.service';
 
-import {MatInputModule} from '@angular/material/input';
-import {MatCheckboxModule} from '@angular/material/checkbox';
-import {MatDatepickerModule} from '@angular/material/datepicker';
-import {MatSelectModule} from '@angular/material/select';
+import { MatInputModule } from '@angular/material/input';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatSelectModule } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -28,7 +28,6 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatListModule } from '@angular/material/list';
 import { LoadingScreenComponent } from './loading-screen/loading-screen.component';
-import { MatGridListModule } from '@angular/material/grid-list';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { AdminfutureComponent } from './admin/adminfuture/adminfuture.component';
@@ -37,6 +36,7 @@ import { AdminuserComponent } from './admin/adminuser/adminuser.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { CreateeventComponent } from './admin/createevent/createevent.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 
 export function appInit(appConfigService: AppConfigService) {
@@ -80,11 +80,11 @@ export function appInitFb(appConfigService: AppConfigService) {
     MatSelectModule,
     MatListModule,
     ReactiveFormsModule,
-    MatGridListModule,
     MatSidenavModule,
     FlexLayoutModule,
     MatTabsModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatSlideToggleModule
     ],
     providers: [            
       // Http Interceptor(s) -  adds with Client Credentials

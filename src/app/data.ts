@@ -95,3 +95,15 @@ export interface ClaimPrincipal {
     eventCnt: number;
     banFlag: boolean;
   }
+
+  export interface UserEventDayOf {
+    id: number;
+    userid: number;
+    firstNm: string;
+    lastNm: string;   
+    realNm: string;
+    timeslotId: number;
+    attendInd: boolean;
+    attendNbr: number;
+    banFlag: boolean;
+  }

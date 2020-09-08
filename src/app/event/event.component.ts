@@ -2,7 +2,6 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { DataService } from '../data.service';
 import { Signup, StateList, CityList, Timeslot } from '../data';
 import { FormGroup, FormControl, Validators, FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { MatGridList } from '@angular/material/grid-list';
 import { MediaObserver } from '@angular/flex-layout';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
