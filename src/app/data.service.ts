@@ -4,7 +4,7 @@ import { map } from 'rxjs/operators';
 
 import { throwError, Observable, BehaviorSubject } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
-import { UserSmall, Timeslot, Signup, StateList, CityList, UserModel, ApiUser, UserEventSignup } from './data';
+import { UserSmall, Timeslot, Signup, StateList, CityList, UserModel, ApiUser, UserEventSignup, UserEventDayOf } from './data';
 
 
 @Injectable({
@@ -87,15 +87,21 @@ export class DataService {
       return this.httpClient.get<UserEventSignup[]>(url).toPromise();
     }
 
-    public getSignupDayOf(eventId: number, maxEvents: number, facebookId: string ): Promise<UserEventSignup[]> {
+    public getSignupDayOf(eventId: number, maxEvents: number, facebookId: string ): Promise<UserEventDayOf[]> {
       var url = this.REST_API_SERVER + '/api/computerreset/api/events/signedup/' + encodeURIComponent(eventId) + '/'
       + encodeURIComponent(facebookId) + '';
-      return this.httpClient.get<UserEventSignup[]>(url).toPromise();
+      return this.httpClient.get<UserEventDayOf[]>(url).toPromise();
     }
 
     public async sendUserSlot(id: number, attendNbr: number, facebookId: string): Promise<string> {
       var url = this.REST_API_SERVER + '/api/computerreset/api/events/signedup/' + encodeURIComponent(id) + '/'
       + encodeURIComponent(attendNbr) + '/' + encodeURIComponent(facebookId) + '';
+      return this.httpClient.put(url, null, {responseType: 'text'}).toPromise();
+    }
+
+    public async sendUserAttend(id: number, facebookId: string): Promise<string> {
+      var url = this.REST_API_SERVER + '/api/computerreset/api/events/attended/' + encodeURIComponent(id) + '/'
+      + encodeURIComponent(facebookId) + '';
       return this.httpClient.put(url, null, {responseType: 'text'}).toPromise();
     }
 
