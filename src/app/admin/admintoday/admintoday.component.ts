@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { DataService } from '../../data.service';
-import { Timeslot, UserEventSignup } from '../../data';
+import { Timeslot, UserEventDayOf } from '../../data';
 import { FormGroup, FormControl, Validators, FormBuilder, ReactiveFormsModule, FormArray } from '@angular/forms';
 import { Subject } from 'rxjs';
 
@@ -14,7 +14,7 @@ export class AdmintodayComponent implements OnInit, OnDestroy {
   public events: Timeslot[] = [];
   public eventId = 0;
   public eventTimeslotSelect: Timeslot;
-  public eventSignedUp: UserEventSignup[];
+  public eventSignedUp: UserEventDayOf[];
   public maxEvents: number;
   public signupForm: FormGroup;
   public signupLimit: number = 0;
@@ -41,20 +41,17 @@ export class AdmintodayComponent implements OnInit, OnDestroy {
     //console.log("pull eventsignedup");
     this.loadStatus = false;
     this.signupForm = null;
+    //reset form
+    this.signupForm = this.formBuilder.group({});
     console.log(this.maxEvents);
-    //replace form
-    this.signupForm = this.formBuilder.group({
-      attendNbr: new FormControl(''),
-      maxEvents: new FormControl(this.maxEvents, [Validators.pattern('[0-9]*')])
-    });
     //trying a promise
     this.eventSignedUp = [];
     const promise = this.dataService.getSignupDayOf(eventTimeslot.id, this.maxEvents, this.dataService.userFull.facebookId)
-    .then((data: UserEventSignup[]) => {
+    .then((data: UserEventDayOf[]) => {
         // Success
-        data.map((event: UserEventSignup) => {
+        data.map((event: UserEventDayOf) => {
           //console.log(event);
-          this.signupForm.addControl(event.id.toString(), new FormControl(event.attendNbr, [Validators.pattern('[0-9]*')]));
+          this.signupForm.addControl(event.id.toString(), new FormControl(event.attendInd ?? false));
 
           //console.log(this.signupForm);
           this.eventSignedUp.push(event); //does this blend
@@ -87,7 +84,15 @@ export class AdmintodayComponent implements OnInit, OnDestroy {
       this.signupLimit = 0;
     }
 
+  }
 
+  async updateSignup(event: any) {
+    //parse out event
+    var attendVal = event.source.checked;
+    var id = event.source.id;
+
+    var rtnTxt = await this.dataService.sendUserAttend(id, this.dataService.userFull.facebookId);
+    //we don't care about this value right now but may snackbar it
   }
 
 }
