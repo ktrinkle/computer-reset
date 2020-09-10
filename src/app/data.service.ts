@@ -66,6 +66,11 @@ export class DataService {
       return this.httpClient.get(url);
     }
 
+    public getEventPast(facebookId: string) {
+      var url = this.REST_API_SERVER + '/api/computerreset/api/events/show/past/' + encodeURIComponent(facebookId) + '';
+      return this.httpClient.get(url);
+    }
+
     public getState(): any {
       var url = this.REST_API_SERVER + '/api/computerreset/api/ref/state';
       return this.httpClient.get(url);
@@ -101,6 +106,12 @@ export class DataService {
 
     public async sendUserAttend(id: number, facebookId: string): Promise<string> {
       var url = this.REST_API_SERVER + '/api/computerreset/api/events/attended/' + encodeURIComponent(id) + '/'
+      + encodeURIComponent(facebookId) + '';
+      return this.httpClient.put(url, null, {responseType: 'text'}).toPromise();
+    }
+
+    public async changeEventState(id: number, facebookId: string): Promise<string> {
+      var url = this.REST_API_SERVER + '/api/computerreset/api/events/close/' + encodeURIComponent(id) + '/'
       + encodeURIComponent(facebookId) + '';
       return this.httpClient.put(url, null, {responseType: 'text'}).toPromise();
     }
