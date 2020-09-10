@@ -70,7 +70,7 @@
      <ng-container matColumnDef="attended">
        <mat-header-cell *matHeaderCellDef> Attended </mat-header-cell>
        <mat-cell *matCellDef="let row;">
-        <mat-slide-toggle [color]="Primary" id="{{row.id}}" name="{{row.id}}" formControlName="{{row.id}}" (change)="updateSignup($event)"></mat-slide-toggle>
+        <mat-slide-toggle color="accent" id="{{row.id}}" name="{{row.id}}" formControlName="{{row.id}}" (change)="updateSignup($event)"></mat-slide-toggle>
       </mat-cell>
      </ng-container>
      
