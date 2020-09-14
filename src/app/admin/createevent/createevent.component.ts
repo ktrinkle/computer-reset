@@ -4,6 +4,7 @@ import { Signup, StateList, CityList, Timeslot } from '../../data';
 import { FormGroup, FormControl, Validators, FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { MediaObserver } from '@angular/flex-layout';
 
 @Component({
   selector: 'app-createevent',

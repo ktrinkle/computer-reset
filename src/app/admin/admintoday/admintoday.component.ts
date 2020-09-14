@@ -3,6 +3,7 @@ import { DataService } from '../../data.service';
 import { Timeslot, UserEventDayOf } from '../../data';
 import { FormGroup, FormControl, Validators, FormBuilder, ReactiveFormsModule, FormArray } from '@angular/forms';
 import { Subject } from 'rxjs';
+import { MediaObserver } from '@angular/flex-layout';
 
 @Component({
   selector: 'app-admintoday',
