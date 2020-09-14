@@ -8,7 +8,10 @@
                   <!-- Date Definition -->
                   <ng-container matColumnDef="eventDate">
                     <mat-header-cell *matHeaderCellDef> Event Date </mat-header-cell>
-                    <mat-cell *matCellDef="let row"> {{row.eventStartTms | date:'fullDate'}} </mat-cell>
+                    <mat-cell *matCellDef="let row"> 
+                      <span fxShow fxHide.lt-md>{{row.eventStartTms | date:'fullDate'}}</span>
+                      <span fxHide fxShow.lt-md>{{row.eventStartTms | date:'shortDate'}}</span>
+                   </mat-cell>
                   </ng-container>
                 
                   <!-- Start time Definition -->
