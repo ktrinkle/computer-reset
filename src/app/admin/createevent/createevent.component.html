@@ -31,6 +31,7 @@
                   <ng-container matColumnDef="manage">
                     <mat-header-cell *matHeaderCellDef>Manage Event</mat-header-cell>
                     <mat-cell *matCellDef="let row"> 
+                      <button mat-raised-button color="primary" (click)="manageEvent(row.id);">Edit event</button>
                     </mat-cell>
                   </ng-container>
                   
@@ -58,22 +59,59 @@
           </mat-card-header>
           <mat-card-content>
               <form [formGroup]="newEventForm">
-                This will be the new event creation form.
-                <mat-form-field appearance="fill">
-                    <mat-label>Start Date and Time</mat-label>
-                    <input matInput id="eventStartTms" name="eventStartTms" [formControlName]="eventStartTms"">
-                  </mat-form-field>
+                <p>Enter your new or modified event information below.</p>
+                <div class="content" fxLayout="row wrap" fxLayoutGap="16px grid">
 
-                  <mat-form-field appearance="fill">
-                    <mat-label>End Date and Time</mat-label>
-                    <input matInput id="eventEndTms" name="eventEndTms" [formControlName]="eventEndTms"">
+                  <div fxFlex="33%" fxFlex.xs="100%" fxFlex.sm="100%" style="vertical-align: middle; min-height: 75px; padding: 10px;">
+                    <mat-form-field appearance="fill">
+                    <mat-label>Enter event date</mat-label>
+                    <input matInput [matDatepicker]="picker" id="eventDate" name="eventDate" formControlName="eventDate">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
                   </mat-form-field>
-
-                  <mat-form-field appearance="fill">
-                    <mat-label>Open Date and Time</mat-label>
-                    <input matInput id="eventOpenTms" name="eventOpenTms" [formControlName]="eventOpenTms"">
+                  </div>
+  
+                  <div fxFlex="33%" fxFlex.xs="100%" fxFlex.sm="100%" style="vertical-align: middle; min-height: 75px; padding: 10px;">
+                    <mat-form-field appearance="fill">
+                    <mat-label>Start Time</mat-label>
+                    <input matInput [ngxTimepicker]="startTm" id="startTm" name="startTm" formControlName="startTm">
+                    <ngx-material-timepicker #startTm>
+                      <ngx-timepicker-field [format]="24"></ngx-timepicker-field>
+                    </ngx-material-timepicker>
                   </mat-form-field>
+                  </div>
+  
+                  <div fxFlex="33%" fxFlex.xs="100%" fxFlex.sm="100%" style="vertical-align: middle; min-height: 75px; padding: 10px;">
+                    <mat-form-field appearance="fill">
+                    <mat-label>End Time</mat-label>
+                    <input matInput [ngxTimepicker]="endTm" id="endTm" name="endTm" formControlName="endTm">
+                    <ngx-material-timepicker #endTm>
+                      <ngx-timepicker-field [format]="24"></ngx-timepicker-field>
+                    </ngx-material-timepicker>
+                  </mat-form-field>
+                  </div>
+  
+                  <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="100%" style="vertical-align: middle; min-height: 75px; padding: 10px;">
+                    <mat-form-field appearance="fill">
+                    <mat-label>Enter open date</mat-label>
+                    <input matInput [matDatepicker]="openDate" id="openDate" name="openDate" formControlName="openDate">
+                    <mat-datepicker-toggle matSuffix [for]="openDate"></mat-datepicker-toggle>
+                    <mat-datepicker #openDate></mat-datepicker>
+                  </mat-form-field>
+                  </div>
 
+                  <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="100%" style="vertical-align: middle; min-height: 75px; padding: 10px;">
+                    <mat-form-field appearance="fill">
+                    <mat-label>Open Time</mat-label>
+                    <input matInput [ngxTimepicker]="openTm" id="openTm" name="openTm" formControlName="openTm">
+                    <ngx-material-timepicker #openTm>
+                      <ngx-timepicker-field [format]="24"></ngx-timepicker-field>
+                    </ngx-material-timepicker>
+                  </mat-form-field>
+                  </div>
+    
+
+                </div>
 
               </form>
           </mat-card-content>

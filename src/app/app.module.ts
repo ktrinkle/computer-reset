@@ -37,6 +37,8 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { CreateeventComponent } from './admin/createevent/createevent.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
+import { MatNativeDateModule, MatRippleModule } from '@angular/material/core';
 
 
 export function appInit(appConfigService: AppConfigService) {
@@ -84,7 +86,10 @@ export function appInitFb(appConfigService: AppConfigService) {
     FlexLayoutModule,
     MatTabsModule,
     MatSnackBarModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    NgxMaterialTimepickerModule,
+    MatNativeDateModule,
+    MatRippleModule
     ],
     providers: [            
       // Http Interceptor(s) -  adds with Client Credentials
