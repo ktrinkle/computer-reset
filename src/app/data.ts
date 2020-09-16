@@ -30,6 +30,7 @@ export interface ClaimPrincipal {
     eventOpenTms: Date;
     eventClosed: boolean;
     overbookCnt: number;
+    signupCnt: number;
   }
 
   export interface Signup {
