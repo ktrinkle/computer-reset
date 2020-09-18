@@ -39,6 +39,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { MatNativeDateModule, MatRippleModule } from '@angular/material/core';
+import { UserlistComponent } from './admin/userlist/userlist.component';
 
 
 export function appInit(appConfigService: AppConfigService) {
@@ -60,7 +61,8 @@ export function appInitFb(appConfigService: AppConfigService) {
     AdminfutureComponent,
     AdmintodayComponent,
     AdminuserComponent,
-    CreateeventComponent
+    CreateeventComponent,
+    UserlistComponent
   ],
   imports: [
     BrowserModule,

@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { map } from 'rxjs/operators';
-
 import { throwError, Observable, BehaviorSubject } from 'rxjs';
-import { retry, catchError } from 'rxjs/operators';
-import { UserSmall, Timeslot, Signup, StateList, CityList, UserModel, ApiUser, UserEventSignup, UserEventDayOf } from './data';
+import { map, retry, catchError } from 'rxjs/operators';
+import { UserSmall, Signup, UserModel, UserEventSignup, UserEventDayOf, UserEventNote } from './data';
 
 
 @Injectable({
@@ -49,6 +47,13 @@ export class DataService {
       var url = this.REST_API_SERVER + '/api/computerreset/api/users/attrib/';
       //console.log(this.userSmall);
       return this.httpClient.post(url, userReq);
+    }
+    
+    public updateUserNote(userNote: UserEventNote): any {
+      var url = this.REST_API_SERVER + '/api/computerreset/api/events/signup/note';
+      var apirtn = this.httpClient.post(url, userNote, {responseType: 'text'}).toPromise();
+      console.log(apirtn);
+      return apirtn;
     }
 
     public getEvent(){

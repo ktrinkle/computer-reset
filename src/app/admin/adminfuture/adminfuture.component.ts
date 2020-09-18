@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
 import { DataService } from '../../data.service';
-import { Timeslot, UserEventSignup } from '../../data';
+import { Timeslot, UserEventSignup, UserEventNote } from '../../data';
 import { FormGroup, FormControl, Validators, FormBuilder, ReactiveFormsModule, FormArray } from '@angular/forms';
 import { MatSnackBar, MAT_SNACK_BAR_DATA } from '@angular/material/snack-bar';
 import { Subject } from 'rxjs';
@@ -105,6 +105,7 @@ export class AdminfutureComponent implements OnInit, OnDestroy {
         data.map((event: UserEventSignup) => {
           //console.log(event);
           this.signupForm.addControl(event.id.toString(), new FormControl(event.attendNbr, [Validators.pattern('[0-9]*')]));
+          this.signupForm.addControl('signupTxt' + event.id.toString(), new FormControl(event.signupTxt));
 
           //console.log(this.signupForm);
           this.eventSignedUp.push(event); //does this blend
@@ -127,6 +128,24 @@ export class AdminfutureComponent implements OnInit, OnDestroy {
     } else {
       this.openSnackBar(await this.dataService.sendUserSlot(id, attendNbr, this.dataService.userFull.facebookId));
     }
+  }
+
+  updateSignupTxt(event: any) {
+    //parse out event
+    var signupId = event.target.id;
+    signupId = signupId.substring(9);
+    console.log(signupId);
+    var id: number = parseInt(signupId);
+    var val = event.target.value; //this is the string
+
+    const userNote:UserEventNote = {
+      id: id,
+      signupTxt: val,
+      fbId: this.dataService.userFull.facebookId
+    };
+
+    this.openSnackBar(this.dataService.updateUserNote(userNote));
+
   }
 
   highlight(row){
