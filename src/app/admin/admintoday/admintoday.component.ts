@@ -55,7 +55,7 @@ export class AdmintodayComponent implements OnInit, OnDestroy {
           this.signupForm.addControl(event.id.toString(), new FormControl(event.attendInd ?? false));
 
           //console.log(this.signupForm);
-          this.eventSignedUp.push(event); //does this blend
+          this.eventSignedUp.push(event);
           //console.log(this.eventSignedUp);
         });
       Object.assign(this, data);

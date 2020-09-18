@@ -95,8 +95,15 @@ export interface ClaimPrincipal {
     attendNbr: number;
     eventCnt: number;
     banFlag: boolean;
+    signupTxt: string;
   }
 
+  export interface UserEventNote {
+    id: number;
+    signupTxt: string;
+    fbId: string;
+  }
+  
   export interface UserEventDayOf {
     id: number;
     userid: number;
