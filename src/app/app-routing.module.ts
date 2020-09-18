@@ -10,6 +10,7 @@ import { AdminfutureComponent } from './admin/adminfuture/adminfuture.component'
 import { AdmintodayComponent } from './admin/admintoday/admintoday.component';
 import { AdminuserComponent } from './admin/adminuser/adminuser.component';
 import { CreateeventComponent } from './admin/createevent/createevent.component';
+import { UserlistComponent } from './admin/userlist/userlist.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -17,6 +18,10 @@ const routes: Routes = [
   { path: 'privacy', component: PrivacyComponent },
   { path: 'event', component: EventComponent },
   { path: 'admin', component: AdminComponent, canActivate: [AdminGuard] , children: [{
+    path: 'userlist',
+    component: UserlistComponent,
+    canActivate: [AdminGuard] 
+  },{
     path: 'future',
     component: AdminfutureComponent,
     canActivate: [AdminGuard] 
