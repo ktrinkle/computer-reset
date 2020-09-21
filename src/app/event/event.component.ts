@@ -56,7 +56,7 @@ export class EventComponent implements OnInit, OnDestroy {
       this.signUp.eventId = this.dataService.eventIdPass;
       this.dataService.eventIdPass = 0;
 
-      this.dataService.getEvent().subscribe((data: Timeslot[])=>{
+      this.dataService.getEvent(this.dataService.userFull.facebookId).subscribe((data: Timeslot[])=>{
         this.events = data;
       }) 
 
@@ -97,7 +97,7 @@ export class EventComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.dataService.getState().unsubscribe();
+
   }
 
   eventSubmit() {
@@ -139,7 +139,7 @@ export class EventComponent implements OnInit, OnDestroy {
   //onchange for state
 
   changeCityList(event) {
-    console.log("GetCity");
+    //console.log("GetCity");
     this.dataService.getCity(event.value).pipe(
       takeUntil(this.destroy$)).subscribe(result => { 
         this.cities = result; 
