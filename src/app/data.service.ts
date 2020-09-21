@@ -56,18 +56,13 @@ export class DataService {
       return apirtn;
     }
 
-    public getEvent(){
-      var url = this.REST_API_SERVER + '/api/computerreset/api/events/show/open';
+    public getEvent(facebookId: string){
+      var url = this.REST_API_SERVER + '/api/computerreset/api/events/show/open/' + encodeURIComponent(facebookId) + '';
       return this.httpClient.get(url);
     }
 
     public getEventFuture(facebookId: string) {
       var url = this.REST_API_SERVER + '/api/computerreset/api/events/show/upcoming/' + encodeURIComponent(facebookId) + '';
-      return this.httpClient.get(url);
-    }
-
-    public getEventCurrent(facebookId: string) {
-      var url = this.REST_API_SERVER + '/api/computerreset/api/events/show/dayof/' + encodeURIComponent(facebookId) + '';
       return this.httpClient.get(url);
     }
 

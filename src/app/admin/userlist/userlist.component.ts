@@ -74,7 +74,7 @@ async pullEventSignedUp(eventTimeslot: Timeslot ) {
       data.map((event: UserEventSignup) => {
         //console.log(event);
         if (event.attendNbr) {
-          this.eventSignedUp.push(event); //does this blend
+          this.eventSignedUp.push(event);
         }
         //console.log(this.eventSignedUp);
       });
