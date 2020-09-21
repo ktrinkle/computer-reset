@@ -52,7 +52,7 @@ export class AppConfigService {
       } else {
         this.dataService.userFull.firstName = 'Dev';
         this.dataService.userFull.lastName = 'Mode';
-        this.dataService.userFull.facebookId = '10158647029715050';
+        this.dataService.userFull.facebookId = '997';
       }
 
     return promise;

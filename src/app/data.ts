@@ -33,6 +33,14 @@ export interface ClaimPrincipal {
     signupCnt: number;
   }
 
+  export interface TimeslotSmall {
+    id: number;
+    eventStartTms: Date;
+    eventEndTms: Date;
+    userSlot: string;
+    eventClosed: boolean;
+  }
+
   export interface Signup {
     fbId: string;
     eventId: number;

@@ -29,7 +29,7 @@ export class AdmintodayComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
 
-    this.dataService.getEventCurrent(this.dataService.userFull.facebookId)
+    this.dataService.getEventFuture(this.dataService.userFull.facebookId)
       .subscribe((data: Timeslot[]) => { this.events = data });
 
   }
