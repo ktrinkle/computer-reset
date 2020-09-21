@@ -40,11 +40,11 @@ export class HomeComponent implements OnInit {
     this.dataService.getEvent(this.dataService.userFull.facebookId).subscribe({next: (data: TimeslotSmall[])=>{
       this.events = data;
     },
-    complete: () => {console.log('Done');
+    complete: () => {
       this.signedupEvents = this.events.filter(event => event.userSlot == "S");
       this.waitlist = this.events.filter(event => event.userSlot == "C");
-      console.log(this.waitlist);
-      console.log(this.signedupEvents);
+      //console.log(this.waitlist);
+      //console.log(this.signedupEvents);
       this.loadStatus = true;}});
 
     //console.log(this.dataService.userFull);
