@@ -36,13 +36,14 @@
           <div class="weathermessage"><mat-icon>warning</mat-icon>Events can be canceled at any time due to local weather conditions.</div>
       </mat-card-content>
     <mat-card-actions>
-      <p><button mat-raised-button color="primary" (click)="agreeClick();">I agree to these rules</button></p>
+      <p><button mat-raised-button color="primary" (click)="agreeClick();">I agree to these rules</button> <span *ngIf="agreeInd==true && loadStatus==false">Please wait for events to load.</span></p>
+      <p *ngIf="!loadStatus">Please wait for events to load</p>
     </mat-card-actions>
     </mat-card>
     <div *ngIf="agreeInd">
     <form [formGroup]="eventForm" (ngSubmit)="eventSubmit()">
-      <mat-spinner *ngIf="events.length === 0"></mat-spinner>
-      <mat-card style="margin-top:10px;">
+      <mat-spinner *ngIf="!loadStatus"></mat-spinner>
+      <mat-card style="margin-top:10px;" *ngIf="loadStatus">
         <mat-card-header>
             <mat-card-title>Upcoming events</mat-card-title>
             <mat-card-subtitle>These events are open for signup:</mat-card-subtitle>
@@ -50,7 +51,7 @@
         <mat-card-content>
 <!--new table-->
 <mat-radio-group id="eventId" name="eventId" required [(formGroup)]="eventForm" formControlName="eventId">
-<mat-table [dataSource]="events">
+<mat-table [dataSource]="events" multiTemplateDataRows>
   <!-- Signup Definition -->
   <ng-container matColumnDef="signup">
      <mat-header-cell *matHeaderCellDef></mat-header-cell>
@@ -78,10 +79,16 @@
    <mat-header-cell *matHeaderCellDef> End Time </mat-header-cell>
    <mat-cell *matCellDef="let row"> {{row.eventEndTms | date:'shortTime'}} </mat-cell>
  </ng-container>
- 
+
+<!-- Event note Definition -->
+<ng-container matColumnDef="eventNote">
+  <mat-cell *matCellDef="let row" class="mat-cell-indent"><span *ngIf="row.eventNote"><mat-icon>star</mat-icon> {{row.eventNote}} </span></mat-cell>
+</ng-container>
+
  <!-- Header and Row Declarations -->
  <mat-header-row *matHeaderRowDef="['signup', 'eventDate', 'eventStart', 'eventEnd']"></mat-header-row>
- <mat-row *matRowDef="let row; columns: ['signup', 'eventDate', 'eventStart', 'eventEnd']"></mat-row>
+ <mat-row *matRowDef="let row; columns: ['signup', 'eventDate', 'eventStart', 'eventEnd']" [ngClass]="{'mat-row1': row.eventNote !== null}"></mat-row>
+ <mat-row *matRowDef="let row; columns: ['eventNote'], when: isNoteRow" class="mat-row2"></mat-row>
 </mat-table>
 </mat-radio-group>
 <div class="content" fxLayout="row wrap" fxLayoutGap="16px grid">

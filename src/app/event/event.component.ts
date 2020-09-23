@@ -1,8 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { DataService } from '../data.service';
-import { Signup, StateList, CityList, Timeslot } from '../data';
+import { Signup, StateList, CityList, TimeslotSmall } from '../data';
 import { FormGroup, FormControl, Validators, FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { MediaObserver } from '@angular/flex-layout';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 
@@ -31,6 +30,7 @@ export class EventComponent implements OnInit, OnDestroy {
   public responseJson: string;
   public submitResult: string;
   public submitProcess: boolean = false;
+  public loadStatus: boolean = true;
 
   public agreeClick(): void {
     this.agreeInd = true;
@@ -56,10 +56,14 @@ export class EventComponent implements OnInit, OnDestroy {
       this.signUp.eventId = this.dataService.eventIdPass;
       this.dataService.eventIdPass = 0;
 
-      this.dataService.getEvent(this.dataService.userFull.facebookId).subscribe((data: Timeslot[])=>{
+      this.loadStatus = false;
+      this.dataService.getEvent(this.dataService.userFull.facebookId).subscribe({next: (data: TimeslotSmall[])=>{
         this.events = data;
-      }) 
-
+      },
+      complete: () => {
+        console.log(this.events);
+        this.loadStatus = true;}});
+  
       this.dataService.getState().subscribe(
         result => { this.states = result; }
         );
@@ -100,6 +104,8 @@ export class EventComponent implements OnInit, OnDestroy {
 
   }
 
+  isNoteRow = (index, item) => item.eventNote === null ? false: true;
+  
   eventSubmit() {
     //builds out signup object. We already have the first pieces.
     this.submitProcess = true;
