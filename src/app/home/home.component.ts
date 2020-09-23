@@ -31,6 +31,8 @@ export class HomeComponent implements OnInit {
 
   }
 
+  isNoteRow = (index, item) => item.eventNote === null ? false: true;
+
   ngOnInit() {
 
     //console.log("Home starting");

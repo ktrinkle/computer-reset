@@ -117,7 +117,7 @@
               <mat-card-subtitle>These events are open for signup. All times are shown in Dallas local time.</mat-card-subtitle>
           </mat-card-header>
           <mat-card-content>
-              <mat-table [dataSource]="events">
+              <mat-table [dataSource]="events" multiTemplateDataRows>
                   <!-- Date Definition -->
                   <ng-container matColumnDef="eventDate">
                     <mat-header-cell *matHeaderCellDef> Event Date </mat-header-cell>
@@ -149,9 +149,16 @@
 
                   </ng-container>
                   
+
+                  <!-- Event note Definition -->
+                  <ng-container matColumnDef="eventNote">
+                    <mat-cell *matCellDef="let row" class="mat-cell-indent" [hidden]="row?.eventNote !== ''"><span *ngIf="row.eventNote"><mat-icon>star</mat-icon> {{row.eventNote}} </span></mat-cell>
+                  </ng-container>
+
                   <!-- Header and Row Declarations -->
                   <mat-header-row *matHeaderRowDef="['eventDate', 'eventStart', 'eventEnd', 'signup']"></mat-header-row>
-                  <mat-row *matRowDef="let row; columns: ['eventDate', 'eventStart', 'eventEnd', 'signup']"></mat-row>
+                  <mat-row *matRowDef="let row; columns: ['eventDate', 'eventStart', 'eventEnd', 'signup']" [ngClass]="{'mat-row1': row.eventNote !== null}"></mat-row>
+                  <mat-row *matRowDef="let row; columns: ['eventNote'], when: isNoteRow" class="mat-row2"></mat-row>
                 </mat-table>
           </mat-card-content>
           <mat-card-actions>

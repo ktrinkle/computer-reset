@@ -31,6 +31,7 @@ export interface ClaimPrincipal {
     eventClosed: boolean;
     overbookCnt: number;
     signupCnt: number;
+    eventNote: string;
   }
 
   export interface TimeslotSmall {
@@ -39,6 +40,7 @@ export interface ClaimPrincipal {
     eventEndTms: Date;
     userSlot: string;
     eventClosed: boolean;
+    eventNote: string;
   }
 
   export interface Signup {
@@ -122,4 +124,6 @@ export interface ClaimPrincipal {
     attendInd: boolean;
     attendNbr: number;
     banFlag: boolean;
+    cityNm: string;
+    stateCd: string;
   }
