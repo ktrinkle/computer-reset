@@ -65,7 +65,8 @@
       <ng-container matColumnDef="name">
          <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
          <mat-cell *matCellDef="let row"> 
-            {{row.realNm}}
+            {{row.realNm}}<br/>
+            {{row.cityNm}}, {{row.stateCd}}
          </mat-cell>
        </ng-container>
     
