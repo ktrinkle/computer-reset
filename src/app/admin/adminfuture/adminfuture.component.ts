@@ -144,11 +144,10 @@ export class AdminfutureComponent implements OnInit, OnDestroy {
       fbId: this.dataService.userFull.facebookId
     };
 
-    var rtn = this.dataService.updateUserNote(userNote);
-    console.log(rtn);
-
-    this.openSnackBar(rtn.toString());
-
+    var rtn = this.dataService.updateUserNote(userNote).then(data => {
+      this.openSnackBar(data);
+      Object.assign(this, data.toString())
+    });
   }
 
   highlight(row){
