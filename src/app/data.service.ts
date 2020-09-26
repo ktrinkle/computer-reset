@@ -104,6 +104,12 @@ export class DataService {
       return this.httpClient.put(url, null, {responseType: 'text'}).toPromise();
     }
 
+    public async sendUserConfirm(id: number, facebookId: string): Promise<string> {
+      var url = this.REST_API_SERVER + '/api/computerreset/api/events/confirm/' + encodeURIComponent(id) + '/'
+      + encodeURIComponent(facebookId) + '';
+      return this.httpClient.put(url, null, {responseType: 'text'}).toPromise();
+    }
+    
     public async sendUserAttend(id: number, facebookId: string): Promise<string> {
       var url = this.REST_API_SERVER + '/api/computerreset/api/events/attended/' + encodeURIComponent(id) + '/'
       + encodeURIComponent(facebookId) + '';

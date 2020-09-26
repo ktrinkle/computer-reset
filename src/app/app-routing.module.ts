@@ -11,6 +11,7 @@ import { AdmintodayComponent } from './admin/admintoday/admintoday.component';
 import { AdminuserComponent } from './admin/adminuser/adminuser.component';
 import { CreateeventComponent } from './admin/createevent/createevent.component';
 import { UserlistComponent } from './admin/userlist/userlist.component';
+import { StandbyComponent } from './admin/standby/standby.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -28,6 +29,10 @@ const routes: Routes = [
   }, {
     path: 'today',
     component: AdmintodayComponent,
+    canActivate: [AdminGuard] 
+  }, {
+    path: 'standby',
+    component: StandbyComponent,
     canActivate: [AdminGuard] 
   }, {
     path: 'event',
