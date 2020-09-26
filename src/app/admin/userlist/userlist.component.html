@@ -43,7 +43,8 @@
       </mat-card>
 
       <div *ngIf="eventId != 0">
-         <mat-spinner *ngIf="!loadStatus"></mat-spinner>
+        <form [formGroup]="signupForm">
+          <mat-spinner *ngIf="!loadStatus"></mat-spinner>
           <mat-card style="margin-top:10px;" *ngIf="loadStatus">
             <mat-card-header>
                 <mat-card-title>Signed up users</mat-card-title>
@@ -77,32 +78,28 @@
        <ng-container matColumnDef="personLoc">
        <mat-header-cell *matHeaderCellDef> Location </mat-header-cell>
        <mat-cell *matCellDef="let row" class="mat-cell-row1">
-        {{row.cityNm}}, {{row.stateCd}}
+        {{row.cityNm}}, {{row.stateCd}}<br/>
+        {{row.signupTxt}}
           </mat-cell>
      </ng-container>
 
-     <!-- Input box -->
-     <ng-container matColumnDef="signupTxt">
-      <mat-header-cell *matHeaderCellDef> Signup Text </mat-header-cell>
-      <mat-cell *matCellDef="let row;" class="mat-cell-row2">
-          {{row.signupTxt}}
+     <!-- Toggle -->
+     <ng-container matColumnDef="confirmed">
+      <mat-header-cell *matHeaderCellDef> Confirmed </mat-header-cell>
+      <mat-cell *matCellDef="let row;">
+       <mat-slide-toggle color="accent" id="{{row.id}}" name="{{row.id}}" formControlName="{{row.id}}" (change)="updateSignup($event)"></mat-slide-toggle>
      </mat-cell>
     </ng-container>
-
-    <ng-container matColumnDef="standbyListLine">
-        <mat-cell *matCellDef="let row;" class="mat-cell-row2">
-           {{row.attendNbr}} Standby List is below this line:
-       </mat-cell>
-      </ng-container>
      
      <!-- Header and Row Declarations -->
-     <mat-header-row *matHeaderRowDef="['signupNbr', 'name', 'personLoc', 'signupTxt']"></mat-header-row>
-     <mat-row *matRowDef="let row; columns: ['signupNbr', 'name', 'personLoc', 'signupTxt']" class="mat-cell-row1"></mat-row>
+     <mat-header-row *matHeaderRowDef="['signupNbr', 'name', 'personLoc', 'confirmed']"></mat-header-row>
+     <mat-row *matRowDef="let row; columns: ['signupNbr', 'name', 'personLoc', 'confirmed']" class="mat-cell-row1"></mat-row>
     </mat-table>
               </mat-card-content>
             <mat-card-actions>
         </mat-card-actions>
         </mat-card>
+        </form>
         </div>
     
   </div>

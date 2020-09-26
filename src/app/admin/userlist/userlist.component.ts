@@ -1,6 +1,8 @@
 import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
 import { DataService } from '../../data.service';
-import { Timeslot, UserEventSignup, UserEventNote } from '../../data';
+import { Timeslot, UserEventSignup } from '../../data';
+import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
+
 import { Subject } from 'rxjs';
 
 @Component({
@@ -15,12 +17,14 @@ export class UserlistComponent implements OnInit, OnDestroy {
   public eventTimeslotSelect: Timeslot;
   public eventSignedUp: UserEventSignup[];
   public maxEvents: number = 999;
+  public signupForm: FormGroup;
   public signupLimit: number = 0;
   public selectedRowIndex = -1;
   public loadStatus = false;
   private readonly onDestroy = new Subject<void>();
   
-  constructor(private dataService: DataService) { }
+  constructor(private dataService: DataService,
+    private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
     this.dataService.getEventFuture(this.dataService.userFull.facebookId)
@@ -66,6 +70,9 @@ export class UserlistComponent implements OnInit, OnDestroy {
 async pullEventSignedUp(eventTimeslot: Timeslot ) {
   //console.log("pull eventsignedup");
   this.loadStatus = false;
+  this.signupForm = null;
+  //reset form
+  this.signupForm = this.formBuilder.group({});
   //trying a promise
   this.eventSignedUp = [];
   const promise = this.dataService.getSignedUpUsers(eventTimeslot.id, this.maxEvents, this.dataService.userFull.facebookId)
@@ -74,9 +81,10 @@ async pullEventSignedUp(eventTimeslot: Timeslot ) {
       data.map((event: UserEventSignup) => {
         //console.log(event);
         if (event.attendNbr) {
+          this.signupForm.addControl(event.id.toString(), new FormControl(event.confirmInd));  //defaults to false in DB
           this.eventSignedUp.push(event);
         }
-        //console.log(this.eventSignedUp);
+        console.log(this.eventSignedUp);
       });
     Object.assign(this, data);
   })
@@ -85,6 +93,15 @@ async pullEventSignedUp(eventTimeslot: Timeslot ) {
 
   highlight(row){
     this.selectedRowIndex = row.id;
+  }
+
+  async updateSignup(event: any) {
+    //parse out event
+    var attendVal = event.source.checked;
+    var id = event.source.id;
+
+    var rtnTxt = await this.dataService.sendUserConfirm(id, this.dataService.userFull.facebookId);
+    //we don't care about this value right now but may snackbar it
   }
 
 }

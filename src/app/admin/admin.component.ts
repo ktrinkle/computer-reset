@@ -10,8 +10,9 @@ export class AdminComponent implements OnInit {
 
   public links = [
     { label: "Today's Event", path: 'today' },
-    { label: 'Users with slots', path: 'userlist'},
-    { label: 'Future events', path: 'future' },
+    { label: 'Confirm attendees', path: 'userlist'},
+    { label: 'Select attendees', path: 'future' },
+    { label: 'Process standbys', path: 'standby'},
     { label: 'Schedule Events', path: 'event'},
     { label: 'User Management', path: 'user' },
   ];
