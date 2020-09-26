@@ -44,7 +44,7 @@ export class AdmintodayComponent implements OnInit, OnDestroy {
     this.signupForm = null;
     //reset form
     this.signupForm = this.formBuilder.group({});
-    console.log(this.maxEvents);
+    //console.log(this.maxEvents);
     //trying a promise
     this.eventSignedUp = [];
     const promise = this.dataService.getSignupDayOf(eventTimeslot.id, this.maxEvents, this.dataService.userFull.facebookId)

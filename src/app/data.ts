@@ -106,6 +106,7 @@ export interface ClaimPrincipal {
     eventCnt: number;
     banFlag: boolean;
     signupTxt: string;
+    confirmInd: boolean;
   }
 
   export interface UserEventNote {
@@ -126,4 +127,5 @@ export interface ClaimPrincipal {
     banFlag: boolean;
     cityNm: string;
     stateCd: string;
+    confirmInd: boolean;
   }

@@ -58,7 +58,12 @@
       <ng-container matColumnDef="id">
         <mat-header-cell *matHeaderCellDef>ID</mat-header-cell>
         <mat-cell *matCellDef="let row"> 
-           {{row.attendNbr}}
+           <div *ngIf="row.attendNbr <= eventTimeslotSelect.eventSlotCnt">
+            {{row.attendNbr}}
+        </div>
+        <div *ngIf="row.attendNbr > eventTimeslotSelect.eventSlotCnt">
+        Standby: {{row.attendNbr - eventTimeslotSelect.eventSlotCnt}}
+        </div>
         </mat-cell>
       </ng-container>
       
@@ -70,7 +75,7 @@
          </mat-cell>
        </ng-container>
     
-     <!-- Toggle, coming soon -->
+     <!-- Toggle -->
      <ng-container matColumnDef="attended">
        <mat-header-cell *matHeaderCellDef> Attended </mat-header-cell>
        <mat-cell *matCellDef="let row;">
