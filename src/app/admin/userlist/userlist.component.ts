@@ -84,7 +84,7 @@ async pullEventSignedUp(eventTimeslot: Timeslot ) {
           this.signupForm.addControl(event.id.toString(), new FormControl(event.confirmInd));  //defaults to false in DB
           this.eventSignedUp.push(event);
         }
-        console.log(this.eventSignedUp);
+        //console.log(this.eventSignedUp);
       });
     Object.assign(this, data);
   })
