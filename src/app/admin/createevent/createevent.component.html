@@ -56,17 +56,18 @@
       </mat-card>
       <mat-card>
           <mat-card-header>
-              <mat-card-title>Create a New Event</mat-card-title>
+              <mat-card-title>Create or Update an Event</mat-card-title>
           </mat-card-header>
-          <mat-card-content>
-              <form [formGroup]="newEventForm">
-                <p>Enter your new or modified event information below.</p>
+              <form [formGroup]="newEventForm" (ngSubmit)="eventSubmit()">
+                <mat-card-content>
+                  <p><button mat-raised-button (click)="newEventForm.reset()">Clear form</button></p>
+                  <p>Enter your new or modified event information below.</p>
                 <div class="content" fxLayout="row wrap" fxLayoutGap="16px grid">
 
                   <div fxFlex="33%" fxFlex.xs="100%" fxFlex.sm="100%" style="vertical-align: middle; min-height: 75px; padding: 10px;">
                     <mat-form-field appearance="fill">
                     <mat-label>Enter event date</mat-label>
-                    <input matInput [matDatepicker]="picker" id="eventDate" name="eventDate" formControlName="eventDate">
+                    <input matInput [matDatepicker]="picker" id="eventDate" name="eventDate" formControlName="eventDate" type="date">
                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-datepicker #picker></mat-datepicker>
                   </mat-form-field>
@@ -75,7 +76,7 @@
                   <div fxFlex="33%" fxFlex.xs="100%" fxFlex.sm="100%" style="vertical-align: middle; min-height: 75px; padding: 10px;">
                     <mat-form-field appearance="fill">
                     <mat-label>Start Time</mat-label>
-                    <input matInput [ngxTimepicker]="startTm" id="startTm" name="startTm" formControlName="startTm">
+                    <input matInput [ngxTimepicker]="startTm" id="startTm" name="startTm" formControlName="startTm" type="datetime-local">
                     <ngx-material-timepicker #startTm>
                       <ngx-timepicker-field [format]="24"></ngx-timepicker-field>
                     </ngx-material-timepicker>
@@ -85,7 +86,7 @@
                   <div fxFlex="33%" fxFlex.xs="100%" fxFlex.sm="100%" style="vertical-align: middle; min-height: 75px; padding: 10px;">
                     <mat-form-field appearance="fill">
                     <mat-label>End Time</mat-label>
-                    <input matInput [ngxTimepicker]="endTm" id="endTm" name="endTm" formControlName="endTm">
+                    <input matInput [ngxTimepicker]="endTm" id="endTm" name="endTm" formControlName="endTm" type="datetime-local">
                     <ngx-material-timepicker #endTm>
                       <ngx-timepicker-field [format]="24"></ngx-timepicker-field>
                     </ngx-material-timepicker>
@@ -95,7 +96,7 @@
                   <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="100%" style="vertical-align: middle; min-height: 75px; padding: 10px;">
                     <mat-form-field appearance="fill">
                     <mat-label>Enter open date</mat-label>
-                    <input matInput [matDatepicker]="openDate" id="openDate" name="openDate" formControlName="openDate">
+                    <input matInput [matDatepicker]="openDate" id="openDate" name="openDate" formControlName="openDate" type="date">
                     <mat-datepicker-toggle matSuffix [for]="openDate"></mat-datepicker-toggle>
                     <mat-datepicker #openDate></mat-datepicker>
                   </mat-form-field>
@@ -104,18 +105,63 @@
                   <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="100%" style="vertical-align: middle; min-height: 75px; padding: 10px;">
                     <mat-form-field appearance="fill">
                     <mat-label>Open Time</mat-label>
-                    <input matInput [ngxTimepicker]="openTm" id="openTm" name="openTm" formControlName="openTm">
+                    <input matInput [ngxTimepicker]="openTm" id="openTm" name="openTm" formControlName="openTm" type="datetime-local">
                     <ngx-material-timepicker #openTm>
                       <ngx-timepicker-field [format]="24"></ngx-timepicker-field>
                     </ngx-material-timepicker>
                   </mat-form-field>
                   </div>
-    
 
-                </div>
+                  <div fxFlex="33%" fxFlex.xs="100%" fxFlex.sm="100%" style="vertical-align: middle; min-height: 75px; padding: 10px;">
+                    <mat-form-field appearance="fill">
+                    <mat-label>Number of attendees</mat-label>
+                    <input matInput id="eventSlotCnt" name="eventSlotCnt" formControlName="eventSlotCnt" type="number">
+                    <mat-hint>Enter the number of attendees allowed to be in the warehouse.</mat-hint>
+                  </mat-form-field>
+                </div>    
 
-              </form>
+                <div fxFlex="33%" fxFlex.xs="100%" fxFlex.sm="100%" style="vertical-align: middle; min-height: 75px; padding: 10px;">
+                  <mat-form-field appearance="fill">
+                  <mat-label>Number of standbys</mat-label>
+                  <input matInput id="overbookCnt" name="overbookCnt" formControlName="overbookCnt" type="number">
+                  <mat-hint>Enter the number of attendees that we will support as standbys.</mat-hint>
+                </mat-form-field>
+              </div>  
+
+              <div fxFlex="33%" fxFlex.xs="100%" fxFlex.sm="100%" style="vertical-align: middle; min-height: 75px; padding: 10px;">
+                <mat-form-field appearance="fill">
+                <mat-label>Number of reservations</mat-label>
+                <input matInput id="signupCnt" name="signupCnt" formControlName="signupCnt" type="number">
+                <mat-hint>Enter the number of signups that we will accept for this event. This should be
+                  more than the signups and standbys, and allow for people who have been to the warehouse.
+                </mat-hint>
+              </mat-form-field>
+            </div> 
+
+            <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="100%" style="vertical-align: middle; min-height: 75px; padding: 10px;">
+              <mat-form-field appearance="fill">
+              <mat-label>Event Message</mat-label>
+              <input matInput id="eventNote" name="eventNote" formControlName="eventNote" type="text">
+              <mat-hint>Optional note for this event. This will be displayed to end users.
+              </mat-hint>
+            </mat-form-field>
+          </div> 
+
+          <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="100%" style="vertical-align: middle; min-height: 75px; padding: 10px;">
+            <mat-slide-toggle color="primary" id="privateEventInd" name="privateEventInd" formControlName="privateEventInd">Private event</mat-slide-toggle>
+            <mat-hint>Hide this event from users who log into the system. </mat-hint>
+        </div>
+
+        <div style="clear: all; padding: 10px;">&nbsp;</div>
+        <div class="confirmmessage" *ngIf="submitResult">{{submitResult}}</div>
+                </div>          
           </mat-card-content>
+          <mat-card-actions>
+            <button mat-raised-button color="primary" type="submit" [disabled]="(!newEventForm.valid || submitProcess)">Process event</button>
+            <div *ngIf="submitProcess">Please wait for your event to process.</div>
+      </mat-card-actions>
+  
+        </form>
       </mat-card>
 
       </div>
