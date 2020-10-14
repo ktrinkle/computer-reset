@@ -32,6 +32,8 @@ export interface ClaimPrincipal {
     overbookCnt: number;
     signupCnt: number;
     eventNote: string;
+    privateEventInd: boolean;
+    facebookId?: string;
   }
 
   export interface TimeslotSmall {

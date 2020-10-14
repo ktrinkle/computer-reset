@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { throwError, Observable, BehaviorSubject } from 'rxjs';
 import { map, retry, catchError } from 'rxjs/operators';
-import { UserSmall, Signup, UserModel, UserEventSignup, UserEventDayOf, UserEventNote } from './data';
+import { UserSmall, Signup, UserModel, UserEventSignup, UserEventDayOf, UserEventNote, Timeslot } from './data';
 
 
 @Injectable({
@@ -86,6 +86,11 @@ export class DataService {
       return this.httpClient.post(url, eventReq, {responseType: 'text'});
     }
 
+    public updateEvent(eventInfo: Timeslot): any {
+      var url = this.REST_API_SERVER + '/api/computerreset/api/events/create';
+      return this.httpClient.post(url, eventInfo, {responseType : 'text'});
+    }
+
     public getSignedUpUsers(eventId: number, maxEvents: number, facebookId: string ): Promise<UserEventSignup[]> {
       var url = this.REST_API_SERVER + '/api/computerreset/api/events/signedup/' + encodeURIComponent(eventId) + '/'
       + encodeURIComponent(maxEvents) + '/' + encodeURIComponent(facebookId) + '';
@@ -118,6 +123,12 @@ export class DataService {
 
     public async changeEventState(id: number, facebookId: string): Promise<string> {
       var url = this.REST_API_SERVER + '/api/computerreset/api/events/close/' + encodeURIComponent(id) + '/'
+      + encodeURIComponent(facebookId) + '';
+      return this.httpClient.put(url, null, {responseType: 'text'}).toPromise();
+    }
+
+    public async changePrivateState(id: number, facebookId: string): Promise<string> {
+      var url = this.REST_API_SERVER + '/api/computerreset/api/events/private/' + encodeURIComponent(id) + '/'
       + encodeURIComponent(facebookId) + '';
       return this.httpClient.put(url, null, {responseType: 'text'}).toPromise();
     }
