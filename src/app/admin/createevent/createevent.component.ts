@@ -90,20 +90,15 @@ export class CreateeventComponent implements OnInit, OnDestroy {
     
     //this will fail
     var eventStartTms = parse(startTm, "yyyy-MM-dd h:mm aa", new Date());
-    var eventEndTms = endTm;
-
-    console.log(eventStartTms);
-    console.log(typeof(eventStartTms));
-    console.log(eventEndTms);
+    var eventEndTms = parse(endTm, "yyyy-MM-dd h:mm aa", new Date());
 
     this.eventTimeslotSelect.eventStartTms = eventStartTms;
     this.eventTimeslotSelect.eventEndTms = new Date(eventEndTms);
 
     var openDt = this.datePipe.transform(this.newEventForm.value.openDate, 'yyyy-MM-dd');
     var openTm = openDt + ' ' + this.newEventForm.value.openTm;
-    //var openTm = this.datePipe.transform(this.newEventForm.value.openTm, 'THH:mm:ss.sssZ');
 
-    var eventOpenTms = openTm;
+    var eventOpenTms = parse(openTm, "yyyy-MM-dd h:mm aa", new Date());
     this.eventTimeslotSelect.eventOpenTms = new Date(eventOpenTms);
 
     this.eventTimeslotSelect.eventSlotCnt = this.newEventForm.value.eventSlotCnt;
