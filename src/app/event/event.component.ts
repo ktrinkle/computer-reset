@@ -61,7 +61,7 @@ export class EventComponent implements OnInit, OnDestroy {
         this.events = data;
       },
       complete: () => {
-        console.log(this.events);
+        //console.log(this.events);
         this.loadStatus = true;}});
   
       this.dataService.getState().subscribe(

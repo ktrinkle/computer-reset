@@ -16,7 +16,7 @@ export class AppConfigService {
 
   load() :Promise<any>  {
 
-    console.log('Initializing app');
+    //console.log('Initializing app');
     const promise = this.authenticationService.loginApi('byronpcjr','IdSFaWr7*@[')
       .toPromise()
       .then(data => {
