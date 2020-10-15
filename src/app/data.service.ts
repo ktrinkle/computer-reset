@@ -3,8 +3,6 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { throwError, Observable, BehaviorSubject } from 'rxjs';
 import { map, retry, catchError } from 'rxjs/operators';
 import { UserSmall, Signup, UserModel, UserEventSignup, UserEventDayOf, UserEventNote, Timeslot } from './data';
-import 'date-fns-tz';
-import { utcToZonedTime } from 'date-fns-tz';
 
 
 @Injectable({
@@ -54,20 +52,14 @@ export class DataService {
     public updateUserNote(userNote: UserEventNote): any {
       var url = this.REST_API_SERVER + '/api/computerreset/api/events/signup/note';
       var apirtn = this.httpClient.post(url, userNote, {responseType: 'text'}).toPromise();
-      console.log(apirtn);
+      //console.log(apirtn);
       return apirtn;
     }
 
     //modified to show in DFW local at all times
     public getEvent(facebookId: string){
       var url = this.REST_API_SERVER + '/api/computerreset/api/events/show/open/' + encodeURIComponent(facebookId) + '';
-      return this.httpClient.get(url).pipe(
-        map((response: any) => {
-          response.eventStartTms = utcToZonedTime(response.eventStartTms, 'America/Chicago');
-          response.eventEndTms = utcToZonedTime(response.eventEndTms, 'America/Chicago');
-          return response; 
-        })
-      );;
+      return this.httpClient.get(url);
     }
 
     public getEventFuture(facebookId: string) {

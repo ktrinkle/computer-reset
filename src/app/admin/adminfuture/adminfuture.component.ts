@@ -134,7 +134,7 @@ export class AdminfutureComponent implements OnInit, OnDestroy {
     //parse out event
     var signupId = event.target.id;
     signupId = signupId.substring(9);
-    console.log(signupId);
+    //console.log(signupId);
     var id: number = parseInt(signupId);
     var val = event.target.value; //this is the string
 

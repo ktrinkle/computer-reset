@@ -2,10 +2,9 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { DataService } from '../data.service';
 import { Signup, StateList, CityList, TimeslotSmall } from '../data';
 import { FormGroup, FormControl, Validators, FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { takeUntil } from 'rxjs/operators';
+import { map, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-
-
+import { utcToZonedTime } from 'date-fns-tz';
 
 @Component({
   selector: 'app-event',
@@ -58,6 +57,10 @@ export class EventComponent implements OnInit, OnDestroy {
 
       this.loadStatus = false;
       this.dataService.getEvent(this.dataService.userFull.facebookId).subscribe({next: (data: TimeslotSmall[])=>{
+        map((ts: TimeslotSmall) => {
+          ts.eventStartTms = utcToZonedTime(ts.eventStartTms, 'America/Chicago');
+          ts.eventEndTms = utcToZonedTime(ts.eventStartTms, 'America/Chicago');
+        });
         this.events = data;
       },
       complete: () => {
