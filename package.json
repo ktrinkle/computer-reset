@@ -27,7 +27,7 @@
     "date-fns": "^2.16.1",
     "date-fns-tz": "^1.0.12",
     "ngx-material-timepicker": "^5.5.3",
-    "rxjs": "~6.5.5",
+    "rxjs": "~6.6.3",
     "service": "^0.1.4",
     "tslib": "^2.0.3",
     "zone.js": "~0.10.3"
