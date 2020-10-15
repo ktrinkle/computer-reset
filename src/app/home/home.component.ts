@@ -42,19 +42,17 @@ export class HomeComponent implements OnInit {
     this.fullName = this.dataService.userFull.firstName + " " + this.dataService.userFull.lastName;
 
     this.dataService.getEvent(this.dataService.userFull.facebookId).subscribe({next: (data: TimeslotSmall[])=>{
-      map((ts: TimeslotSmall) => {
-        ts.eventStartTms = utcToZonedTime(ts.eventStartTms, 'America/Chicago');
-        ts.eventEndTms = utcToZonedTime(ts.eventStartTms, 'America/Chicago');
-      });
-      this.events = data;    },
+      this.events = data;    
+      this.events.forEach((event, index) => {
+        event.eventStartTms = utcToZonedTime(event.eventStartTms, 'America/Chicago');
+        event.eventEndTms = utcToZonedTime(event.eventEndTms, 'America/Chicago');
+        this.events[index] = event; 
+      })
+    },
     complete: () => {
       this.signedupEvents = this.events.filter(event => event.userSlot == "S");
       this.waitlist = this.events.filter(event => event.userSlot == "C");
-      //console.log(this.waitlist);
-      //console.log(this.signedupEvents);
       this.loadStatus = true;}});
-
-    //console.log(this.dataService.userFull);
 
   }
 
