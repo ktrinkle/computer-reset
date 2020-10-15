@@ -57,11 +57,13 @@ export class EventComponent implements OnInit, OnDestroy {
 
       this.loadStatus = false;
       this.dataService.getEvent(this.dataService.userFull.facebookId).subscribe({next: (data: TimeslotSmall[])=>{
-        map((ts: TimeslotSmall) => {
-          ts.eventStartTms = utcToZonedTime(ts.eventStartTms, 'America/Chicago');
-          ts.eventEndTms = utcToZonedTime(ts.eventStartTms, 'America/Chicago');
-        });
         this.events = data;
+        this.events.forEach(event => {
+          event.eventStartTms = utcToZonedTime(event.eventStartTms, 'America/Chicago');
+          event.eventEndTms = utcToZonedTime(event.eventEndTms, 'America/Chicago');
+          this.events[event] = event;  //not sure if this works
+        });
+        
       },
       complete: () => {
         //console.log(this.events);
