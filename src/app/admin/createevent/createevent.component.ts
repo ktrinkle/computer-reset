@@ -3,9 +3,9 @@ import { DataService } from '../../data.service';
 import { Timeslot } from '../../data';
 import { FormGroup, FormControl, Validators, FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, map } from 'rxjs/operators';
 import { DatePipe } from '@angular/common';
-import { parse } from 'date-fns';
+import { format, parse } from 'date-fns';
 
 @Component({
   selector: 'app-createevent',
@@ -25,6 +25,7 @@ export class CreateeventComponent implements OnInit, OnDestroy {
   public loadStatus = false;
   public submitResult: string;
   public submitProcess: boolean = false;
+  public selectEventId = 0;
   private readonly onDestroy = new Subject<void>();
 
   destroy$: Subject<void> = new Subject<void>();
@@ -54,13 +55,13 @@ export class CreateeventComponent implements OnInit, OnDestroy {
     //We shall see if this works ok. Promise would be bad since we want new events to show
     this.dataService.getEventFuture(this.dataService.userFull.facebookId).pipe(
       takeUntil(this.destroy$)).subscribe((data: Timeslot[]) => { 
-        (event: Timeslot) => {
-          this.currEvents.addControl(event.id.toString(), new FormControl(event.eventClosed));
-        }
         this.events = data;
+        this.events.forEach(event => {
+          this.currEvents.addControl(event.id.toString(), new FormControl(event.eventClosed));
+          this.currEvents.addControl('pvt' + event.id.toString(), new FormControl(event.privateEventInd));
+        });
         console.log(this.currEvents);
        });
-
 
   }
 
@@ -113,7 +114,7 @@ export class CreateeventComponent implements OnInit, OnDestroy {
 
     this.eventTimeslotSelect.facebookId = this.dataService.userFull.facebookId;
 
-    console.log(this.eventTimeslotSelect);
+    //console.log(this.eventTimeslotSelect);
 
     //final checks. This is in case of form hacking.
     if (!this.eventTimeslotSelect.eventStartTms) {
@@ -145,26 +146,28 @@ export class CreateeventComponent implements OnInit, OnDestroy {
 
   async changePrivateState(event: any) {
     //parse out event
-    var openInd = event.source.checked;
-    var id = event.source.id;
 
-    var rtnTxt = await this.dataService.changeEventState(id, this.dataService.userFull.facebookId);
+    var privateId = event.source.id;
+    privateId = privateId.substring(3);
+    //console.log(signupId);
+    var id: number = parseInt(privateId);
+    var openInd = event.source.checked;
+
+    var rtnTxt = await this.dataService.changePrivateState(id, this.dataService.userFull.facebookId);
     //we don't care about this value right now but may snackbar it    
 }
 
   manageEvent(eventId: number) {
     //takes current event and loads to form
 
-    console.log(this.events);
-    console.log(eventId);
     const selEvent = this.events.find(event => event.id == eventId);
-    console.log(selEvent);
+    this.selectEventId = eventId;
     this.newEventForm.setValue({
       eventDate: selEvent.eventStartTms,
-      startTm: selEvent.eventStartTms,
-      endTm: selEvent.eventEndTms,
+      startTm: (format(new Date(selEvent.eventStartTms), 'h:mm a')),
+      endTm: (format(new Date(selEvent.eventEndTms), 'h:mm a')),
       openDate: selEvent.eventOpenTms,
-      openTm: selEvent.eventOpenTms,
+      openTm: (format(new Date(selEvent.eventOpenTms), 'h:mm a')),
       eventSlotCnt: selEvent.eventSlotCnt,
       overbookCnt: selEvent.overbookCnt,
       signupCnt: selEvent.signupCnt,

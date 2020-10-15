@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { DataService } from '../data.service';
 import { Router } from '@angular/router';
 import { TimeslotSmall } from '../data';
+import { map } from 'rxjs/operators';
+import { utcToZonedTime } from 'date-fns-tz';
 
 @Component({
   selector: 'app-home',
@@ -40,8 +42,11 @@ export class HomeComponent implements OnInit {
     this.fullName = this.dataService.userFull.firstName + " " + this.dataService.userFull.lastName;
 
     this.dataService.getEvent(this.dataService.userFull.facebookId).subscribe({next: (data: TimeslotSmall[])=>{
-      this.events = data;
-    },
+      map((ts: TimeslotSmall) => {
+        ts.eventStartTms = utcToZonedTime(ts.eventStartTms, 'America/Chicago');
+        ts.eventEndTms = utcToZonedTime(ts.eventStartTms, 'America/Chicago');
+      });
+      this.events = data;    },
     complete: () => {
       this.signedupEvents = this.events.filter(event => event.userSlot == "S");
       this.waitlist = this.events.filter(event => event.userSlot == "C");

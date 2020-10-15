@@ -2,11 +2,11 @@
     <mat-card>
       <mat-card-header>
           <mat-card-title>Future Events</mat-card-title>
-          <mat-card-subtitle>This page is a work in progress and not yet functional.</mat-card-subtitle>
+          <mat-card-subtitle>Select an event to manage it.</mat-card-subtitle>
       </mat-card-header>
           <mat-card-content>
             <form [formGroup]="currEvents">
-              <mat-table [dataSource]="events">
+              <mat-table [dataSource]="events" multiTemplateDataRows>
                   <!-- Date Definition -->
                   <ng-container matColumnDef="eventDate">
                     <mat-header-cell *matHeaderCellDef> Event Date </mat-header-cell>
@@ -25,7 +25,7 @@
                   <!-- Title Definition -->
                   <ng-container matColumnDef="eventOpen">
                     <mat-header-cell *matHeaderCellDef> Open Date/Time </mat-header-cell>
-                    <mat-cell *matCellDef="let row"> {{row.eventEndTms}} </mat-cell>  <!--need to date format this-->
+                    <mat-cell *matCellDef="let row"> {{row.eventEndTms | date:'short'}} </mat-cell>  <!--need to date format this-->
                   </ng-container>
                 
                   <!-- Manage Definition -->
@@ -40,15 +40,25 @@
                    <ng-container matColumnDef="openclose">
                     <mat-header-cell *matHeaderCellDef>Open/Close Event</mat-header-cell>
                     <mat-cell *matCellDef="let row"> 
-                        <mat-slide-toggle color="accent" id="{{row.id}}" name="{{row.id}}" formControlName="{{row.id}}" (change)="changeEventState($event)"></mat-slide-toggle>
+                        <mat-slide-toggle color="accent" id="{{row.id}}" name="{{row.id}}" formControlName="{{row.id}}" (change)="changeEventState($event)">Closed event</mat-slide-toggle>
                     </mat-cell>
                   </ng-container>
-                  
+
+                  <!-- Private Definition -->
+                  <ng-container matColumnDef="private">
+                    <mat-header-cell *matHeaderCellDef>Private Event</mat-header-cell>
+                    <mat-cell *matCellDef="let row"> 
+                        <mat-slide-toggle color="accent" id="pvt{{row.id}}" name="pvt{{row.id}}" formControlName="pvt{{row.id}}" (change)="changePrivateState($event)">Private event</mat-slide-toggle>
+                    </mat-cell>
+                  </ng-container>
+
                   <!-- Header and Row Declarations -->
-                  <mat-header-row *matHeaderRowDef="['eventDate', 'eventTime', 'eventOpen', 'manage', 'openclose']"></mat-header-row>
-                  <mat-row *matRowDef="let row; columns: ['eventDate', 'eventTime', 'eventOpen', 'manage', 'openclose']"
-                  [ngClass]="{'highlight': selectedRowIndex == row.id}" (click)="highlight(row)"></mat-row>
-                </mat-table>
+                  <mat-header-row *matHeaderRowDef="['eventDate', 'eventTime', 'eventOpen', 'manage']"></mat-header-row>
+                  <mat-row *matRowDef="let row; columns: ['eventDate', 'eventTime', 'eventOpen', 'manage']"
+                  [ngClass]="{'highlight': selectEventId == row.id}" class="mat-row1"></mat-row>
+                  <mat-row *matRowDef="let row; columns: ['openclose','private']"
+                  [ngClass]="{'highlight': selectEventId == row.id}" class="mat-row2"></mat-row>
+                  </mat-table>
                 </form>
           </mat-card-content>
           <mat-card-actions>
@@ -60,7 +70,7 @@
           </mat-card-header>
               <form [formGroup]="newEventForm" (ngSubmit)="eventSubmit()">
                 <mat-card-content>
-                  <p><button mat-raised-button (click)="newEventForm.reset()">Clear form</button></p>
+                  <p><button mat-raised-button color="primary" (click)="newEventForm.reset()">Clear form</button></p>
                   <p>Enter your new or modified event information below.</p>
                 <div class="content" fxLayout="row wrap" fxLayoutGap="16px grid">
 
@@ -137,7 +147,7 @@
                 </mat-hint>
               </mat-form-field>
             </div> 
-
+            <div fxFlex="100%" style="clear: all; padding: 10px;">&nbsp;</div>
             <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="100%" style="vertical-align: middle; min-height: 75px; padding: 10px;">
               <mat-form-field appearance="fill">
               <mat-label>Event Message</mat-label>
