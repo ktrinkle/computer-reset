@@ -5,7 +5,7 @@ import { FormGroup, FormControl, Validators, FormBuilder, ReactiveFormsModule } 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { DatePipe } from '@angular/common';
-import { parse, toDate, format, formatRelative, subDays } from 'date-fns'
+import { parse } from 'date-fns';
 
 @Component({
   selector: 'app-createevent',
@@ -85,10 +85,6 @@ export class CreateeventComponent implements OnInit, OnDestroy {
     var startTm = startDt + ' ' + this.newEventForm.value.startTm;
     var endTm = startDt + ' ' + this.newEventForm.value.endTm;
 
-    console.log(startTm);
-    console.log(endTm);
-    
-    //this will fail
     var eventStartTms = parse(startTm, "yyyy-MM-dd h:mm aa", new Date());
     var eventEndTms = parse(endTm, "yyyy-MM-dd h:mm aa", new Date());
 
@@ -101,9 +97,9 @@ export class CreateeventComponent implements OnInit, OnDestroy {
     var eventOpenTms = parse(openTm, "yyyy-MM-dd h:mm aa", new Date());
     this.eventTimeslotSelect.eventOpenTms = new Date(eventOpenTms);
 
-    this.eventTimeslotSelect.eventSlotCnt = this.newEventForm.value.eventSlotCnt;
-    this.eventTimeslotSelect.overbookCnt = this.newEventForm.value.overbookCnt;
-    this.eventTimeslotSelect.signupCnt = this.newEventForm.value.signupCnt;
+    this.eventTimeslotSelect.eventSlotCnt = parseInt(this.newEventForm.value.eventSlotCnt);
+    this.eventTimeslotSelect.overbookCnt = parseInt(this.newEventForm.value.overbookCnt);
+    this.eventTimeslotSelect.signupCnt = parseInt(this.newEventForm.value.signupCnt);
     this.eventTimeslotSelect.eventNote = this.newEventForm.value.eventNote;
     this.eventTimeslotSelect.privateEventInd = this.newEventForm.value.privateEventInd;
 
