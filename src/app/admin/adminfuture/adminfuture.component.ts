@@ -91,7 +91,7 @@ export class AdminfutureComponent implements OnInit, OnDestroy {
     //console.log("pull eventsignedup");
     this.loadStatus = false;
     this.signupForm = null;
-    console.log(this.maxEvents);
+    //console.log(this.maxEvents);
     //replace form
     this.signupForm = this.formBuilder.group({
       attendNbr: new FormControl(''),
