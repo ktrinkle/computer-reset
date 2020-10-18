@@ -98,7 +98,7 @@ export class DataService {
       return this.httpClient.get<UserEventSignup[]>(url).toPromise();
     }
 
-    public getSignupDayOf(eventId: number, maxEvents: number, facebookId: string ): Promise<UserEventDayOf[]> {
+    public getSignupDayOf(eventId: number, facebookId: string ): Promise<UserEventDayOf[]> {
       var url = this.REST_API_SERVER + '/api/computerreset/api/events/signedup/' + encodeURIComponent(eventId) + '/'
       + encodeURIComponent(facebookId) + '';
       return this.httpClient.get<UserEventDayOf[]>(url).toPromise();
@@ -122,6 +122,12 @@ export class DataService {
       return this.httpClient.put(url, null, {responseType: 'text'}).toPromise();
     }
 
+    public async sendNoShow(id: number, facebookId: string): Promise<string> {
+      var url = this.REST_API_SERVER + '/api/computerreset/api/events/noshow/' + encodeURIComponent(id) + '/'
+      + encodeURIComponent(facebookId) + '';
+      return this.httpClient.put(url, null, {responseType: 'text'}).toPromise();
+    }
+
     public async changeEventState(id: number, facebookId: string): Promise<string> {
       var url = this.REST_API_SERVER + '/api/computerreset/api/events/close/' + encodeURIComponent(id) + '/'
       + encodeURIComponent(facebookId) + '';
@@ -134,4 +140,14 @@ export class DataService {
       return this.httpClient.put(url, null, {responseType: 'text'}).toPromise();
     }
 
+    public getStandbyMaster(facebookId: string): any {
+      var url = this.REST_API_SERVER + '/api/events/standby/list/' + encodeURIComponent(facebookId) + '';
+      return this.httpClient.get(url);
+    }
+
+    public async moveUserSlot(slotId: number, newEventId: number, facebookId: string): Promise<string> {
+      var url = this.REST_API_SERVER + 'api/events/move/' + encodeURIComponent(slotId) + '/' + 
+        encodeURIComponent(newEventId) + '/' + encodeURIComponent(facebookId) + '';
+      return this.httpClient.put(url, null, {responseType: 'text'}).toPromise();
+    }
 }

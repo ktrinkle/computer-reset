@@ -99,11 +99,18 @@
        </mat-form-field>
      </mat-cell>
     </ng-container>
+
+    <ng-container matColumnDef="noshowbox">
+      <mat-header-cell *matHeaderCellDef> Location </mat-header-cell>
+      <mat-cell *matCellDef="let row" class="mat-cell-row1">
+       <span *ngIf="row.noShowCnt">No show count: {{row.noShowCnt}}</span>
+         </mat-cell>
+    </ng-container>
      
      <!-- Header and Row Declarations -->
      <mat-header-row *matHeaderRowDef="['name', 'personLoc', 'signupNbr']"></mat-header-row>
      <mat-row *matRowDef="let row; columns: ['name', 'personLoc', 'signupNbr']" class="mat-row1"></mat-row>
-     <mat-row *matRowDef="let row; columns: ['signupTxt']" class="mat-row2"></mat-row>
+     <mat-row *matRowDef="let row; columns: ['signupTxt','noshowbox']" class="mat-row2"></mat-row>
     </mat-table>
               </mat-card-content>
             <mat-card-actions>
