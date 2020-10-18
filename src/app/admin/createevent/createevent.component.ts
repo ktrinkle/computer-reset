@@ -53,8 +53,7 @@ export class CreateeventComponent implements OnInit, OnDestroy {
     this.currEvents = this.formBuilder.group({});
 
     //We shall see if this works ok. Promise would be bad since we want new events to show
-    this.dataService.getEventFuture(this.dataService.userFull.facebookId).pipe(
-      takeUntil(this.destroy$)).subscribe((data: Timeslot[]) => { 
+    this.dataService.getEventFuture(this.dataService.userFull.facebookId).subscribe((data: Timeslot[]) => { 
         this.events = data;
         this.events.forEach(event => {
           this.currEvents.addControl(event.id.toString(), new FormControl(event.eventClosed));

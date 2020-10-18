@@ -82,10 +82,18 @@
         <mat-slide-toggle color="accent" id="{{row.id}}" name="{{row.id}}" formControlName="{{row.id}}" (change)="updateSignup($event)"></mat-slide-toggle>
       </mat-cell>
      </ng-container>
+
+     <ng-container matColumnDef="noshow">
+      <mat-header-cell *matHeaderCellDef> No Show </mat-header-cell>
+      <mat-cell *matCellDef="let row;">
+        <mat-slide-toggle color="warn" id="ns{{row.id}}" name="ns{{row.id}}" formControlName="ns{{row.id}}" (change)="updateNoShow($event)"></mat-slide-toggle>
+       <!--mat-checkbox color="alert" id="ns{{row.id}}" name="ns{{row.id}}" formControlName="ns{{row.id}}" checked="{{row.noShowInd}}" (change)="updateNoShow($event)"></mat-checkbox-->
+     </mat-cell>
+    </ng-container>
      
      <!-- Header and Row Declarations -->
-     <mat-header-row *matHeaderRowDef="['id', 'name', 'attended']"></mat-header-row>
-     <mat-row *matRowDef="let row; columns: ['id', 'name', 'attended']"></mat-row>
+     <mat-header-row *matHeaderRowDef="['id', 'name', 'attended','noshow']"></mat-header-row>
+     <mat-row *matRowDef="let row; columns: ['id', 'name', 'attended','noshow']"></mat-row>
     </mat-table>
               </mat-card-content>
             <mat-card-actions>
