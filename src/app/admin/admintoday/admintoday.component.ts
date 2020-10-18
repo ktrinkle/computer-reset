@@ -3,7 +3,6 @@ import { DataService } from '../../data.service';
 import { Timeslot, UserEventDayOf } from '../../data';
 import { FormGroup, FormControl, Validators, FormBuilder, ReactiveFormsModule, FormArray } from '@angular/forms';
 import { Subject } from 'rxjs';
-import { MediaObserver } from '@angular/flex-layout';
 
 @Component({
   selector: 'app-admintoday',
@@ -47,12 +46,13 @@ export class AdmintodayComponent implements OnInit, OnDestroy {
     //console.log(this.maxEvents);
     //trying a promise
     this.eventSignedUp = [];
-    const promise = this.dataService.getSignupDayOf(eventTimeslot.id, this.maxEvents, this.dataService.userFull.facebookId)
+    const promise = this.dataService.getSignupDayOf(eventTimeslot.id, this.dataService.userFull.facebookId)
     .then((data: UserEventDayOf[]) => {
         // Success
         data.map((event: UserEventDayOf) => {
           //console.log(event);
           this.signupForm.addControl(event.id.toString(), new FormControl(event.attendInd ?? false));
+          this.signupForm.addControl('ns'+event.id.toString(), new FormControl(event.noShowInd ?? false));
 
           //console.log(this.signupForm);
           this.eventSignedUp.push(event);
@@ -93,6 +93,18 @@ export class AdmintodayComponent implements OnInit, OnDestroy {
     var id = event.source.id;
 
     var rtnTxt = await this.dataService.sendUserAttend(id, this.dataService.userFull.facebookId);
+    //we don't care about this value right now but may snackbar it
+  }
+
+  async updateNoShow(event: any) {
+    //parse out event
+    var noshowVal = event.source.checked;
+    var noShowId = event.source.id;
+    noShowId = noShowId.substring(2);
+    //console.log(signupId);
+    var id: number = parseInt(noShowId);
+
+    var rtnTxt = await this.dataService.sendNoShow(id, this.dataService.userFull.facebookId);
     //we don't care about this value right now but may snackbar it
   }
 

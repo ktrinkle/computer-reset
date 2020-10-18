@@ -33,6 +33,7 @@ export interface ClaimPrincipal {
     signupCnt: number;
     eventNote: string;
     privateEventInd: boolean;
+    intlEventInd: boolean;
     facebookId?: string;
   }
 
@@ -43,6 +44,7 @@ export interface ClaimPrincipal {
     userSlot: string;
     eventClosed: boolean;
     eventNote: string;
+    intlEventInd: boolean;
   }
 
   export interface Signup {
@@ -109,6 +111,7 @@ export interface ClaimPrincipal {
     banFlag: boolean;
     signupTxt: string;
     confirmInd: boolean;
+    noShowCnt: number;
   }
 
   export interface UserEventNote {
@@ -130,4 +133,5 @@ export interface ClaimPrincipal {
     cityNm: string;
     stateCd: string;
     confirmInd: boolean;
+    noShowInd: boolean;
   }

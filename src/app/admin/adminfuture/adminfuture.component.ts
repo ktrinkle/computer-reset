@@ -4,7 +4,6 @@ import { Timeslot, UserEventSignup, UserEventNote } from '../../data';
 import { FormGroup, FormControl, Validators, FormBuilder, ReactiveFormsModule, FormArray } from '@angular/forms';
 import { MatSnackBar, MAT_SNACK_BAR_DATA } from '@angular/material/snack-bar';
 import { Subject } from 'rxjs';
-import { MediaObserver } from '@angular/flex-layout';
 
 
 @Component({
