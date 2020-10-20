@@ -83,20 +83,13 @@
       </mat-cell>
      </ng-container>
 
-     <ng-container matColumnDef="noshow">
-      <mat-header-cell *matHeaderCellDef> No Show </mat-header-cell>
-      <mat-cell *matCellDef="let row;">
-        <mat-slide-toggle color="warn" id="ns{{row.id}}" name="ns{{row.id}}" formControlName="ns{{row.id}}" (change)="updateNoShow($event)"></mat-slide-toggle>
-       <!--mat-checkbox color="alert" id="ns{{row.id}}" name="ns{{row.id}}" formControlName="ns{{row.id}}" checked="{{row.noShowInd}}" (change)="updateNoShow($event)"></mat-checkbox-->
-     </mat-cell>
-    </ng-container>
-     
      <!-- Header and Row Declarations -->
-     <mat-header-row *matHeaderRowDef="['id', 'name', 'attended','noshow']"></mat-header-row>
-     <mat-row *matRowDef="let row; columns: ['id', 'name', 'attended','noshow']"></mat-row>
+     <mat-header-row *matHeaderRowDef="['id', 'name', 'attended']"></mat-header-row>
+     <mat-row *matRowDef="let row; columns: ['id', 'name', 'attended']"></mat-row>
     </mat-table>
               </mat-card-content>
             <mat-card-actions>
+              <button mat-raised-button color="primary" (click)="showNoShow(eventId);">No-Shows</button>
         </mat-card-actions>
         </mat-card>
         </form>
@@ -132,5 +125,49 @@
           </mat-list>
         </mat-card-content>
      </mat-card>
+<!--This is the new section for No Shows - button click to show it-->
+     <div *ngIf="eventId != 0 && noShowFlag">
+      <form [formGroup]="noShowForm">
+        <mat-spinner *ngIf="!loadStatus"></mat-spinner>
+        <mat-card style="margin-top:10px;" *ngIf="loadStatus">
+          <mat-card-header>
+              <mat-card-title>No shows</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+  <!--new table-->
+  <mat-table [dataSource]="signedUpNoShow" multiTemplateDataRows>
+    <!-- Signup Definition -->
+    <ng-container matColumnDef="id">
+      <mat-header-cell *matHeaderCellDef>ID</mat-header-cell>
+      <mat-cell *matCellDef="let row"> 
+         <div *ngIf="row.attendNbr <= eventTimeslotSelect.eventSlotCnt">
+          {{row.attendNbr}}
+      </div>
+      </mat-cell>
+    </ng-container>
     
+    <ng-container matColumnDef="name">
+       <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
+       <mat-cell *matCellDef="let row"> 
+          {{row.realNm}}
+       </mat-cell>
+     </ng-container>
+
+   <ng-container matColumnDef="noshow">
+    <mat-header-cell *matHeaderCellDef> No Show </mat-header-cell>
+    <mat-cell *matCellDef="let row;">
+      <mat-slide-toggle color="warn" id="ns{{row.id}}" name="ns{{row.id}}" formControlName="ns{{row.id}}" (change)="updateNoShow($event)"></mat-slide-toggle>
+   </mat-cell>
+  </ng-container>
+   
+   <!-- Header and Row Declarations -->
+   <mat-header-row *matHeaderRowDef="['id', 'name','noshow']"></mat-header-row>
+   <mat-row *matRowDef="let row; columns: ['id', 'name','noshow']"></mat-row>
+  </mat-table>
+            </mat-card-content>
+          <mat-card-actions>
+      </mat-card-actions>
+      </mat-card>
+      </form>
+      </div>
   </div>

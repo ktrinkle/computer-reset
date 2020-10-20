@@ -80,6 +80,7 @@ export class CreateeventComponent implements OnInit, OnDestroy {
     }
 
     //compile event_start_tms and event_end_tms from 2 fields via strings
+    //this is being transmitted as UTC without timezone, so we need to inject timezone
     
     var startDt = this.datePipe.transform(this.newEventForm.value.eventDate, 'yyyy-MM-dd');
     var startTm = startDt + ' ' + this.newEventForm.value.startTm;
@@ -87,8 +88,8 @@ export class CreateeventComponent implements OnInit, OnDestroy {
 
     var eventStartTms = parse(startTm, "yyyy-MM-dd h:mm aa", new Date());
     var eventEndTms = parse(endTm, "yyyy-MM-dd h:mm aa", new Date());
-
-    this.eventTimeslotSelect.eventStartTms = eventStartTms;
+    
+    this.eventTimeslotSelect.eventStartTms = new Date(eventStartTms);
     this.eventTimeslotSelect.eventEndTms = new Date(eventEndTms);
 
     var openDt = this.datePipe.transform(this.newEventForm.value.openDate, 'yyyy-MM-dd');
@@ -101,7 +102,12 @@ export class CreateeventComponent implements OnInit, OnDestroy {
     this.eventTimeslotSelect.overbookCnt = parseInt(this.newEventForm.value.overbookCnt);
     this.eventTimeslotSelect.signupCnt = parseInt(this.newEventForm.value.signupCnt);
     this.eventTimeslotSelect.eventNote = this.newEventForm.value.eventNote;
-    this.eventTimeslotSelect.privateEventInd = this.newEventForm.value.privateEventInd;
+
+    if (!this.eventTimeslotSelect.privateEventInd) {
+      this.eventTimeslotSelect.privateEventInd = false;
+    } else {
+      this.eventTimeslotSelect.privateEventInd = true;
+    }
 
     //close ind should already be in eventTimeslotSelect. if null, set to false.
 
