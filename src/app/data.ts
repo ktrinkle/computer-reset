@@ -135,3 +135,30 @@ export interface ClaimPrincipal {
     confirmInd: boolean;
     noShowInd: boolean;
   }
+
+  export interface Standby {
+    id: number;
+    firstNm: string;
+    lastNm: string;   
+    realNm: string;
+    cityNm: string;
+    stateCd: string;
+    metroplexInd: boolean;
+    timeslotId: number;
+    eventStartTms: Date;
+    signupTms: Date;
+    noShowCnt: number;
+    eventCnt: number;
+    signupTxt: number;
+  }
+
+  export interface Slot {
+    id: number;
+    eventDate: Date;
+    eventSlotCnt: number;
+  }
+
+  export interface standbyList {
+    slot: Slot;
+    standby: Standby[];
+  }

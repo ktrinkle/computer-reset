@@ -15,11 +15,14 @@ export class AdmintodayComponent implements OnInit, OnDestroy {
   public eventId = 0;
   public eventTimeslotSelect: Timeslot;
   public eventSignedUp: UserEventDayOf[];
+  public signedUpNoShow: UserEventDayOf[];
   public maxEvents: number;
   public signupForm: FormGroup;
+  public noShowForm: FormGroup;
   public signupLimit: number = 0;
   public selectedRowIndex = -1;
   public loadStatus = false;
+  public noShowFlag = false;
 
   constructor(private dataService: DataService, 
     private formBuilder: FormBuilder) { }
@@ -41,6 +44,7 @@ export class AdmintodayComponent implements OnInit, OnDestroy {
     //console.log("pull eventsignedup");
     this.loadStatus = false;
     this.signupForm = null;
+    this.noShowFlag = false;
     //reset form
     this.signupForm = this.formBuilder.group({});
     //console.log(this.maxEvents);
@@ -106,6 +110,28 @@ export class AdmintodayComponent implements OnInit, OnDestroy {
 
     var rtnTxt = await this.dataService.sendNoShow(id, this.dataService.userFull.facebookId);
     //we don't care about this value right now but may snackbar it
+  }
+
+  public showNoShow(id: number) {
+    this.noShowForm = null;
+    this.noShowFlag = false;
+    //reset form
+    this.noShowForm = this.formBuilder.group({});    
+    this.signedUpNoShow = [];
+    const promise = this.dataService.getSignupDayOf(id, this.dataService.userFull.facebookId)
+    .then((data: UserEventDayOf[]) => {
+        // Success
+        data.map((event: UserEventDayOf) => {
+          //console.log(event);
+          if (!event.attendInd) {
+            this.noShowForm.addControl('ns'+event.id.toString(), new FormControl(event.noShowInd ?? false));
+            this.signedUpNoShow.push(event);
+          }
+        });
+        //console.log(this.signedUpNoShow);
+      Object.assign(this, data);
+    })
+    .then(() => this.noShowFlag = true);
   }
 
 }
