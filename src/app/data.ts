@@ -156,9 +156,10 @@ export interface ClaimPrincipal {
     id: number;
     eventDate: Date;
     eventSlotCnt: number;
+    AvailSlot: number;
   }
 
   export interface standbyList {
-    slot: Slot;
+    slot: Slot[];
     standby: Standby[];
   }
