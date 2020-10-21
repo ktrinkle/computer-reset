@@ -1,9 +1,9 @@
 import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
 import { DataService } from '../../data.service';
-import { Timeslot, UserEventSignup, UserEventNote } from '../../data';
+import { Timeslot, UserEventSignup, UserEventNote, Slot, Standby, standbyList } from '../../data';
 import { FormGroup, FormControl, Validators, FormBuilder, ReactiveFormsModule, FormArray } from '@angular/forms';
 import { MatSnackBar, MAT_SNACK_BAR_DATA } from '@angular/material/snack-bar';
-import { Subject } from 'rxjs';
+import { Subject, BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-standby',
@@ -12,11 +12,11 @@ import { Subject } from 'rxjs';
 })
 export class StandbyComponent implements OnInit, OnDestroy {
 
-  public eventList = [];
   public eventId = 0;
   public eventTimeslotSelect: Timeslot;
-  public eventSignedUp: UserEventSignup[];
-  public maxEvents: number;
+  public slot: Slot[];
+  public standbyList: standbyList;
+  public standbyDetail: Standby[];
   public signupLimit: number = 0;
   public selectedRowIndex = -1;
   public loadStatus = false;
@@ -28,9 +28,16 @@ export class StandbyComponent implements OnInit, OnDestroy {
     private readonly onDestroy = new Subject<void>();
 
   ngOnInit() {
-
+    this.loadStatus = false;
     this.dataService.getStandbyMaster(this.dataService.userFull.facebookId)
-      .subscribe((data: any) => { this.eventList = data });
+      .subscribe({next: (data: any) => { 
+        this.standbyList = data; 
+      },
+      complete: () => {
+        console.log(this.standbyList);
+        this.loadStatus = true;
+      }
+    });
 
   }
 

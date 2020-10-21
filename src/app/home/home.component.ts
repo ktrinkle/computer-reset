@@ -16,6 +16,7 @@ export class HomeComponent implements OnInit {
   public fullName = "";
   public loadStatus: boolean = false;
   public signedupEvents: TimeslotSmall[] = [];
+  public confirmedEvents: TimeslotSmall[] = [];
   public waitlist: TimeslotSmall[] = [];
 
   constructor(private dataService: DataService, private router: Router) { }
@@ -50,6 +51,7 @@ export class HomeComponent implements OnInit {
       })
     },
     complete: () => {
+      this.confirmedEvents = this.events.filter(event => event.userSlot == "G");
       this.signedupEvents = this.events.filter(event => event.userSlot == "S");
       this.waitlist = this.events.filter(event => event.userSlot == "C");
       this.loadStatus = true;}});
