@@ -25,15 +25,57 @@
         <mat-spinner></mat-spinner>
       </mat-card-content>
     </mat-card>
-    <!-- signup status card-->
+ <!-- confirmed status card-->
+ <mat-card style="margin-top:10px;" *ngIf="confirmedEvents.length > 0">
+  <mat-card-header>
+      <mat-card-title>Confirmed event</mat-card-title>
+      <mat-card-subtitle>You are confirmed for the following event. All times are shown in Dallas local time.</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="signupmessage">
+      Please send us a Facebook message if you cannot attend this event for any reason.
+    </div>
+      <mat-table [dataSource]="signedupEvents">
+          <!-- Date Definition -->
+          <ng-container matColumnDef="eventDate">
+            <mat-header-cell *matHeaderCellDef> Event Date </mat-header-cell>
+            <mat-cell *matCellDef="let row"> 
+              <span fxShow fxHide.lt-md>{{row.eventStartTms | date:'fullDate'}}</span>
+              <span fxHide fxShow.lt-md>{{row.eventStartTms | date:'shortDate'}}</span>
+           </mat-cell>
+          </ng-container>
+        
+          <!-- Start time Definition -->
+          <ng-container matColumnDef="eventStart">
+            <mat-header-cell *matHeaderCellDef> Start Time </mat-header-cell>
+            <mat-cell *matCellDef="let row"> {{row.eventStartTms | date:'shortTime'}} </mat-cell>
+          </ng-container>
+        
+          <!-- Title Definition -->
+          <ng-container matColumnDef="eventEnd">
+            <mat-header-cell *matHeaderCellDef> End Time </mat-header-cell>
+            <mat-cell *matCellDef="let row"> {{row.eventEndTms | date:'shortTime'}} </mat-cell>
+          </ng-container>
+                      
+          <!-- Header and Row Declarations -->
+          <mat-header-row *matHeaderRowDef="['eventDate', 'eventStart', 'eventEnd']"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: ['eventDate', 'eventStart', 'eventEnd']"></mat-row>
+        </mat-table>
+        <mat-divider></mat-divider>
+  </mat-card-content>
+  <mat-card-actions>
+</mat-card-actions>
+</mat-card>
+
+<!-- signup status card-->
     <mat-card style="margin-top:10px;" *ngIf="signedupEvents.length > 0">
       <mat-card-header>
-          <mat-card-title>Confirmed event</mat-card-title>
-          <mat-card-subtitle>You have a slot for the following event. All times are shown in Dallas local time.</mat-card-subtitle>
+          <mat-card-title>Signed up event</mat-card-title>
+          <mat-card-subtitle>You have a tentative slot for the following event. All times are shown in Dallas local time.</mat-card-subtitle>
       </mat-card-header>
       <mat-card-content>
         <div class="signupmessage">
-          Please check your Facebook messages for a confirmation message from the volunteers.
+          Please check your Facebook messages and message requests for a confirmation message from the volunteers.
           You will need to confirm your slot with the volunteers before attending, or it will be given away
             to another person.
         </div>
