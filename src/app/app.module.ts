@@ -117,6 +117,7 @@ export function appInitFb(appConfigService: AppConfigService) {
         }
       ]
   ],
+  exports: [AdminfutureComponent],
   bootstrap: [AppComponent]
 })
 

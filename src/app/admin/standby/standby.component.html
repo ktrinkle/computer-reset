@@ -1,1 +1,109 @@
-<p>standby works!</p>
+<div style="padding: 13px;">
+    <mat-card>
+      <mat-card-header>
+          <mat-card-title>Standby Processing</mat-card-title>
+      </mat-card-header>
+          <mat-card-content>
+              <mat-table [dataSource]="slot">
+                  <!-- Date Definition -->
+                  <ng-container matColumnDef="eventDate">
+                    <mat-header-cell *matHeaderCellDef> Event Date </mat-header-cell>
+                    <mat-cell *matCellDef="let row"> 
+                      <span fxShow fxHide.lt-md>{{row.eventDate | date:'fullDate'}}</span>
+                      <span fxHide fxShow.lt-md>{{row.eventDate | date:'shortDate'}}</span>
+                   </mat-cell>
+                  </ng-container>
+                
+                  <!-- Start time Definition -->
+                  <ng-container matColumnDef="eventStart">
+                    <mat-header-cell *matHeaderCellDef> Start Time </mat-header-cell>
+                    <mat-cell *matCellDef="let row"> {{row.eventDate | date:'shortTime'}} </mat-cell>
+                  </ng-container>
+                
+                  <!-- Title Definition -->
+                  <ng-container matColumnDef="remainSlot">
+                    <mat-header-cell *matHeaderCellDef> Available slots </mat-header-cell>
+                    <mat-cell *matCellDef="let row"> {{row.availSlot}} </mat-cell>
+                  </ng-container>
+                  
+                  <!-- Header and Row Declarations -->
+                  <mat-header-row *matHeaderRowDef="['eventDate', 'eventStart', 'remainSlot']"></mat-header-row>
+                  <mat-row *matRowDef="let row; columns: ['eventDate', 'eventStart', 'remainSlot']"
+                  [ngClass]="{'highlight': selectedRowIndex == row.id}" (click)="highlight(row)"></mat-row>
+                </mat-table>
+          </mat-card-content>
+          <mat-card-actions>
+      </mat-card-actions>
+      </mat-card>
+
+      <form [formGroup]="signupForm">
+        <mat-spinner *ngIf="!loadStatus"></mat-spinner>
+        <mat-card style="margin-top:10px;" *ngIf="loadStatus">
+          <mat-card-header>
+              <mat-card-title>Signed up users</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+  <!--new table-->
+  <mat-table [dataSource]="standbyDetail" multiTemplateDataRows>
+    <!-- Signup Definition -->
+    <ng-container matColumnDef="name">
+       <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
+       <mat-cell *matCellDef="let row"> 
+          {{row.realNm}} <br/>Facebook name: {{row.firstNm}} {{row.lastNm}}
+       </mat-cell>
+     </ng-container>
+     
+     <ng-container matColumnDef="personLoc">
+     <mat-header-cell *matHeaderCellDef> Location </mat-header-cell>
+     <mat-cell *matCellDef="let row" class="mat-cell-row1">
+      <span><span *ngIf="row.metroplexInd">Metroplex - </span>{{row.cityNm}}, {{row.stateCd}} <br/>
+      Events attended: {{row.eventCnt}}</span>
+        </mat-cell>
+   </ng-container>
+  
+   <!-- Input box -->
+   <ng-container matColumnDef="moveEvent">
+     <mat-header-cell *matHeaderCellDef> Assign to event </mat-header-cell>
+     <mat-cell *matCellDef="let row;" class="mat-cell-row1">
+        Dropdown goes here
+    </mat-cell>
+   </ng-container>
+
+   <!-- Input box -->
+   <ng-container matColumnDef="signupTxt">
+    <mat-header-cell *matHeaderCellDef> Signup Text </mat-header-cell>
+    <mat-cell *matCellDef="let row;" class="mat-cell-row2">
+    <mat-form-field appearance="fill">
+       <mat-label>Signup notes</mat-label>
+       <input matInput id="signupTxt{{row.id}}" name="signupTxt{{row.id}}" [formControlName]="'signupTxt' + row.id" (change)="updateSignupTxt($event)">
+     </mat-form-field>
+   </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="origevent">
+    <mat-header-cell *matHeaderCellDef> Location </mat-header-cell>
+    <mat-cell *matCellDef="let row" class="mat-cell-row1">
+     Original event: {{row.eventStartTms | date:'short' }}
+       </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="noshowbox">
+    <mat-header-cell *matHeaderCellDef> Location </mat-header-cell>
+    <mat-cell *matCellDef="let row" class="mat-cell-row1">
+     <span *ngIf="row.noShowCnt">No show count: {{row.noShowCnt}}</span>
+       </mat-cell>
+  </ng-container>
+   
+   <!-- Header and Row Declarations -->
+   <mat-header-row *matHeaderRowDef="['name', 'personLoc', 'moveEvent']"></mat-header-row>
+   <mat-row *matRowDef="let row; columns: ['name', 'personLoc', 'moveEvent']" class="mat-row1"></mat-row>
+   <mat-row *matRowDef="let row; columns: ['signupTxt','origevent','noshowbox']" class="mat-row2"></mat-row>
+  </mat-table>
+            </mat-card-content>
+          <mat-card-actions>
+      </mat-card-actions>
+      </mat-card>
+      </form>
+
+
+      </div>
