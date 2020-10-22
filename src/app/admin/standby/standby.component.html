@@ -65,7 +65,16 @@
    <ng-container matColumnDef="moveEvent">
      <mat-header-cell *matHeaderCellDef> Assign to event </mat-header-cell>
      <mat-cell *matCellDef="let row;" class="mat-cell-row1">
-        Dropdown goes here
+        <mat-form-field appearance="fill">
+            <mat-label>Assign to Timeslot</mat-label>
+            <mat-select [id]="row.id" (selectionChange)="assignUser($event)">
+              <mat-option>--</mat-option>
+              <mat-option *ngFor="let slotid of slot" [value]="slotid.id">
+                {{slotid.eventDate | date:'short'}}
+              </mat-option>
+            </mat-select>
+            <mat-hint>Select the timeslot to assign this person to.</mat-hint>
+          </mat-form-field>
     </mat-cell>
    </ng-container>
 
