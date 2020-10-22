@@ -68,6 +68,15 @@ export class StandbyComponent implements OnInit, OnDestroy {
     });
   }
 
+  //moveUserSlot
+  async assignUser(event: any) {
+    //parse out event
+    var newEvent = event.value;
+    var id = event.source.id;
+
+    this.openSnackBar(await this.dataService.moveUserSlot(id, newEvent, this.dataService.userFull.facebookId));
+  }
+
   highlight(row){
     this.selectedRowIndex = row.id;
   }
