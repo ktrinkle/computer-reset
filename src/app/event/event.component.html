@@ -33,7 +33,8 @@
                 When you pay you'll be able to pull around back and load up your pile.</mat-list-item>
         </mat-list>
         <mat-divider></mat-divider>
-          <div class="weathermessage"><mat-icon>warning</mat-icon>Events can be canceled at any time due to local weather conditions.</div>
+          <div class="weathermessage"><mat-icon>warning</mat-icon>Events can be canceled at any time due to local weather conditions and/or Covid-19 pandemic status.
+          The volunteers are not responsible for any of your costs incurred if an event cancels.</div>
       </mat-card-content>
     <mat-card-actions>
       <p><button mat-raised-button color="primary" (click)="agreeClick();">I agree to these rules</button> <span *ngIf="agreeInd==true && loadStatus==false">Please wait for events to load.</span></p>
