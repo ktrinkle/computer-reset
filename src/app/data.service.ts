@@ -141,12 +141,12 @@ export class DataService {
     }
 
     public getStandbyMaster(facebookId: string): any {
-      var url = this.REST_API_SERVER + '/api/events/standby/list/' + encodeURIComponent(facebookId) + '';
+      var url = this.REST_API_SERVER + '/api/computerreset/api/events/standby/list/' + encodeURIComponent(facebookId) + '';
       return this.httpClient.get(url);
     }
 
     public async moveUserSlot(slotId: number, newEventId: number, facebookId: string): Promise<string> {
-      var url = this.REST_API_SERVER + 'api/events/move/' + encodeURIComponent(slotId) + '/' + 
+      var url = this.REST_API_SERVER + '/api/computerreset/api/events/move/' + encodeURIComponent(slotId) + '/' + 
         encodeURIComponent(newEventId) + '/' + encodeURIComponent(facebookId) + '';
       return this.httpClient.put(url, null, {responseType: 'text'}).toPromise();
     }

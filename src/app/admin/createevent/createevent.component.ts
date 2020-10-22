@@ -182,13 +182,6 @@ export class CreateeventComponent implements OnInit, OnDestroy {
     })
   }
 
-  submitEventChange(): string {
-    //validates event change and update
-    //need to rewrite api to support update
-
-    return "Help";
-  }
-
   ngOnDestroy(): void{
 
   }
