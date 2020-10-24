@@ -75,7 +75,7 @@ async pullEventSignedUp(eventTimeslot: Timeslot ) {
   this.signupForm = this.formBuilder.group({});
   //trying a promise
   this.eventSignedUp = [];
-  const promise = this.dataService.getSignedUpUsers(eventTimeslot.id, this.maxEvents, this.dataService.userFull.facebookId)
+  const promise = this.dataService.getSignedUpUsers(eventTimeslot.id, this.dataService.userFull.facebookId)
   .then((data: UserEventSignup[]) => {
       // Success
       data.map((event: UserEventSignup) => {

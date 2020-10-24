@@ -92,9 +92,9 @@ export class DataService {
       return this.httpClient.post(url, eventInfo, {responseType : 'text'});
     }
 
-    public getSignedUpUsers(eventId: number, maxEvents: number, facebookId: string ): Promise<UserEventSignup[]> {
+    public getSignedUpUsers(eventId: number, facebookId: string ): Promise<UserEventSignup[]> {
       var url = this.REST_API_SERVER + '/api/computerreset/api/events/signedup/' + encodeURIComponent(eventId) + '/'
-      + encodeURIComponent(maxEvents) + '/' + encodeURIComponent(facebookId) + '';
+      + '999/' + encodeURIComponent(facebookId) + '';
       return this.httpClient.get<UserEventSignup[]>(url).toPromise();
     }
 

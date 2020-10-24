@@ -1,7 +1,8 @@
 <div style="padding: 13px;">
     <mat-card>
       <mat-card-header>
-          <mat-card-title>Current Events</mat-card-title>
+          <mat-card-title>Today's Event</mat-card-title>
+          <mat-card-subtitle>Select an event to list attendees</mat-card-subtitle>
       </mat-card-header>
           <mat-card-content>
               <mat-table [dataSource]="events">
@@ -47,7 +48,7 @@
           <mat-spinner *ngIf="!loadStatus"></mat-spinner>
           <mat-card style="margin-top:10px;" *ngIf="loadStatus">
             <mat-card-header>
-                <mat-card-title>Signed up users</mat-card-title>
+                <mat-card-title>Today's attendees</mat-card-title>
                 <mat-card-subtitle>{{eventTimeslotSelect.eventStartTms | date:'E M/d/yyyy h:mm a'}} - 
                   {{eventTimeslotSelect.eventEndTms | date:'h:mm a'}}</mat-card-subtitle>
             </mat-card-header>

@@ -1,7 +1,7 @@
 <div style="padding: 13px;">
     <mat-card>
       <mat-card-header>
-          <mat-card-title>Future Events</mat-card-title>
+          <mat-card-title>Future Events - Choose attendees</mat-card-title>
       </mat-card-header>
           <mat-card-content>
               <mat-table [dataSource]="events">
@@ -47,13 +47,7 @@
           <mat-spinner *ngIf="!loadStatus"></mat-spinner>
           <mat-card style="margin-top:10px;" *ngIf="loadStatus">
             <mat-card-header>
-                <mat-card-title>Signed up users</mat-card-title>
-                <mat-card-subtitle>Limit to people who have attended less than this number of events:
-                  <mat-form-field appearance="fill">
-                    <mat-label>Event count</mat-label>
-                    <input matInput [value]="maxEvents" id="maxEvents" formControlName="maxEvents" (change)="changeSignupEvent($event)">
-                  </mat-form-field>
-                </mat-card-subtitle>
+                <mat-card-title>Select future event attendees</mat-card-title>
                 <mat-card-subtitle>This event has {{eventTimeslotSelect.eventSlotCnt}} slots available and 
                   allows {{eventTimeslotSelect.overbookCnt}} on the standby list.</mat-card-subtitle>
                 <mat-card-subtitle>Event note: {{eventTimeslotSelect.eventNote}}</mat-card-subtitle>
