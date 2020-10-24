@@ -1,7 +1,8 @@
 <div style="padding: 13px;">
     <mat-card>
       <mat-card-header>
-          <mat-card-title>Signed up user list</mat-card-title>
+          <mat-card-title>Future event confirmation</mat-card-title>
+          <mat-card-subtitle>Select the event to confirm attendees for</mat-card-subtitle>
       </mat-card-header>
           <mat-card-content>
               <mat-table [dataSource]="events">
@@ -47,7 +48,7 @@
           <mat-spinner *ngIf="!loadStatus"></mat-spinner>
           <mat-card style="margin-top:10px;" *ngIf="loadStatus">
             <mat-card-header>
-                <mat-card-title>Signed up users</mat-card-title>
+                <mat-card-title>Confirm attendees</mat-card-title>
                 <mat-card-subtitle>This event has {{eventTimeslotSelect.eventSlotCnt}} slots available and 
                   allows {{eventTimeslotSelect.overbookCnt}} on the standby list.</mat-card-subtitle>
             </mat-card-header>

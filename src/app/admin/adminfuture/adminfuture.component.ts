@@ -61,7 +61,7 @@ export class AdminfutureComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
-    this.maxEvents = 1;
+    this.maxEvents = 99;
 
     this.signupForm = this.formBuilder.group({
       attendNbr: new FormControl(''),
@@ -98,7 +98,7 @@ export class AdminfutureComponent implements OnInit, OnDestroy {
     });
     //trying a promise
     this.eventSignedUp = [];
-    const promise = this.dataService.getSignedUpUsers(eventTimeslot.id, this.maxEvents, this.dataService.userFull.facebookId)
+    const promise = this.dataService.getSignedUpUsers(eventTimeslot.id, this.dataService.userFull.facebookId)
     .then((data: UserEventSignup[]) => {
         // Success
         data.map((event: UserEventSignup) => {
