@@ -14,3 +14,10 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   .mat-cell-indent {
     padding-left: 5%;
   }
+
+  .mat-tab-label.mat-tab-label-active .mat-tab-link.mat-focus-indicator.ng-star-indicator {
+    color: white !important;
+    background-color: #b71c1c !important;
+  }
+
+  
