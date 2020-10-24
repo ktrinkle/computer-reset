@@ -99,7 +99,7 @@ export class DataService {
     }
 
     public getSignupDayOf(eventId: number, facebookId: string ): Promise<UserEventDayOf[]> {
-      var url = this.REST_API_SERVER + '/api/computerreset/api/events/signedup/' + encodeURIComponent(eventId) + '/'
+      var url = this.REST_API_SERVER + '/api/computerreset/api/events/signedup/dayof/' + encodeURIComponent(eventId) + '/'
       + encodeURIComponent(facebookId) + '';
       return this.httpClient.get<UserEventDayOf[]>(url).toPromise();
     }
