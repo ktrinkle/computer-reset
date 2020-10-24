@@ -30,7 +30,7 @@
                    <!-- Signup Definition -->
                    <ng-container matColumnDef="manage">
                     <mat-header-cell *matHeaderCellDef></mat-header-cell>
-                    <mat-cell *matCellDef="let row"> <button mat-raised-button color="accent" (click)="pickEvent(row.id);">Get List</button></mat-cell>
+                    <mat-cell *matCellDef="let row"> <button mat-raised-button color="primary" (click)="pickEvent(row.id);">Get List</button></mat-cell>
                   </ng-container>
                   
                   <!-- Header and Row Declarations -->
@@ -88,7 +88,7 @@
      <ng-container matColumnDef="confirmed">
       <mat-header-cell *matHeaderCellDef> Confirmed </mat-header-cell>
       <mat-cell *matCellDef="let row;">
-       <mat-slide-toggle color="accent" id="{{row.id}}" name="{{row.id}}" formControlName="{{row.id}}" (change)="updateSignup($event)"></mat-slide-toggle>
+       <mat-slide-toggle color="primary" id="{{row.id}}" name="{{row.id}}" formControlName="{{row.id}}" (change)="updateSignup($event)"></mat-slide-toggle>
      </mat-cell>
     </ng-container>
      
