@@ -94,7 +94,7 @@ export class DataService {
 
     public getSignedUpUsers(eventId: number, facebookId: string ): Promise<UserEventSignup[]> {
       var url = this.REST_API_SERVER + '/api/computerreset/api/events/signedup/' + encodeURIComponent(eventId) + '/'
-      + '999/' + encodeURIComponent(facebookId) + '';
+      + encodeURIComponent(facebookId) + '';
       return this.httpClient.get<UserEventSignup[]>(url).toPromise();
     }
 
