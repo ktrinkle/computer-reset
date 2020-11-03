@@ -161,5 +161,5 @@ export interface ClaimPrincipal {
 
   export interface standbyList {
     slot: Slot[];
-    standby: Standby[];
+    standbys: Standby[];
   }
