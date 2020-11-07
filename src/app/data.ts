@@ -163,3 +163,17 @@ export interface ClaimPrincipal {
     slot: Slot[];
     standbys: Standby[];
   }
+
+  export interface UserManual {
+    id: number;
+    firstNm: string;
+    lastNm: string;
+    cityNm: string;
+    stateCd: string;
+    realNm: string;
+    fbId: string;
+    banFlag: boolean;
+    adminFlag: boolean;
+    volunteerFlag: boolean;
+    facebookId: string;
+  }
