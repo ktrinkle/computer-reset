@@ -67,8 +67,8 @@ export class DataService {
       return this.httpClient.get(url);
     }
 
-    public getEventPast(facebookId: string) {
-      var url = this.REST_API_SERVER + '/api/computerreset/api/events/show/past/' + encodeURIComponent(facebookId) + '';
+    public getEventAll(facebookId: string) {
+      var url = this.REST_API_SERVER + '/api/computerreset/api/events/show/all/' + encodeURIComponent(facebookId) + '';
       return this.httpClient.get(url);
     }
 
