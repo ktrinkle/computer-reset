@@ -41,6 +41,7 @@ import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { MatNativeDateModule, MatRippleModule } from '@angular/material/core';
 import { UserlistComponent } from './admin/userlist/userlist.component';
 import { StandbyComponent } from './admin/standby/standby.component';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 
 export function appInit(appConfigService: AppConfigService) {
@@ -93,7 +94,8 @@ export function appInitFb(appConfigService: AppConfigService) {
     MatSlideToggleModule,
     NgxMaterialTimepickerModule,
     MatNativeDateModule,
-    MatRippleModule
+    MatRippleModule,
+    MatAutocompleteModule
     ],
     providers: [            
       // Http Interceptor(s) -  adds with Client Credentials
