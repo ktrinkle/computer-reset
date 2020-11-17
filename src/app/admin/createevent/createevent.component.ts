@@ -3,7 +3,6 @@ import { DataService } from '../../data.service';
 import { Timeslot } from '../../data';
 import { FormGroup, FormControl, Validators, FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Subject } from 'rxjs';
-import { takeUntil, map } from 'rxjs/operators';
 import { DatePipe } from '@angular/common';
 import { format, parse } from 'date-fns';
 
