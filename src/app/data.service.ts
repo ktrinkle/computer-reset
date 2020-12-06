@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { throwError, Observable, BehaviorSubject } from 'rxjs';
-import { map, retry, catchError } from 'rxjs/operators';
+import { throwError } from 'rxjs';
 import { UserSmall, Signup, UserModel, UserEventSignup, UserEventDayOf, UserEventNote, Timeslot, UserManual } from './data';
 
 
@@ -160,5 +159,16 @@ export class DataService {
     public manualUser(userInfo: UserManual): any {
       var url = this.REST_API_SERVER + '/api/computerreset/api/users/manual';
       return this.httpClient.post(url, userInfo);
+    }
+
+    public getUserCurrSlot(facebookId: string): any {
+      var url = this.REST_API_SERVER + '/api/computerreset/api/signup/slot/' + encodeURIComponent(facebookId) + '';
+      return this.httpClient.get(url);
+    }
+
+    public async userMoveSlot(slotId: number, newEventId: number, facebookId: string): Promise<string> {
+      var url = this.REST_API_SERVER + '/api/computerreset/api/signup/move/' + encodeURIComponent(slotId) + '/' + 
+        encodeURIComponent(newEventId) + '/' + encodeURIComponent(facebookId) + '';
+      return this.httpClient.put(url, null, {responseType: 'text'}).toPromise();
     }
 }
