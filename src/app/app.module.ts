@@ -95,9 +95,10 @@ export function appInitFb(appConfigService: AppConfigService) {
     MatSlideToggleModule,
     NgxMaterialTimepickerModule,
     MatNativeDateModule,
-    MatRippleModule
+    MatRippleModule,
+    MatAutocompleteModule
     ],
-    providers: [            
+    providers: [
       // Http Interceptor(s) -  adds with Client Credentials
       [
           { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
