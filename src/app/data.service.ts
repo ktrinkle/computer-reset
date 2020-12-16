@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { throwError } from 'rxjs';
-import { UserSmall, Signup, UserModel, UserEventSignup, UserEventDayOf, UserEventNote, Timeslot, UserManual } from './data';
+import { UserSmall, Signup, UserModel, UserEventSignup, UserEventDayOf, UserEventNote, Timeslot, UserManual, openEvent } from './data';
 
 
 @Injectable({
@@ -10,6 +10,7 @@ import { UserSmall, Signup, UserModel, UserEventSignup, UserEventDayOf, UserEven
 export class DataService {
 
   public eventIdPass: number;
+  public signupIdPass: number;
 
   public userFull: UserModel = {id: 0, firstName: null, lastName: null, cityName: null,
     stateCode: null, realName: null, facebookId: null, adminFlag: false, volunteerFlag: false};
@@ -164,6 +165,11 @@ export class DataService {
     public getUserCurrSlot(facebookId: string): any {
       var url = this.REST_API_SERVER + '/api/computerreset/api/signup/slot/' + encodeURIComponent(facebookId) + '';
       return this.httpClient.get(url);
+    }
+
+    public getOpenEventUser(facebookId: string): any {
+      var url = this.REST_API_SERVER + '/api/computerreset/api/events/list/' + encodeURIComponent(facebookId) + '';
+      return this.httpClient.get<openEvent>(url);
     }
 
     public async userMoveSlot(slotId: number, newEventId: number, facebookId: string): Promise<string> {
