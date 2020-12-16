@@ -41,6 +41,7 @@ import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { MatNativeDateModule, MatRippleModule } from '@angular/material/core';
 import { UserlistComponent } from './admin/userlist/userlist.component';
 import { StandbyComponent } from './admin/standby/standby.component';
+import { RulesComponent } from './helper/rules/rules.component';
 
 
 export function appInit(appConfigService: AppConfigService) {
@@ -64,7 +65,8 @@ export function appInitFb(appConfigService: AppConfigService) {
     AdminuserComponent,
     CreateeventComponent,
     UserlistComponent,
-    StandbyComponent
+    StandbyComponent,
+    RulesComponent
   ],
   imports: [
     BrowserModule,

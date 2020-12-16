@@ -9,30 +9,30 @@
                   <!-- Date Definition -->
                   <ng-container matColumnDef="eventDate">
                     <mat-header-cell *matHeaderCellDef> Event Date </mat-header-cell>
-                    <mat-cell *matCellDef="let row"> 
+                    <mat-cell *matCellDef="let row">
                       <span fxShow fxHide.lt-md>{{row.eventStartTms | date:'fullDate'}}</span>
                       <span fxHide fxShow.lt-md>{{row.eventStartTms | date:'shortDate'}}</span>
                    </mat-cell>
                   </ng-container>
-                
+
                   <!-- Start time Definition -->
                   <ng-container matColumnDef="eventStart">
                     <mat-header-cell *matHeaderCellDef> Start Time </mat-header-cell>
                     <mat-cell *matCellDef="let row"> {{row.eventStartTms | date:'shortTime'}} </mat-cell>
                   </ng-container>
-                
+
                   <!-- Title Definition -->
                   <ng-container matColumnDef="eventEnd">
                     <mat-header-cell *matHeaderCellDef> End Time </mat-header-cell>
                     <mat-cell *matCellDef="let row"> {{row.eventEndTms | date:'shortTime'}} </mat-cell>
                   </ng-container>
-                
+
                    <!-- Signup Definition -->
                    <ng-container matColumnDef="manage">
                     <mat-header-cell *matHeaderCellDef></mat-header-cell>
                     <mat-cell *matCellDef="let row"> <button mat-raised-button color="accent" (click)="pickEvent(row.id);">Manage</button></mat-cell>
                   </ng-container>
-                  
+
                   <!-- Header and Row Declarations -->
                   <mat-header-row *matHeaderRowDef="['eventDate', 'eventStart', 'eventEnd', 'manage']"></mat-header-row>
                   <mat-row *matRowDef="let row; columns: ['eventDate', 'eventStart', 'eventEnd', 'manage']"
@@ -49,7 +49,7 @@
           <mat-card style="margin-top:10px;" *ngIf="loadStatus">
             <mat-card-header>
                 <mat-card-title>Today's attendees</mat-card-title>
-                <mat-card-subtitle>{{eventTimeslotSelect.eventStartTms | date:'E M/d/yyyy h:mm a'}} - 
+                <mat-card-subtitle>{{eventTimeslotSelect.eventStartTms | date:'E M/d/yyyy h:mm a'}} -
                   {{eventTimeslotSelect.eventEndTms | date:'h:mm a'}}</mat-card-subtitle>
             </mat-card-header>
             <mat-card-content>
@@ -58,7 +58,7 @@
       <!-- Signup Definition -->
       <ng-container matColumnDef="id">
         <mat-header-cell *matHeaderCellDef>ID</mat-header-cell>
-        <mat-cell *matCellDef="let row"> 
+        <mat-cell *matCellDef="let row">
            <div *ngIf="row.attendNbr <= eventTimeslotSelect.eventSlotCnt">
             {{row.attendNbr}}
         </div>
@@ -67,15 +67,15 @@
         </div>
         </mat-cell>
       </ng-container>
-      
+
       <ng-container matColumnDef="name">
          <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
-         <mat-cell *matCellDef="let row"> 
+         <mat-cell *matCellDef="let row">
             {{row.realNm}}<br/>
             {{row.cityNm}}, {{row.stateCd}}
          </mat-cell>
        </ng-container>
-    
+
      <!-- Toggle -->
      <ng-container matColumnDef="attended">
        <mat-header-cell *matHeaderCellDef> Attended </mat-header-cell>
@@ -101,28 +101,8 @@
               <mat-card-title>Event rules</mat-card-title>
           </mat-card-header>
           <mat-card-content>
-          <mat-list><mat-list-item>1. 100% mask and social distancing environment.</mat-list-item>
-             <mat-list><mat-list-item mat-line>a. NO masks with exhaust valves</mat-list-item>
-              <mat-list-item mat-line>b. No neck gaiters</mat-list-item>
-              <mat-list-item mat-line>c. No "protest" masks</mat-list-item></mat-list> 
-              <mat-list-item mat-line>Disposable masks are available if you need one during the event.</mat-list-item>
-              <mat-list-item>2. No open-toed or high heel shoes. No sandals. No flip-flops.</mat-list-item>
-              <mat-list-item>3. No poaching someone else's pile.</mat-list-item>
-              <mat-list-item>4. No climbing or using the ladders - We will have volunteers available to help you get stuff 
-                  down from 2nd and 3rd level pallet shelves.</mat-list-item>
-              <mat-list-item>5. Clean up after yourself. If you open and search a box, put everything back in it 
-                  and put it back where it was before moving on. If you're drinking something, 
-                  toss the bottle/cup in the trash, not the bushes.</mat-list-item>
-              <mat-list-item>6. Stay out of taped off and off-limits areas.</mat-list-item>
-              <mat-list-item>7. No photos, livestreaming, or filming without permission.</mat-list-item>
-              <mat-list-item>8. You are responsible for your own safety. The volunteer crew has 
-                  spent a huge number of hours filling 16 40-cubic yard dumpsters and restacking/sorting 
-                  things around the offices and warehouse area to help make things safe.</mat-list-item>
-              <mat-list-item>9. No helpers as we're limited on space. We have volunteers who can carry things for you.
-                </mat-list-item>
-              <mat-list-item>10. Don't make us make more rules.</mat-list-item>
-          </mat-list>
-        </mat-card-content>
+            <app-rules></app-rules>
+          </mat-card-content>
      </mat-card>
 <!--This is the new section for No Shows - button click to show it-->
      <div *ngIf="eventId != 0 && noShowFlag">
@@ -138,16 +118,16 @@
     <!-- Signup Definition -->
     <ng-container matColumnDef="id">
       <mat-header-cell *matHeaderCellDef>ID</mat-header-cell>
-      <mat-cell *matCellDef="let row"> 
+      <mat-cell *matCellDef="let row">
          <div *ngIf="row.attendNbr <= eventTimeslotSelect.eventSlotCnt">
           {{row.attendNbr}}
       </div>
       </mat-cell>
     </ng-container>
-    
+
     <ng-container matColumnDef="name">
        <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
-       <mat-cell *matCellDef="let row"> 
+       <mat-cell *matCellDef="let row">
           {{row.realNm}}
        </mat-cell>
      </ng-container>
@@ -158,7 +138,7 @@
       <mat-slide-toggle color="warn" id="ns{{row.id}}" name="ns{{row.id}}" formControlName="ns{{row.id}}" (change)="updateNoShow($event)"></mat-slide-toggle>
    </mat-cell>
   </ng-container>
-   
+
    <!-- Header and Row Declarations -->
    <mat-header-row *matHeaderRowDef="['id', 'name','noshow']"></mat-header-row>
    <mat-row *matRowDef="let row; columns: ['id', 'name','noshow']"></mat-row>

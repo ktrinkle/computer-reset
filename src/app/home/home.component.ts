@@ -18,6 +18,7 @@ export class HomeComponent implements OnInit {
   public signedupEvents: TimeslotSmall[] = [];
   public confirmedEvents: TimeslotSmall[] = [];
   public waitlist: TimeslotSmall[] = [];
+  public moveInd: boolean = false;
 
   constructor(private dataService: DataService, private router: Router) { }
 
@@ -30,8 +31,6 @@ export class HomeComponent implements OnInit {
       this.dataService.eventIdPass = selectEvent;
       this.router.navigate(['/event']);
     }
-
-
   }
 
   isNoteRow = (index, item) => item.eventNote === null ? false: true;
@@ -54,6 +53,9 @@ export class HomeComponent implements OnInit {
       this.confirmedEvents = this.events.filter(event => event.userSlot == "G");
       this.signedupEvents = this.events.filter(event => event.userSlot == "S");
       this.waitlist = this.events.filter(event => event.userSlot == "C");
+      if (this.events.filter(event => event.userSlot).length != 0) {
+        this.moveInd = true;
+      }
       this.loadStatus = true;}});
 
   }

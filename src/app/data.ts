@@ -177,3 +177,9 @@ export interface ClaimPrincipal {
     volunteerFlag: boolean;
     facebookId: string;
   }
+
+  export interface openEvent{
+    timeslot: TimeslotSmall[];
+    signedUpTimeslot: number;
+    moveFlag: boolean;
+  }

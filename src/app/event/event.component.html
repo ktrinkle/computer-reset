@@ -5,31 +5,7 @@
             <mat-card-subtitle>Before signing up for an event, you agree to the following rules:</mat-card-subtitle>
         </mat-card-header>
         <mat-card-content>
-        <mat-list><mat-list-item>1. 100% mask and social distancing environment.</mat-list-item>
-           <mat-list><mat-list-item mat-line>a. NO masks with exhaust valves</mat-list-item>
-            <mat-list-item mat-line>b. No neck gaiters</mat-list-item>
-            <mat-list-item mat-line>c. No "protest" masks</mat-list-item></mat-list> 
-            <mat-list-item mat-line>Disposable masks are available if you need one during the event.</mat-list-item>
-            <mat-list-item>2. No open-toed or high heel shoes. No sandals. No flip-flops.</mat-list-item>
-            <mat-list-item>3. No poaching someone else's pile.</mat-list-item>
-            <mat-list-item>4. No climbing or using the ladders - We will have volunteers available to help you get stuff 
-                down from 2nd and 3rd level pallet shelves.</mat-list-item>
-            <mat-list-item>5. Clean up after yourself. If you open and search a box, put everything back in it 
-                and put it back where it was before moving on. If you're drinking something, 
-                toss the bottle/cup in the trash, not the bushes.</mat-list-item>
-            <mat-list-item>6. Stay out of taped off and off-limits areas.</mat-list-item>
-            <mat-list-item>7. No photos, livestreaming, or filming without permission.</mat-list-item>
-            <mat-list-item>8. You are responsible for your own safety. The volunteer crew has 
-                spent a huge number of hours filling 16 40-cubic yard dumpsters and restacking/sorting 
-                things around the offices and warehouse area to help make things safe.</mat-list-item>
-            <mat-list-item>9. No helpers as we're limited on space. We have volunteers who can carry things for you.
-            </mat-list-item>
-            <mat-list-item>10. Don't make us make more rules.</mat-list-item>
-            <mat-divider></mat-divider>
-            <mat-list-item>Cash and PayPal accepted.</mat-list-item>
-            <mat-list-item>Parking will be in front for guests, in back for volunteers. 
-                When you pay you'll be able to pull around back and load up your pile.</mat-list-item>
-        </mat-list>
+          <app-rules></app-rules>
         <mat-divider></mat-divider>
           <div class="weathermessage"><mat-icon>warning</mat-icon>Events can be canceled at any time due to local weather conditions and/or Covid-19 pandemic status.
           The volunteers are not responsible for any of your travel costs incurred if an event cancels.</div>
@@ -54,11 +30,12 @@
   <!-- Signup Definition -->
   <ng-container matColumnDef="signup">
      <mat-header-cell *matHeaderCellDef></mat-header-cell>
-     <mat-cell *matCellDef="let row"> 
-       <mat-radio-button [value]="row.id" color="primary"></mat-radio-button>
+     <mat-cell *matCellDef="let row">
+       <mat-radio-button [value]="row.id" color="primary" [disabled]="row.timeslot != null"></mat-radio-button>
+       {{row.userslot}}
      </mat-cell>
    </ng-container>
-   
+
    <ng-container matColumnDef="eventDate">
    <mat-header-cell *matHeaderCellDef> Event Date </mat-header-cell>
    <mat-cell *matCellDef="let row">
@@ -113,7 +90,7 @@
                         {{state.stateCode}}
                       </mat-option>
                     </mat-select>
-                    <mat-hint align="end">Select the state you live in ^</mat-hint>
+                    <mat-hint align="end">Select the state you live in, as shown on your ID ^</mat-hint>
                     </mat-form-field>
                   </div>
 
@@ -126,15 +103,17 @@
                       {{city.city}}
                     </mat-option>
                   </mat-select>
-                  <mat-hint align="end">Select the city you live in ^</mat-hint>
+                  <mat-hint align="end">Select the city you live in, as shown on your ID ^</mat-hint>
                   </mat-form-field>
                 </div>
 </div>
 <div style="clear: all; padding: 10px;">&nbsp;</div>
               <div class="confirmmessage" *ngIf="submitResult">{{submitResult}}</div>
           </mat-card-content>
-        <mat-card-actions>
-          <button mat-raised-button color="primary" type="submit" [disabled]="(!eventForm.valid || submitProcess)">Sign up!</button>
+        <mat-card-actions *ngIf="this.moveOrSignup || this.signedupSlot == 0">
+          <button mat-raised-button color="primary" type="submit" [disabled]="(!eventForm.valid || submitProcess)">
+            <span *ngIf="!this.moveOrSignup">Sign up!</span>
+            <span *ngIf="this.moveOrSignup">Change your slot</span></button>
           <div *ngIf="submitProcess">Please wait for your signup to process.</div>
     </mat-card-actions>
     </mat-card>
