@@ -10,6 +10,7 @@ export class AuthenticationService {
     private currentUserSubject: BehaviorSubject<ApiUser>;
     public currentUser: Observable<ApiUser>;
     private REST_API_SERVER = "https://computerresetliquidation.azurewebsites.net";
+    //private REST_API_SERVER = "https://localhost:5001";
 
     constructor(private http: HttpClient) {
         this.currentUserSubject = new BehaviorSubject<any>(sessionStorage.getItem('apiToken'));

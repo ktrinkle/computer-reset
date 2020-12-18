@@ -6,7 +6,7 @@
       </mat-card-header>
         <mat-card-content>
           <p><img src="assets/cr.svg" width="320px" layout-align="center"></p>
-          <p>Events that are open for signup can be found below. 
+          <p>Events that are open for signup can be found below.
             Please note that events are not posted more than 7 days before the event date.</p>
         </mat-card-content>
         <mat-card-content class="alertmessage">
@@ -16,15 +16,61 @@
       </mat-list>
     </mat-card-content>
     </mat-card>
+    <!--loading screen-->
     <mat-card style="margin-top:10px;" *ngIf="!loadStatus">
       <mat-card-header>
-          <mat-card-title>Loading events</mat-card-title>
-          <mat-card-subtitle>Please wait...</mat-card-subtitle>
+          <mat-card-title>Upcoming events</mat-card-title>
+          <mat-card-subtitle>Loading upcoming events...</mat-card-subtitle>
       </mat-card-header>
       <mat-card-content>
-        <mat-spinner></mat-spinner>
+        <div class="content" fxLayout="row wrap" fxLayoutGap="16px grid" style="padding-left: 24px; padding-right: 24px;">
+          <div fxFlex="25%" class="mat-header-row mat-header-cell"> Event Date </div>
+          <div fxFlex="25%" class="mat-header-row mat-header-cell"> Start Time </div>
+          <div fxFlex="25%" class="mat-header-row mat-header-cell"> End Time </div>
+          <div fxFlex="25%" class="mat-header-row mat-header-cell">  </div>
+          <div fxFlex="25%" class="mat-row mat-cell">
+            <ngx-skeleton-loader count="4" [theme]="{
+              'border-radius': '4px',
+              height: '36px',
+              margin: '10px 0 10px 0',
+              width: '80%',
+              display: 'block'
+            }"></ngx-skeleton-loader>
+          </div>
+          <div fxFlex="25%" class="mat-row mat-cell">
+            <ngx-skeleton-loader count="4" [theme]="{
+              'border-radius': '4px',
+              height: '36px',
+              margin: '10px 0 10px 0',
+              width: '70px',
+              display: 'block'
+            }"></ngx-skeleton-loader>
+          </div>
+          <div fxFlex="25%" class="mat-row mat-cell">
+            <ngx-skeleton-loader count="4" [theme]="{
+              'border-radius': '4px',
+              height: '36px',
+              margin: '10px 0 10px 0',
+              width: '70px',
+              display: 'block'
+            }"></ngx-skeleton-loader>
+          </div>
+          <div fxFlex="25%" class="mat-row mat-cell">
+             <ngx-skeleton-loader count="4" [theme]="{
+              'border-radius': '4px',
+              height: '36px',
+              margin: '10px 0 10px 0',
+              width: '60px',
+              display: 'block'
+            }"></ngx-skeleton-loader>
+          </div>
+
+            </div>
       </mat-card-content>
-    </mat-card>
+      <mat-card-actions>
+  </mat-card-actions>
+  </mat-card>
+
  <!-- confirmed status card-->
  <mat-card style="margin-top:10px;" *ngIf="confirmedEvents.length > 0">
   <mat-card-header>
@@ -35,28 +81,28 @@
     <div class="signupmessage">
       Please send us a Facebook message if you cannot attend this event for any reason.
     </div>
-      <mat-table [dataSource]="signedupEvents">
+      <mat-table [dataSource]="confirmedEvents">
           <!-- Date Definition -->
           <ng-container matColumnDef="eventDate">
             <mat-header-cell *matHeaderCellDef> Event Date </mat-header-cell>
-            <mat-cell *matCellDef="let row"> 
+            <mat-cell *matCellDef="let row">
               <span fxShow fxHide.lt-md>{{row.eventStartTms | date:'fullDate'}}</span>
               <span fxHide fxShow.lt-md>{{row.eventStartTms | date:'shortDate'}}</span>
            </mat-cell>
           </ng-container>
-        
+
           <!-- Start time Definition -->
           <ng-container matColumnDef="eventStart">
             <mat-header-cell *matHeaderCellDef> Start Time </mat-header-cell>
             <mat-cell *matCellDef="let row"> {{row.eventStartTms | date:'shortTime'}} </mat-cell>
           </ng-container>
-        
+
           <!-- Title Definition -->
           <ng-container matColumnDef="eventEnd">
             <mat-header-cell *matHeaderCellDef> End Time </mat-header-cell>
             <mat-cell *matCellDef="let row"> {{row.eventEndTms | date:'shortTime'}} </mat-cell>
           </ng-container>
-                      
+
           <!-- Header and Row Declarations -->
           <mat-header-row *matHeaderRowDef="['eventDate', 'eventStart', 'eventEnd']"></mat-header-row>
           <mat-row *matRowDef="let row; columns: ['eventDate', 'eventStart', 'eventEnd']"></mat-row>
@@ -83,24 +129,24 @@
               <!-- Date Definition -->
               <ng-container matColumnDef="eventDate">
                 <mat-header-cell *matHeaderCellDef> Event Date </mat-header-cell>
-                <mat-cell *matCellDef="let row"> 
+                <mat-cell *matCellDef="let row">
                   <span fxShow fxHide.lt-md>{{row.eventStartTms | date:'fullDate'}}</span>
                   <span fxHide fxShow.lt-md>{{row.eventStartTms | date:'shortDate'}}</span>
                </mat-cell>
               </ng-container>
-            
+
               <!-- Start time Definition -->
               <ng-container matColumnDef="eventStart">
                 <mat-header-cell *matHeaderCellDef> Start Time </mat-header-cell>
                 <mat-cell *matCellDef="let row"> {{row.eventStartTms | date:'shortTime'}} </mat-cell>
               </ng-container>
-            
+
               <!-- Title Definition -->
               <ng-container matColumnDef="eventEnd">
                 <mat-header-cell *matHeaderCellDef> End Time </mat-header-cell>
                 <mat-cell *matCellDef="let row"> {{row.eventEndTms | date:'shortTime'}} </mat-cell>
               </ng-container>
-                          
+
               <!-- Header and Row Declarations -->
               <mat-header-row *matHeaderRowDef="['eventDate', 'eventStart', 'eventEnd']"></mat-header-row>
               <mat-row *matRowDef="let row; columns: ['eventDate', 'eventStart', 'eventEnd']"></mat-row>
@@ -118,31 +164,31 @@
     </mat-card-header>
     <mat-card-content>
       <div class="signupmessage">
-        Please check your Facebook messages to see if a slot is available. 
+        Please check your Facebook messages to see if a slot is available.
         You will need to speak to a volunteer if a slot is available to attend an event!
       </div>
         <mat-table [dataSource]="waitlist">
             <!-- Date Definition -->
             <ng-container matColumnDef="eventDate">
               <mat-header-cell *matHeaderCellDef> Event Date </mat-header-cell>
-              <mat-cell *matCellDef="let row"> 
+              <mat-cell *matCellDef="let row">
                 <span fxShow fxHide.lt-md>{{row.eventStartTms | date:'fullDate'}}</span>
                 <span fxHide fxShow.lt-md>{{row.eventStartTms | date:'shortDate'}}</span>
              </mat-cell>
             </ng-container>
-          
+
             <!-- Start time Definition -->
             <ng-container matColumnDef="eventStart">
               <mat-header-cell *matHeaderCellDef> Start Time </mat-header-cell>
               <mat-cell *matCellDef="let row"> {{row.eventStartTms | date:'shortTime'}} </mat-cell>
             </ng-container>
-          
+
             <!-- Title Definition -->
             <ng-container matColumnDef="eventEnd">
               <mat-header-cell *matHeaderCellDef> End Time </mat-header-cell>
               <mat-cell *matCellDef="let row"> {{row.eventEndTms | date:'shortTime'}} </mat-cell>
             </ng-container>
-                        
+
             <!-- Header and Row Declarations -->
             <mat-header-row *matHeaderRowDef="['eventDate', 'eventStart', 'eventEnd']"></mat-header-row>
             <mat-row *matRowDef="let row; columns: ['eventDate', 'eventStart', 'eventEnd']"></mat-row>
@@ -163,18 +209,18 @@
                   <!-- Date Definition -->
                   <ng-container matColumnDef="eventDate">
                     <mat-header-cell *matHeaderCellDef> Event Date </mat-header-cell>
-                    <mat-cell *matCellDef="let row"> 
+                    <mat-cell *matCellDef="let row">
                       <span fxShow fxHide.lt-md>{{row.eventStartTms | date:'fullDate'}}</span>
                       <span fxHide fxShow.lt-md>{{row.eventStartTms | date:'shortDate'}}</span>
                    </mat-cell>
                   </ng-container>
-                
+
                   <!-- Start time Definition -->
                   <ng-container matColumnDef="eventStart">
                     <mat-header-cell *matHeaderCellDef> Start Time </mat-header-cell>
                     <mat-cell *matCellDef="let row"> {{row.eventStartTms | date:'shortTime'}} </mat-cell>
                   </ng-container>
-                
+
                   <!-- Title Definition -->
                   <ng-container matColumnDef="eventEnd">
                     <mat-header-cell *matHeaderCellDef> End Time </mat-header-cell>
@@ -184,13 +230,15 @@
                    <ng-container matColumnDef="signup">
                     <mat-header-cell *matHeaderCellDef></mat-header-cell>
                     <mat-cell *matCellDef="let row">
+                      <div *ngIf="!row.userSlot && this.moveOrSignup && !row.eventClosed && this.signedupSlot > 0"><button mat-raised-button color="accent" (click)="pickEvent(row.id);">Move to this event</button></div>
+                      <!--div *ngIf="!row.eventClosed && row.userSlot == 'L'"><button mat-raised-button color="primary" (click)="deleteEvent(row.id);">Remove signup</button></div-->
                       <div *ngIf="row.userSlot">Signed up</div>
                       <div *ngIf="row.eventClosed && !row.userSlot">Event is full</div>
-                      <div *ngIf="!row.eventClosed && !row.userSlot"><button mat-raised-button color="accent" (click)="pickEvent(row.id);">Sign Up</button></div>
+                      <div *ngIf="!row.eventClosed && !row.userSlot && this.signedupSlot == 0"><button mat-raised-button color="accent" (click)="pickEvent(row.id);">Sign Up</button></div>
                     </mat-cell>
 
                   </ng-container>
-                  
+
 
                   <!-- Event note Definition -->
                   <ng-container matColumnDef="eventNote">

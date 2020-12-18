@@ -25,14 +25,21 @@
         </mat-card-header>
         <mat-card-content>
 <!--new table-->
-<mat-radio-group id="eventId" name="eventId" required [(formGroup)]="eventForm" formControlName="eventId">
-<mat-table [dataSource]="events" multiTemplateDataRows>
+<mat-button-toggle-group id="eventId" name="eventId" required [(formGroup)]="eventForm" formControlName="eventId">
+  <div fxFlex="100%" fxFlex.xs="100%" fxFlex.sm="100%" style="padding: 10px;">
+    <mat-table [dataSource]="events" multiTemplateDataRows>
   <!-- Signup Definition -->
   <ng-container matColumnDef="signup">
      <mat-header-cell *matHeaderCellDef></mat-header-cell>
      <mat-cell *matCellDef="let row">
-       <mat-radio-button [value]="row.id" color="primary" [disabled]="row.timeslot != null"></mat-radio-button>
-       {{row.userslot}}
+       <div *ngIf="row.userSlot">
+         <span class="unselected-toggle">Signed up</span></div>
+       <div *ngIf="this.moveOrSignup && this.signedupSlot > 0 && !row.userSlot">
+        <mat-button-toggle [value]="row.id">Move to event</mat-button-toggle>
+       </div>
+       <div *ngIf="!(row.userSlot || row.eventClosed) && !this.moveOrSignup && this.signedupSlot == 0">
+        <mat-button-toggle [value]="row.id">Sign up</mat-button-toggle>
+       </div>
      </mat-cell>
    </ng-container>
 
@@ -66,7 +73,9 @@
  <mat-row *matRowDef="let row; columns: ['signup', 'eventDate', 'eventStart', 'eventEnd']" [ngClass]="{'mat-row1': row.eventNote !== null}"></mat-row>
  <mat-row *matRowDef="let row; columns: ['eventNote'], when: isNoteRow" class="mat-row2"></mat-row>
 </mat-table>
-</mat-radio-group>
+</div>
+</mat-button-toggle-group>
+
 <div class="content" fxLayout="row wrap" fxLayoutGap="16px grid">
   <div fxFlex="100%" fxFlex.xs="100%" fxFlex.sm="100%" style="padding: 10px;">
       <p>&nbsp;</p>
@@ -116,6 +125,9 @@
             <span *ngIf="this.moveOrSignup">Change your slot</span></button>
           <div *ngIf="submitProcess">Please wait for your signup to process.</div>
     </mat-card-actions>
+    <mat-card-actions *ngIf="this.signedupSlot == -1">
+      <div class="confirmmessage">You have already signed up for an open event.</div>
+</mat-card-actions>
     </mat-card>
     </form>
     </div>
