@@ -5,6 +5,7 @@ import { FormGroup, FormControl, Validators, FormBuilder, ReactiveFormsModule } 
 import { Subject } from 'rxjs';
 import { DatePipe } from '@angular/common';
 import { format, parse } from 'date-fns';
+import { utcToZonedTime } from 'date-fns-tz';
 
 @Component({
   selector: 'app-createevent',
@@ -29,7 +30,7 @@ export class CreateeventComponent implements OnInit, OnDestroy {
 
   destroy$: Subject<void> = new Subject<void>();
 
-  constructor(private dataService: DataService, 
+  constructor(private dataService: DataService,
     private formBuilder: FormBuilder,
     private datePipe: DatePipe) { }
 
@@ -52,7 +53,7 @@ export class CreateeventComponent implements OnInit, OnDestroy {
     this.currEvents = this.formBuilder.group({});
 
     //We shall see if this works ok. Promise would be bad since we want new events to show
-    this.dataService.getEventFuture(this.dataService.userFull.facebookId).subscribe((data: Timeslot[]) => { 
+    this.dataService.getEventFuture(this.dataService.userFull.facebookId).subscribe((data: Timeslot[]) => {
         this.events = data;
         this.events.forEach(event => {
           this.currEvents.addControl(event.id.toString(), new FormControl(event.eventClosed));
@@ -70,7 +71,7 @@ export class CreateeventComponent implements OnInit, OnDestroy {
   eventSubmit() {
     //builds out timeslot into eventTimeSlotSelect object, overwriting what is there.
     this.submitProcess = true;
-    
+
     //this sets update or insert
     if (this.newEventForm.value.eventId) {
       this.eventTimeslotSelect.id = this.newEventForm.value.eventId;
@@ -80,14 +81,14 @@ export class CreateeventComponent implements OnInit, OnDestroy {
 
     //compile event_start_tms and event_end_tms from 2 fields via strings
     //this is being transmitted as UTC without timezone, so we need to inject timezone
-    
+
     var startDt = this.datePipe.transform(this.newEventForm.value.eventDate, 'yyyy-MM-dd');
     var startTm = startDt + ' ' + this.newEventForm.value.startTm;
     var endTm = startDt + ' ' + this.newEventForm.value.endTm;
 
     var eventStartTms = parse(startTm, "yyyy-MM-dd h:mm aa", new Date());
     var eventEndTms = parse(endTm, "yyyy-MM-dd h:mm aa", new Date());
-    
+
     this.eventTimeslotSelect.eventStartTms = new Date(eventStartTms);
     this.eventTimeslotSelect.eventEndTms = new Date(eventEndTms);
 
@@ -143,9 +144,9 @@ export class CreateeventComponent implements OnInit, OnDestroy {
       //parse out event
       var openInd = event.source.checked;
       var id = event.source.id;
-  
+
       var rtnTxt = await this.dataService.changeEventState(id, this.dataService.userFull.facebookId);
-      //we don't care about this value right now but may snackbar it    
+      //we don't care about this value right now but may snackbar it
   }
 
   async changePrivateState(event: any) {
@@ -158,7 +159,7 @@ export class CreateeventComponent implements OnInit, OnDestroy {
     var openInd = event.source.checked;
 
     var rtnTxt = await this.dataService.changePrivateState(id, this.dataService.userFull.facebookId);
-    //we don't care about this value right now but may snackbar it    
+    //we don't care about this value right now but may snackbar it
 }
 
   manageEvent(eventId: number) {
