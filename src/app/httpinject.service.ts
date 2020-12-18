@@ -6,13 +6,17 @@ import { AuthenticationService } from './authentication/authentication.service';
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
+
+    private REST_API_SERVER = "https://computerresetliquidation.azurewebsites.net";
+    //private REST_API_SERVER = "https://localhost:5001";
+
     constructor(private authenticationService: AuthenticationService) { }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         // add auth header with jwt if user is logged in and request is to the api url
         const currentUser = this.authenticationService.currentUserValue;
         const isLoggedIn = currentUser && currentUser.token;
-        const isApiUrl = request.url.startsWith('https://computerresetliquidation.azurewebsites.net');
+        const isApiUrl = request.url.startsWith(this.REST_API_SERVER);
         if (isLoggedIn && isApiUrl) {
             request = request.clone({
                 setHeaders: {

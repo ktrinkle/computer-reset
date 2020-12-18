@@ -23,14 +23,14 @@ import { MatCardModule } from '@angular/material/card';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTableModule } from '@angular/material/table';
-import { MatRadioModule } from '@angular/material/radio';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatListModule } from '@angular/material/list';
 import { LoadingScreenComponent } from './loading-screen/loading-screen.component';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { AdminfutureComponent } from './admin/adminfuture/adminfuture.component';
+import { AdminfutureComponent, AlertComponent } from './admin/adminfuture/adminfuture.component';
 import { AdmintodayComponent } from './admin/admintoday/admintoday.component';
 import { AdminuserComponent } from './admin/adminuser/adminuser.component';
 import { MatTabsModule } from '@angular/material/tabs';
@@ -42,6 +42,8 @@ import { MatNativeDateModule, MatRippleModule } from '@angular/material/core';
 import { UserlistComponent } from './admin/userlist/userlist.component';
 import { StandbyComponent } from './admin/standby/standby.component';
 import { RulesComponent } from './helper/rules/rules.component';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
+import { MatDialogModule } from '@angular/material/dialog';
 
 
 export function appInit(appConfigService: AppConfigService) {
@@ -66,7 +68,8 @@ export function appInitFb(appConfigService: AppConfigService) {
     CreateeventComponent,
     UserlistComponent,
     StandbyComponent,
-    RulesComponent
+    RulesComponent,
+    AlertComponent,
   ],
   imports: [
     BrowserModule,
@@ -79,7 +82,7 @@ export function appInitFb(appConfigService: AppConfigService) {
     MatCardModule,
     MatProgressSpinnerModule,
     MatTableModule,
-    MatRadioModule,
+    MatButtonToggleModule,
     FormsModule,
     MatFormFieldModule,
     MatInputModule,
@@ -96,7 +99,8 @@ export function appInitFb(appConfigService: AppConfigService) {
     NgxMaterialTimepickerModule,
     MatNativeDateModule,
     MatRippleModule,
-    MatAutocompleteModule
+    MatDialogModule,
+    NgxSkeletonLoaderModule,
     ],
     providers: [
       // Http Interceptor(s) -  adds with Client Credentials
@@ -120,7 +124,10 @@ export function appInitFb(appConfigService: AppConfigService) {
         }
       ]
   ],
-  exports: [AdminfutureComponent],
+  exports: [
+    AdminfutureComponent,
+    HomeComponent,
+  ],
   bootstrap: [AppComponent]
 })
 

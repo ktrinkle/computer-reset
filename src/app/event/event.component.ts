@@ -2,8 +2,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { DataService } from '../data.service';
 import { Signup, StateList, CityList, TimeslotSmall, openEvent } from '../data';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
-import { map, takeUntil } from 'rxjs/operators';
-import { Observable, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 import { utcToZonedTime } from 'date-fns-tz';
 
 @Component({
@@ -34,8 +34,6 @@ export class EventComponent implements OnInit, OnDestroy {
 
   private openEvent: openEvent;
 
-  eventObs = new Subject<openEvent>();
-
   public agreeClick(): void {
     this.agreeInd = true;
   }
@@ -60,6 +58,8 @@ export class EventComponent implements OnInit, OnDestroy {
       this.signUp.eventId = this.dataService.eventIdPass;
       this.dataService.eventIdPass = 0;
 
+      //set this here because if we reload, we don't want to flash the screen
+      this.loadStatus = false;
       this.loadEvents();
 
       this.dataService.getState().subscribe(
@@ -99,7 +99,7 @@ export class EventComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.eventObs.unsubscribe();
+
   }
 
   isNoteRow = (index, item) => item.eventNote === null ? false: true;
@@ -107,9 +107,7 @@ export class EventComponent implements OnInit, OnDestroy {
   loadEvents() {
     //loads all events from web service and parses based on requirements
 
-    this.loadStatus = false;
-
-    this.eventObs = this.dataService.getOpenEventUser(this.dataService.userFull.facebookId).subscribe({next: (data: openEvent)=>{
+    this.dataService.getOpenEventUser(this.dataService.userFull.facebookId).subscribe({next: (data: openEvent)=>{
       this.openEvent = data;
       this.events = data.timeslot;
       this.moveOrSignup = data.moveFlag;
@@ -122,13 +120,10 @@ export class EventComponent implements OnInit, OnDestroy {
 
     },
     complete: () => {
-      //console.log(this.events);
-      console.log(this.moveOrSignup);
-      console.log(this.signedupSlot);
       this.loadStatus = true;}});
   }
 
-  eventSubmit() {
+  async eventSubmit() {
     //builds out signup object. We already have the first pieces.
     this.submitProcess = true;
 
@@ -155,19 +150,19 @@ export class EventComponent implements OnInit, OnDestroy {
       //all is good, lets fire the web service
       //determine if move or signup
       if (!this.moveOrSignup) {
-        this.dataService.signupForEvent(this.signUp).subscribe((data => {
+        await this.dataService.signupForEvent(this.signUp).subscribe((data => {
           this.submitResult = data;
           this.submitProcess = false;
       }));
       } else {
         //assume a move
-        var res = this.dataService.userMoveSlot(this.signedupSlot, this.signUp.eventId, this.signUp.fbId).toString();
-        this.submitResult = res;
+        var res = await this.dataService.userMoveSlot(this.signedupSlot, this.signUp.eventId, this.signUp.fbId);
+        this.submitResult = res.toString();
         this.submitProcess = false;
       }
+      //have to reload data after we finish to show the new state to the user
+      this.loadEvents();
     }
-    //get updated info
-    this.eventObs.next();
   }
 
   //onchange handler next to clear status for submitResult

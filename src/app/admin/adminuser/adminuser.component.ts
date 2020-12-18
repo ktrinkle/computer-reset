@@ -31,8 +31,8 @@ export class AdminuserComponent implements OnInit, OnDestroy {
 
   destroy$: Subject<void> = new Subject<void>();
 
-  constructor(private dataService: DataService, 
-    private formBuilder: FormBuilder) { 
+  constructor(private dataService: DataService,
+    private formBuilder: FormBuilder) {
       this.filteredOptions = this.userForm.valueChanges
       .pipe(
         startWith(''),
@@ -63,7 +63,7 @@ export class AdminuserComponent implements OnInit, OnDestroy {
       stateCd: new FormControl('', [Validators.required])
     });
 
-    this.dataService.getEventAll(this.dataService.userFull.facebookId).subscribe((data: Timeslot[]) => { 
+    this.dataService.getEventAll(this.dataService.userFull.facebookId).subscribe((data: Timeslot[]) => {
         this.events = data;
        });
 
@@ -98,7 +98,7 @@ export class AdminuserComponent implements OnInit, OnDestroy {
     //submits user form as userManual
     this.submitProcess = true;
 
-    
+
   }
 
   eventSubmit() {
@@ -108,16 +108,16 @@ export class AdminuserComponent implements OnInit, OnDestroy {
     if (!this.userAssignEvent.value.eventId || this.userAssignEvent.value.eventId == 0) {
       //error if nothing is selected
       this.submitResult = "You may have not selected an event. Please try again.";
-      this.submitProcess = false;      
-    }; 
+      this.submitProcess = false;
+    };
 
     //need to build out signup json
 
     //all is good, lets fire the web service
-    this.dataService.signupForEvent(this.signUp).subscribe((data => {
-        this.submitResult = data;
-        this.submitProcess = false;
-    }));
+    //this.dataService.signupForEvent(this.signUp).subscribe((data => {
+    //    this.submitResult = data;
+    //    this.submitProcess = false;
+    //}));
   }
 
 
@@ -131,8 +131,8 @@ export class AdminuserComponent implements OnInit, OnDestroy {
   changeCityList(event) {
     //console.log("GetCity");
     this.dataService.getCity(event.value).pipe(
-      takeUntil(this.destroy$)).subscribe(result => { 
-        this.cities = result; 
+      takeUntil(this.destroy$)).subscribe(result => {
+        this.cities = result;
       }
     );
   }

@@ -16,7 +16,7 @@ export class DataService {
     stateCode: null, realName: null, facebookId: null, adminFlag: false, volunteerFlag: false};
 
   private REST_API_SERVER = "https://computerresetliquidation.azurewebsites.net";
-  //private REST_API_SERVER = "";
+  //private REST_API_SERVER = "https://localhost:5001";
 
   constructor(private httpClient: HttpClient) { }
 
@@ -36,19 +36,19 @@ export class DataService {
     window.alert(errorMessage);
     return throwError(errorMessage);
   }
-  
+
   /** GET - gets Azure Auth info from Facebook for UI to parse */
     public getAzureAuth() {
       var url = '/.auth/me';
       return this.httpClient.get(url);
     }
-    
+
     public getUserInfo(userReq: UserSmall): any {
       var url = this.REST_API_SERVER + '/api/computerreset/api/users/attrib/';
       //console.log(this.userSmall);
       return this.httpClient.post(url, userReq);
     }
-    
+
     public updateUserNote(userNote: UserEventNote): any {
       var url = this.REST_API_SERVER + '/api/computerreset/api/events/signup/note';
       var apirtn = this.httpClient.post(url, userNote, {responseType: 'text'}).toPromise();
@@ -115,7 +115,7 @@ export class DataService {
       + encodeURIComponent(facebookId) + '';
       return this.httpClient.put(url, null, {responseType: 'text'}).toPromise();
     }
-    
+
     public async sendUserAttend(id: number, facebookId: string): Promise<string> {
       var url = this.REST_API_SERVER + '/api/computerreset/api/events/attended/' + encodeURIComponent(id) + '/'
       + encodeURIComponent(facebookId) + '';
@@ -146,7 +146,7 @@ export class DataService {
     }
 
     public async moveUserSlot(slotId: number, newEventId: number, facebookId: string): Promise<string> {
-      var url = this.REST_API_SERVER + '/api/computerreset/api/events/move/' + encodeURIComponent(slotId) + '/' + 
+      var url = this.REST_API_SERVER + '/api/computerreset/api/events/move/' + encodeURIComponent(slotId) + '/' +
         encodeURIComponent(newEventId) + '/' + encodeURIComponent(facebookId) + '';
       return this.httpClient.put(url, null, {responseType: 'text'}).toPromise();
     }
@@ -173,8 +173,14 @@ export class DataService {
     }
 
     public async userMoveSlot(slotId: number, newEventId: number, facebookId: string): Promise<string> {
-      var url = this.REST_API_SERVER + '/api/computerreset/api/signup/move/' + encodeURIComponent(slotId) + '/' + 
+      var url = this.REST_API_SERVER + '/api/computerreset/api/signup/move/' + encodeURIComponent(slotId) + '/' +
         encodeURIComponent(newEventId) + '/' + encodeURIComponent(facebookId) + '';
+      return this.httpClient.put(url, null, {responseType: 'text'}).toPromise();
+    }
+
+    public async userDeleteSignup(slotId: number, facebookId: string): Promise<string> {
+      var url = this.REST_API_SERVER + '/api/computerreset/api/signup/delete/' + encodeURIComponent(slotId) + '/' +
+         encodeURIComponent(facebookId) + '';
       return this.httpClient.put(url, null, {responseType: 'text'}).toPromise();
     }
 }

@@ -77,3 +77,23 @@ div .confirmmessage {
   margin-right: auto;
   border-radius: 4px;
 }
+
+.mat-column-signup {
+  flex: 0 0 25%;
+}
+.mat-column-eventDate {
+  flex: 0 0 35%;
+}
+.mat-column-eventStart {
+  flex: 0 0 20%;
+}
+.mat-column-eventEnd {
+  flex: 0 0 20;
+}
+.mat-column-eventNote {
+  flex: 0 0 100%;
+}
+
+.mat-table {
+  width:100%;
+}
