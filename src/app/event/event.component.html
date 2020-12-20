@@ -17,7 +17,49 @@
     </mat-card>
     <div *ngIf="agreeInd">
     <form [formGroup]="eventForm" (ngSubmit)="eventSubmit()">
-      <mat-spinner *ngIf="!loadStatus"></mat-spinner>
+          <!--loading screen div-->
+        <div class="content" fxLayout="row wrap" fxLayoutGap="16px grid" style="padding-left: 24px; padding-right: 24px;" *ngIf="!this.loadStatus">
+          <div fxFlex="25%" class="mat-header-row mat-header-cell">  </div>
+          <div fxFlex="35%" class="mat-header-row mat-header-cell"> Event Date </div>
+          <div fxFlex="20%" class="mat-header-row mat-header-cell"> Start Time </div>
+          <div fxFlex="20%" class="mat-header-row mat-header-cell"> End Time </div>
+          <div fxFlex="25%" class="mat-row mat-cell">
+            <ngx-skeleton-loader count="4" [theme]="{
+              'border-radius': '4px',
+              height: '36px',
+              margin: '10px 0 10px 0',
+              width: '60px',
+              display: 'block'
+            }"></ngx-skeleton-loader>
+          </div>
+          <div fxFlex="35%" class="mat-row mat-cell">
+            <ngx-skeleton-loader count="4" [theme]="{
+              'border-radius': '4px',
+              height: '36px',
+              margin: '10px 0 10px 0',
+              width: '80%',
+              display: 'block'
+            }"></ngx-skeleton-loader>
+          </div>
+          <div fxFlex="20%" class="mat-row mat-cell">
+            <ngx-skeleton-loader count="4" [theme]="{
+              'border-radius': '4px',
+              height: '36px',
+              margin: '10px 0 10px 0',
+              width: '70px',
+              display: 'block'
+            }"></ngx-skeleton-loader>
+          </div>
+          <div fxFlex="20%" class="mat-row mat-cell">
+             <ngx-skeleton-loader count="4" [theme]="{
+              'border-radius': '4px',
+              height: '36px',
+              margin: '10px 0 10px 0',
+              width: '70px',
+              display: 'block'
+            }"></ngx-skeleton-loader>
+          </div>
+        </div>
       <mat-card style="margin-top:10px;" *ngIf="loadStatus">
         <mat-card-header>
             <mat-card-title>Upcoming events</mat-card-title>
