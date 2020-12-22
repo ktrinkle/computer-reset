@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { environment } from './../../environments/environment';
 
 import { ApiUser } from '../data';
 
@@ -9,8 +10,7 @@ import { ApiUser } from '../data';
 export class AuthenticationService {
     private currentUserSubject: BehaviorSubject<ApiUser>;
     public currentUser: Observable<ApiUser>;
-    private REST_API_SERVER = "https://computerresetliquidation.azurewebsites.net";
-    //private REST_API_SERVER = "https://localhost:5001";
+    private REST_API_SERVER = environment.api_url;
 
     constructor(private http: HttpClient) {
         this.currentUserSubject = new BehaviorSubject<any>(sessionStorage.getItem('apiToken'));
