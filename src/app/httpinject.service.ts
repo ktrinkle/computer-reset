@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from './../environments/environment';
 
 import { AuthenticationService } from './authentication/authentication.service';
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
 
-    private REST_API_SERVER = "https://computerresetliquidation.azurewebsites.net";
-    //private REST_API_SERVER = "https://localhost:5001";
+    private REST_API_SERVER = environment.api_url;
 
     constructor(private authenticationService: AuthenticationService) { }
 
