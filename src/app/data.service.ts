@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { throwError } from 'rxjs';
 import { UserSmall, Signup, UserModel, UserEventSignup, UserEventDayOf, UserEventNote, Timeslot, UserManual, openEvent } from './data';
-
+import { environment } from './../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -15,8 +15,7 @@ export class DataService {
   public userFull: UserModel = {id: 0, firstName: null, lastName: null, cityName: null,
     stateCode: null, realName: null, facebookId: null, adminFlag: false, volunteerFlag: false};
 
-  private REST_API_SERVER = "https://computerresetliquidation.azurewebsites.net";
-  //private REST_API_SERVER = "https://localhost:5001";
+  private REST_API_SERVER = environment.api_url;
 
   constructor(private httpClient: HttpClient) { }
 
