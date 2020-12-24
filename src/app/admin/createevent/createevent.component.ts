@@ -50,6 +50,12 @@ export class CreateeventComponent implements OnInit, OnDestroy {
       privateEventInd: new FormControl('')
     });
 
+    this.loadStatus = false;
+    this.loadEvents();
+
+  }
+
+  loadEvents() {
     this.currEvents = this.formBuilder.group({});
 
     //We shall see if this works ok. Promise would be bad since we want new events to show
@@ -59,9 +65,8 @@ export class CreateeventComponent implements OnInit, OnDestroy {
           this.currEvents.addControl(event.id.toString(), new FormControl(event.eventClosed));
           this.currEvents.addControl('pvt' + event.id.toString(), new FormControl(event.privateEventInd));
         });
-        console.log(this.currEvents);
+        //console.log(this.currEvents);
        });
-
   }
 
   highlight(row){
@@ -137,6 +142,7 @@ export class CreateeventComponent implements OnInit, OnDestroy {
           this.submitResult = data;
           this.submitProcess = false;
       }));
+      this.loadEvents();
     }
   }
 
