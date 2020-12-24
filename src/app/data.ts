@@ -54,7 +54,8 @@ export interface ClaimPrincipal {
     stateCd: string;
     realname: string;
     firstNm: string;
-    lastNm: string;   
+    lastNm: string;
+    flexibleInd: boolean;
   }
 
   export interface StateList {
@@ -100,7 +101,7 @@ export interface ClaimPrincipal {
     id: number;
     userid: number;
     firstNm: string;
-    lastNm: string;   
+    lastNm: string;
     realNm: string;
     cityNm: string;
     stateCd: string;
@@ -112,6 +113,7 @@ export interface ClaimPrincipal {
     signupTxt: string;
     confirmInd: boolean;
     noShowCnt: number;
+    flexibleInd: boolean;
   }
 
   export interface UserEventNote {
@@ -119,12 +121,12 @@ export interface ClaimPrincipal {
     signupTxt: string;
     fbId: string;
   }
-  
+
   export interface UserEventDayOf {
     id: number;
     userid: number;
     firstNm: string;
-    lastNm: string;   
+    lastNm: string;
     realNm: string;
     timeslotId: number;
     attendInd: boolean;
@@ -139,7 +141,7 @@ export interface ClaimPrincipal {
   export interface Standby {
     id: number;
     firstNm: string;
-    lastNm: string;   
+    lastNm: string;
     realNm: string;
     cityNm: string;
     stateCd: string;
@@ -150,6 +152,7 @@ export interface ClaimPrincipal {
     noShowCnt: number;
     eventCnt: number;
     signupTxt: number;
+    flexibleInd: boolean;
   }
 
   export interface Slot {
@@ -182,4 +185,5 @@ export interface ClaimPrincipal {
     timeslot: TimeslotSmall[];
     signedUpTimeslot: number;
     moveFlag: boolean;
+    flexSlot: boolean;
   }

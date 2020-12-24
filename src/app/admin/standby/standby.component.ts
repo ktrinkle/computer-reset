@@ -23,7 +23,7 @@ export class StandbyComponent implements OnInit, OnDestroy {
   public selectedRowIndex = -1;
   public loadStatus = false;
 
-  constructor(private dataService: DataService, 
+  constructor(private dataService: DataService,
     private formBuilder: FormBuilder,
     private _snackBar: MatSnackBar) { }
 
@@ -31,21 +31,24 @@ export class StandbyComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.loadStatus = false;
+    this.loadStandby();
+  }
+
+  loadStandby() {
     this.signupForm = this.formBuilder.group({});
     this.dataService.getStandbyMaster(this.dataService.userFull.facebookId)
-      .subscribe({next: (data: any) => { 
-        this.standbyList = data; 
+      .subscribe({next: (data: any) => {
+        this.standbyList = data;
         this.slot = data.slot;
         this.standbyDetail = data.standbys;
         this.standbyDetail.forEach(event => {
           this.signupForm.addControl('signupTxt' + event.id.toString(), new FormControl(event.signupTxt));
-        });      
+        });
       },
       complete: () => {
         this.loadStatus = true;
       }
     });
-
   }
 
   updateSignupTxt(event: any) {
@@ -75,6 +78,8 @@ export class StandbyComponent implements OnInit, OnDestroy {
     var id = event.source.id;
 
     this.openSnackBar(await this.dataService.moveUserSlot(id, newEvent, this.dataService.userFull.facebookId));
+
+    this.loadStandby();
   }
 
   highlight(row){
@@ -88,7 +93,7 @@ export class StandbyComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnDestroy() { 
+  ngOnDestroy() {
     this.onDestroy.next();
   }
 
