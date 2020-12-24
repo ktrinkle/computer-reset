@@ -17,7 +17,8 @@ export class EventComponent implements OnInit, OnDestroy {
   public signUp: Signup = {realname: "", cityNm: "", stateCd: "", eventId: 0,
     fbId: this.dataService.userFull.facebookId,
     firstNm: this.dataService.userFull.firstName,
-    lastNm: this.dataService.userFull.lastName
+    lastNm: this.dataService.userFull.lastName,
+    flexibleInd: false
   };
 
   public events: TimeslotSmall[];
@@ -31,6 +32,7 @@ export class EventComponent implements OnInit, OnDestroy {
   public loadStatus: boolean = true;
   public moveOrSignup: boolean;
   public signedupSlot: number;
+  private flexInd: boolean;
 
   private openEvent: openEvent;
 
@@ -51,7 +53,8 @@ export class EventComponent implements OnInit, OnDestroy {
         realName: new FormControl(this.dataService.userFull.firstName + " " + this.dataService.userFull.lastName),
         facebookId: new FormControl(this.dataService.userFull.facebookId, [Validators.required]),
         cityNm: new FormControl('', [Validators.required]),
-        stateCd: new FormControl('', [Validators.required])
+        stateCd: new FormControl('', [Validators.required]),
+        flexibleInd: new FormControl('')
       });
 
       //get routed event id if needed
@@ -112,6 +115,7 @@ export class EventComponent implements OnInit, OnDestroy {
       this.events = data.timeslot;
       this.moveOrSignup = data.moveFlag;
       this.signedupSlot = data.signedUpTimeslot ?? -1;
+      this.eventForm.patchValue({flexibleInd: data.flexSlot ?? false});
       this.events.forEach((event, index) => {
         event.eventStartTms = utcToZonedTime(event.eventStartTms, 'America/Chicago');
         event.eventEndTms = utcToZonedTime(event.eventEndTms, 'America/Chicago');
@@ -129,6 +133,10 @@ export class EventComponent implements OnInit, OnDestroy {
 
     if (this.eventForm.value.realName) {
       this.signUp.realname = this.eventForm.value.realName;
+    }
+
+    if (this.eventForm.value.flexibleInd) {
+      this.signUp.flexibleInd = true;
     }
 
     this.signUp.cityNm = this.eventForm.value.cityNm;
