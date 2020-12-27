@@ -1,9 +1,9 @@
-import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { DataService } from '../../data.service';
-import { Timeslot, UserEventSignup, UserEventNote, Slot, Standby, standbyList } from '../../data';
-import { FormGroup, FormControl, Validators, FormBuilder, ReactiveFormsModule, FormArray } from '@angular/forms';
+import { Timeslot, UserEventNote, Slot, Standby, standbyList } from '../../data';
+import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
 import { MatSnackBar, MAT_SNACK_BAR_DATA } from '@angular/material/snack-bar';
-import { Subject, BehaviorSubject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { AlertComponent } from '../adminfuture/adminfuture.component';
 
 @Component({

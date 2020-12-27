@@ -231,8 +231,8 @@
                     <mat-header-cell *matHeaderCellDef></mat-header-cell>
                     <mat-cell *matCellDef="let row">
                       <div *ngIf="!row.userSlot && this.moveOrSignup && !row.eventClosed && this.signedupSlot > 0"><button mat-raised-button color="accent" (click)="pickEvent(row.id);">Move to this event</button></div>
-                      <!--div *ngIf="!row.eventClosed && row.userSlot == 'L'"><button mat-raised-button color="primary" (click)="deleteEvent(row.id);">Remove signup</button></div-->
-                      <div *ngIf="row.userSlot">Signed up</div>
+                      <div *ngIf="!row.eventClosed && row.userSlot == 'L'"><button mat-raised-button color="primary" (click)="deleteEvent(row.id);">Remove signup</button></div>
+                      <div *ngIf="row.userSlot && row.userSlot != 'L'">Signed up</div>
                       <div *ngIf="row.eventClosed && !row.userSlot">Event is full</div>
                       <div *ngIf="!row.eventClosed && !row.userSlot && this.signedupSlot == 0"><button mat-raised-button color="accent" (click)="pickEvent(row.id);">Sign Up</button></div>
                     </mat-cell>

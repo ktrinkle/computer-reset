@@ -3,7 +3,7 @@ import { NgModule, APP_INITIALIZER } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HomeComponent } from './home/home.component';
+import { HomeComponent, DialogCancelComponent } from './home/home.component';
 import { PrivacyComponent } from './privacy/privacy.component';
 import { AdminComponent } from './admin/admin.component';
 import { EventComponent } from './event/event.component';
@@ -27,7 +27,6 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatListModule } from '@angular/material/list';
-import { LoadingScreenComponent } from './loading-screen/loading-screen.component';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { AdminfutureComponent, AlertComponent } from './admin/adminfuture/adminfuture.component';
@@ -61,7 +60,6 @@ export function appInitFb(appConfigService: AppConfigService) {
     PrivacyComponent,
     AdminComponent,
     EventComponent,
-    LoadingScreenComponent,
     AdminfutureComponent,
     AdmintodayComponent,
     AdminuserComponent,
@@ -70,6 +68,7 @@ export function appInitFb(appConfigService: AppConfigService) {
     StandbyComponent,
     RulesComponent,
     AlertComponent,
+    DialogCancelComponent,
   ],
   imports: [
     BrowserModule,
@@ -127,6 +126,10 @@ export function appInitFb(appConfigService: AppConfigService) {
   exports: [
     AdminfutureComponent,
     HomeComponent,
+    DialogCancelComponent,
+  ],
+  entryComponents: [
+    DialogCancelComponent
   ],
   bootstrap: [AppComponent]
 })

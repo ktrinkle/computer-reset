@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { DataService } from '../../data.service';
 import { Timeslot, UserEventDayOf } from '../../data';
-import { FormGroup, FormControl, Validators, FormBuilder, ReactiveFormsModule, FormArray } from '@angular/forms';
+import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
 import { Subject } from 'rxjs';
 
 @Component({
@@ -24,7 +24,7 @@ export class AdmintodayComponent implements OnInit, OnDestroy {
   public loadStatus = false;
   public noShowFlag = false;
 
-  constructor(private dataService: DataService, 
+  constructor(private dataService: DataService,
     private formBuilder: FormBuilder) { }
 
     private readonly onDestroy = new Subject<void>();
@@ -36,7 +36,7 @@ export class AdmintodayComponent implements OnInit, OnDestroy {
 
   }
 
-  ngOnDestroy() { 
+  ngOnDestroy() {
     this.onDestroy.next();
   }
 
@@ -116,7 +116,7 @@ export class AdmintodayComponent implements OnInit, OnDestroy {
     this.noShowForm = null;
     this.noShowFlag = false;
     //reset form
-    this.noShowForm = this.formBuilder.group({});    
+    this.noShowForm = this.formBuilder.group({});
     this.signedUpNoShow = [];
     const promise = this.dataService.getSignupDayOf(id, this.dataService.userFull.facebookId)
     .then((data: UserEventDayOf[]) => {

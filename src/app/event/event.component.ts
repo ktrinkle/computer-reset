@@ -161,15 +161,16 @@ export class EventComponent implements OnInit, OnDestroy {
         await this.dataService.signupForEvent(this.signUp).subscribe((data => {
           this.submitResult = data;
           this.submitProcess = false;
+          this.loadEvents();
       }));
       } else {
         //assume a move
-        var res = await this.dataService.userMoveSlot(this.signedupSlot, this.signUp.eventId, this.signUp.fbId);
-        this.submitResult = res.toString();
+        var res = await this.dataService.userMoveSlot(this.signedupSlot, this.signUp.eventId, this.signUp.fbId).then(data => {
+          this.submitResult = data.toString();
+          this.loadEvents();
+        });
         this.submitProcess = false;
       }
-      //have to reload data after we finish to show the new state to the user
-      this.loadEvents();
     }
   }
 
