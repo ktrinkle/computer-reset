@@ -3,8 +3,9 @@ import { DataService } from '../data.service';
 import { Router } from '@angular/router';
 import { TimeslotSmall, openEvent } from '../data';
 import { utcToZonedTime } from 'date-fns-tz';
-import { Subject } from 'rxjs';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogConfig } from '@angular/material/dialog';
+import { MatSnackBar, MAT_SNACK_BAR_DATA } from '@angular/material/snack-bar';
+import { AlertComponent } from '../admin/adminfuture/adminfuture.component';
 
 export interface DialogData {
   rtn: boolean;
@@ -34,7 +35,9 @@ export class HomeComponent implements OnInit {
   //dummy for loader
   public loader = [0, 1, 2, 3];
 
-  constructor(private dataService: DataService, private router: Router, public dialog: MatDialog) { }
+  constructor(private dataService: DataService, private router: Router,
+    private readonly dialog: MatDialog,
+    private _snackBar: MatSnackBar) { }
 
   public pickEvent(selectEvent: number) {
     //test if number works
@@ -67,6 +70,8 @@ export class HomeComponent implements OnInit {
   loadEvents() {
     //loads all events from web service and parses based on requirements
 
+    this.events = null;
+
     this.dataService.getOpenEventUser(this.dataService.userFull.facebookId).subscribe({next: (data: openEvent)=>{
       this.openEvent = data;
       this.events = data.timeslot;
@@ -93,41 +98,48 @@ export class HomeComponent implements OnInit {
   }
 
   //currently not working right, deferring until next release
-  public deleteEvent(selectEvent: number): void {
+  public async deleteEvent(selectEvent: number) {
     if(selectEvent >= 0 || selectEvent <= 1999) {
 
-      const dialogRef = this.dialog.open(DialogCancelComponent, {
-        width: '70%',
-        data: {name: this.rtn}
+      const ref = this.dialog.open(DialogCancelComponent, {
+        width: '70%' //no data
       });
 
-      dialogRef.afterClosed().subscribe(result => {
-        console.log(result);
-        this.rtn = result;
+      ref.afterClosed().subscribe(result => {
+        if (result == true) {
+          this.rtn = true;
+          this.dataService.userDeleteSignup(selectEvent, this.dataService.userFull.facebookId).then(data => {
+            this.openSnackBar(data);
+            this.loadEvents();
+          });
+        } else {
+          this.rtn = false;
+        }
       });
-
-      if (this.rtn == true) {
-        //we get a return but don't display it since we have the next()
-        var rtn = this.dataService.userDeleteSignup(selectEvent, this.dataService.userFull.facebookId);
-        this.loadEvents();
-      }
     }
+  }
+
+  openSnackBar(displayText: string) {
+    this._snackBar.openFromComponent(AlertComponent, {
+      duration: 5000,
+      data: displayText
+    });
   }
 
 }
 
 @Component({
-  selector: 'app-dialog-delete',
+  selector: 'app-dialog-cancel',
   templateUrl: './home.dialog-delete.html',
 })
 export class DialogCancelComponent {
 
   constructor(
-    public dialogRef: MatDialogRef<DialogCancelComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData) {}
+    private dialogRef: MatDialogRef<DialogCancelComponent>) {}
 
   onNoClick(): void {
-    this.dialogRef.close();
+    console.log('false');
+    this.dialogRef.close(false);
   }
 
   onConfirm(): void {
