@@ -22,7 +22,7 @@ export class UserlistComponent implements OnInit, OnDestroy {
   public selectedRowIndex = -1;
   public loadStatus = false;
   private readonly onDestroy = new Subject<void>();
-  
+
   constructor(private dataService: DataService,
     private formBuilder: FormBuilder) { }
 
@@ -32,13 +32,13 @@ export class UserlistComponent implements OnInit, OnDestroy {
 
   }
 
-  ngOnDestroy() { 
+  ngOnDestroy() {
     this.onDestroy.next();
   }
 
   public pickEvent(selectEvent: number) {
     //test if number works
-    if(selectEvent >= 0 || selectEvent <= 365) {
+    if(selectEvent >= 0 || selectEvent <= 1999) {
       this.eventId = selectEvent;
 
       this.events.forEach(timeslot => {
