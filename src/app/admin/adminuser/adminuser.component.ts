@@ -15,7 +15,7 @@ export class AdminuserComponent implements OnInit, OnDestroy {
   public events: Timeslot[] = [];
   public eventId = 0;
   public userList: UserManual[] = [];
-  public currentUser: UserManual;
+  public currentUser: UserManual = {} as UserManual;
   public states: StateList[];
   public cities: CityList[];
   public userForm: FormGroup;
@@ -103,13 +103,17 @@ export class AdminuserComponent implements OnInit, OnDestroy {
     return this.userList.filter(option => option.realNm.toLowerCase().indexOf(filterValue) === 0);
   }
 
-  submitUserForm(): void {
+  public submitUserForm(): void {
     //submits user form as userManual. Same API uses both, we just use ID as the delineation
     //since this is admin we are not really doing validation
+
+    console.log('Beginning submit');
     this.submitProcess = true;
 
-    this.currentUser = null;
-    if (this.addOrChange == 1) {
+    this.currentUser = {} as UserManual;
+    console.log(this.currentUser);
+    console.log(this.userForm);
+    if (this.addOrChange == 0) {
       this.currentUser.id = 0;
       this.currentUser.realNm = this.userForm.value.firstNm || " " || this.userForm.value.lastNm;
     } else {
@@ -144,7 +148,7 @@ export class AdminuserComponent implements OnInit, OnDestroy {
       this.userAssignEvent.value.cityNm = data.cityNm;
       this.userAssignEvent.value.stateCd = data.stateCd;
       this.userAssignEvent.value.realNm = data.realNm;
-      this.addOrChange = 2; //change to edit
+      this.addOrChange = 1; //change to edit
       this.submitProcess = false;
       this.submitResult = "This user has been successfully entered into the system.";
     })
