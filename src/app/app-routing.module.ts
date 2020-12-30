@@ -18,31 +18,32 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'privacy', component: PrivacyComponent },
   { path: 'event', component: EventComponent },
-  { path: 'admin', component: AdminComponent, canActivate: [AdminGuard] , children: [{
+  { path: 'admin', component: AdminComponent, canActivate: [AdminGuard] , children: [
+    {
     path: 'userlist',
     component: UserlistComponent,
-    canActivate: [AdminGuard] 
+    canActivate: [AdminGuard]
   },{
     path: 'future',
     component: AdminfutureComponent,
-    canActivate: [AdminGuard] 
+    canActivate: [AdminGuard]
   }, {
     path: 'today',
     component: AdmintodayComponent,
-    canActivate: [AdminGuard] 
+    canActivate: [AdminGuard]
   }, {
     path: 'standby',
     component: StandbyComponent,
-    canActivate: [AdminGuard] 
+    canActivate: [AdminGuard]
   }, {
     path: 'event',
     component: CreateeventComponent,
-    canActivate: [AdminGuard] 
+    canActivate: [AdminGuard]
   }, {
     path: 'user',
     component: AdminuserComponent,
-    canActivate: [AdminGuard] 
-  }
+    canActivate: [AdminGuard]
+  },
   ]},
 ];
 

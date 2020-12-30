@@ -7,6 +7,14 @@ import { HomeComponent, DialogCancelComponent } from './home/home.component';
 import { PrivacyComponent } from './privacy/privacy.component';
 import { AdminComponent } from './admin/admin.component';
 import { EventComponent } from './event/event.component';
+import { AdminfutureComponent, AlertComponent } from './admin/adminfuture/adminfuture.component';
+import { AdmintodayComponent } from './admin/admintoday/admintoday.component';
+import { AdminuserComponent } from './admin/adminuser/adminuser.component';
+import { CreateeventComponent } from './admin/createevent/createevent.component';
+import { UserlistComponent } from './admin/userlist/userlist.component';
+import { StandbyComponent } from './admin/standby/standby.component';
+import { RulesComponent } from './helper/rules/rules.component';
+
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
@@ -29,18 +37,11 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatListModule } from '@angular/material/list';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { AdminfutureComponent, AlertComponent } from './admin/adminfuture/adminfuture.component';
-import { AdmintodayComponent } from './admin/admintoday/admintoday.component';
-import { AdminuserComponent } from './admin/adminuser/adminuser.component';
 import { MatTabsModule } from '@angular/material/tabs';
-import { CreateeventComponent } from './admin/createevent/createevent.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { MatNativeDateModule, MatRippleModule } from '@angular/material/core';
-import { UserlistComponent } from './admin/userlist/userlist.component';
-import { StandbyComponent } from './admin/standby/standby.component';
-import { RulesComponent } from './helper/rules/rules.component';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { MatDialogModule } from '@angular/material/dialog';
 
