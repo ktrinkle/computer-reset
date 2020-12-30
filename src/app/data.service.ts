@@ -182,4 +182,10 @@ export class DataService {
          encodeURIComponent(facebookId) + '';
       return this.httpClient.put(url, null, {responseType: 'text'}).toPromise();
     }
+
+    public updateUser(userInfo: UserManual): any {
+      var url = this.REST_API_SERVER + '/api/computerreset/api/users/manual';
+      return this.httpClient.post(url, userInfo);
+    }
+
 }

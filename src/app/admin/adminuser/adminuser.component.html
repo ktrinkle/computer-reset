@@ -1,1 +1,82 @@
-<p>adminuser works!</p>
+<div style="padding: 13px;">
+  <mat-tab-group mat-align-tabs="start" [(selectedIndex)]="addOrChange" #users>
+    <mat-tab label="Add User"></mat-tab>
+    <mat-tab label="Update User"></mat-tab>
+</mat-tab-group>
+  <mat-card>
+    <mat-card-header>
+        <mat-card-title><span *ngIf="this.addOrChange == 1">Add a new user</span>
+        <span *ngIf="this.addOrChange == 2">Update a user</span></mat-card-title>
+    </mat-card-header>
+        <mat-card-content>
+          <form [formGroup]="userForm" (ngSubmit)="submitUserForm()">
+            <div class="content" fxLayout="row wrap" fxLayoutGap="16px grid" style="padding-left: 24px; padding-right: 24px;">
+              <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="100%" style="padding: 10px;">
+                <mat-form-field appearance="fill">
+                <mat-label>First Name</mat-label>
+                <input matInput value="firstNm" id="firstNm" formControlName="firstNm">
+              </mat-form-field>
+            </div>
+            <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="100%" style="padding: 10px;">
+            <mat-form-field appearance="fill">
+              <mat-label>Last Name</mat-label>
+              <input matInput value="lastNm" id="lastNm" formControlName="lastNm">
+            </mat-form-field>
+          </div>
+            <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="100%" style="vertical-align: middle; min-height: 75px; padding: 10px;">
+              <p>Please select the state of the new attendee.</p>
+               <mat-form-field appearance="fill">
+                  <mat-label>Select state*</mat-label>
+                   <mat-select id="stateCd" formControlName="stateCd" (selectionChange)="changeCityList($event)">
+                     <mat-option *ngFor="let state of states" [value]="state.stateCode">
+                       {{state.stateCode}}
+                     </mat-option>
+                   </mat-select>
+                   <mat-hint align="end">Select the state as shown on the person's ID ^</mat-hint>
+                   </mat-form-field>
+                 </div>
+
+                 <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="100%" style="vertical-align: middle; min-height: 75px; padding: 10px;">
+                   <p>Please select the city or town that you live in.</p>
+                   <mat-form-field appearance="fill">
+                     <mat-label>Select your city*</mat-label>
+                   <mat-select id="cityNm" formControlName="cityNm">
+                     <mat-option *ngFor="let city of cities" [value]="city.city">
+                     {{city.city}}
+                   </mat-option>
+                 </mat-select>
+                 <mat-hint align="end">Select the city as shown on the person's ID ^</mat-hint>
+                 </mat-form-field>
+               </div>
+            </div>
+            <div style="clear: all; padding: 10px;">&nbsp;</div>
+            <div class="confirmmessage" *ngIf="submitResult">{{submitResult}}</div>
+          </form>
+            </mat-card-content>
+        <mat-card-actions>
+          <button mat-raised-button color="primary" type="submit" [disabled]="(!userForm.valid || submitProcess)">Submit user info</button>
+          <div *ngIf="submitProcess">Please wait for your user to process.</div>
+    </mat-card-actions>
+    </mat-card>
+    <mat-card *ngIf="this.addOrChange == 2">
+      <mat-card-header>
+        <mat-card-title>Add a user to an event</mat-card-title>
+        <mat-card-subtitle>Add an existing user to an event. This will not assign a user a slot.</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <form [formGroup]="userAssignEvent" (ngSubmit)="submitEvent()">
+        <mat-form-field appearance="fill">
+          <mat-label>Select event</mat-label>
+        <mat-select id="eventId" formControlName="eventId">
+          <mat-option *ngFor="let event of this.events" [value]="event.id">
+            {{event.eventStartTms | date:'shortDateTime'}} - {{event.eventEndTms | date:'shortTime'}}
+        </mat-option>
+      </mat-select>
+      </mat-form-field>
+      <button mat-raised-button color="primary" type="submit" [disabled]="submitUserEvent || !eventId">Add user to event</button>
+          <div *ngIf="submitUserEvent">Please wait for your user to be added to the event.</div>
+          <div class="confirmmessage" *ngIf="submitUserEventResult">{{submitUserEventResult}}</div>
+      </form>
+      </mat-card-content>
+    </mat-card>
+    </div>

@@ -1,11 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { DataService } from '../../data.service';
 import { Timeslot } from '../../data';
-import { FormGroup, FormControl, Validators, FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { DatePipe } from '@angular/common';
 import { format, parse } from 'date-fns';
-import { utcToZonedTime } from 'date-fns-tz';
 
 @Component({
   selector: 'app-createevent',
