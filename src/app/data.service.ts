@@ -140,19 +140,19 @@ export class DataService {
     }
 
     public async changeVolunteerState(id: number, facebookId: string): Promise<string> {
-      var url = this.REST_API_SERVER + 'api/users/update/volunteer/' + encodeURIComponent(id) + '/'
+      var url = this.REST_API_SERVER + '/api/users/update/volunteer/' + encodeURIComponent(id) + '/'
       + encodeURIComponent(facebookId) + '';
       return this.httpClient.put(url, null, {responseType: 'text'}).toPromise();
     }
 
     public async changeBanState(id: number, facebookId: string): Promise<string> {
-      var url = this.REST_API_SERVER + 'api/users/update/ban/' + encodeURIComponent(id) + '/'
+      var url = this.REST_API_SERVER + '/api/users/update/ban/' + encodeURIComponent(id) + '/'
       + encodeURIComponent(facebookId) + '';
       return this.httpClient.put(url, null, {responseType: 'text'}).toPromise();
     }
 
     public async changeAdminState(id: number, facebookId: string): Promise<string> {
-      var url = this.REST_API_SERVER + 'api/users/update/admin/' + encodeURIComponent(id) + '/'
+      var url = this.REST_API_SERVER + '/api/users/update/admin/' + encodeURIComponent(id) + '/'
       + encodeURIComponent(facebookId) + '';
       return this.httpClient.put(url, null, {responseType: 'text'}).toPromise();
     }
