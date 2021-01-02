@@ -27,18 +27,14 @@ export class AdminuserComponent implements OnInit, OnDestroy {
   public submitUserEvent: boolean = false;
   public submitUserEventResult: string;
   private readonly onDestroy = new Subject<void>();
+  selectId = new FormControl();
+
   filteredOptions: Observable<UserManual[]>;
 
   destroy$: Subject<void> = new Subject<void>();
 
   constructor(private dataService: DataService,
-    private formBuilder: FormBuilder) {
-      /*this.filteredOptions = this.userForm.valueChanges
-      .pipe(
-        startWith(''),
-        map(firstNm => firstNm ? this._filterFirst(firstNm) : this.userList.slice())
-      );*/
-    }
+    private formBuilder: FormBuilder) {}
 
   ngOnInit(): void {
     console.log('Opening user management');
@@ -79,28 +75,24 @@ export class AdminuserComponent implements OnInit, OnDestroy {
       }
     );
 
+    /*this.filteredOptions = this.selectId.valueChanges
+    .pipe(
+      startWith(''),
+      map(value => typeof value === 'string' ? value : value.firstNm),
+      map(name => name ? this._filter(name) : this.userList.slice())
+    );*/
+
+
   }
 
   ngOnDestroy(): void {
 
   }
 
-  private _filterFirst(value: string): UserManual[] {
-    const filterValue = value.toLowerCase();
+  private _filter(name: string): UserManual[] {
+    const filterValue = name.toLowerCase();
 
     return this.userList.filter(option => option.firstNm.toLowerCase().indexOf(filterValue) === 0);
-  }
-
-  private _filterLast(value: string): UserManual[] {
-    const filterValue = value.toLowerCase();
-
-    return this.userList.filter(option => option.lastNm.toLowerCase().indexOf(filterValue) === 0);
-  }
-
-  private _filterReal(value: string): UserManual[] {
-    const filterValue = value.toLowerCase();
-
-    return this.userList.filter(option => option.realNm.toLowerCase().indexOf(filterValue) === 0);
   }
 
   public submitUserForm(): void {
@@ -115,7 +107,7 @@ export class AdminuserComponent implements OnInit, OnDestroy {
     console.log(this.userForm);
     if (this.addOrChange == 0) {
       this.currentUser.id = 0;
-      this.currentUser.realNm = this.userForm.value.firstNm || " " || this.userForm.value.lastNm;
+      this.currentUser.realNm = this.userForm.value.firstNm + ' ' + this.userForm.value.lastNm;
     } else {
       this.currentUser.id = this.userForm.value.id;
       this.currentUser.realNm = this.userForm.value.realNm;
@@ -195,6 +187,32 @@ export class AdminuserComponent implements OnInit, OnDestroy {
     }));
   }
 
+  async changeAdminInd(event: any) {
+    //parse out event
+    var openInd = event.source.checked;
+    var id = this.userForm.value.id;
+
+    var rtnTxt = await this.dataService.changeAdminState(id, this.dataService.userFull.facebookId);
+    //we don't care about this value right now but may snackbar it
+  }
+
+  async changeBanInd(event: any) {
+    //parse out event
+    var openInd = event.source.checked;
+    var id = this.userForm.value.id;
+
+    var rtnTxt = await this.dataService.changeBanState(id, this.dataService.userFull.facebookId);
+    //we don't care about this value right now but may snackbar it
+  }
+
+  async changeVolInd(event: any) {
+    //parse out event
+    var openInd = event.source.checked;
+    var id = this.userForm.value.id;
+
+    var rtnTxt = await this.dataService.changeVolunteerState(id, this.dataService.userFull.facebookId);
+    //we don't care about this value right now but may snackbar it
+  }
 
   /*onChanges(): void {
     this.userForm.valueChanges.subscribe(val => {
