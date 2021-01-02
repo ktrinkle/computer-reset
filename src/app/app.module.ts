@@ -44,6 +44,7 @@ import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { MatNativeDateModule, MatRippleModule } from '@angular/material/core';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 
 export function appInit(appConfigService: AppConfigService) {
@@ -101,6 +102,7 @@ export function appInitFb(appConfigService: AppConfigService) {
     MatRippleModule,
     MatDialogModule,
     NgxSkeletonLoaderModule,
+    MatAutocompleteModule,
     ],
     providers: [
       // Http Interceptor(s) -  adds with Client Credentials
