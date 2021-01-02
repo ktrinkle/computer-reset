@@ -3,8 +3,32 @@
     <mat-tab label="Add User"></mat-tab>
     <mat-tab label="Update User"></mat-tab>
 </mat-tab-group>
+<form [formGroup]="userForm" (ngSubmit)="submitUserForm()">
+<mat-card *ngIf="this.addOrChange == 1">
+  <mat-card-header>
+    <mat-card-title>Find a user</mat-card-title>
+    <mat-card-subtitle>Search for an existing user in the system.</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <form>
+      <mat-form-field>
+        <input type="text"
+               placeholder="Pick one"
+               aria-label="Attendee"
+               matInput
+               formControlName="selectId"
+               [matAutocomplete]="auto">
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option *ngFor="let option of filteredOptions | async" [value]="option.id">
+            {{option.firstNm}} {{option.lastNm}} ({{option.realNm}})
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </form>
+  </mat-card-content>
+</mat-card>
+<div style="height:10px;"></div>
   <mat-card>
-    <form [formGroup]="userForm" (ngSubmit)="submitUserForm()">
     <mat-card-header>
         <mat-card-title><span *ngIf="this.addOrChange == 0">Add a new user</span>
         <span *ngIf="this.addOrChange == 1">Update a user</span></mat-card-title>
@@ -24,6 +48,12 @@
               <input matInput value="lastNm" id="lastNm" formControlName="lastNm">
             </mat-form-field>
           </div>
+          <div fxFlex="100%" fxFlex.xs="100%" fxFlex.sm="100%" style="padding: 10px;">
+            <mat-form-field appearance="fill">
+              <mat-label>Full Name</mat-label>
+              <input matInput value="realNm" id="realNm" formControlName="realNm">
+            </mat-form-field>
+          </div>
             <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="100%" style="vertical-align: middle; min-height: 75px; padding: 10px;">
               <p>Please select the state of the new attendee.</p>
                <mat-form-field appearance="fill">
@@ -38,7 +68,7 @@
                  </div>
 
                  <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="100%" style="vertical-align: middle; min-height: 75px; padding: 10px;">
-                   <p>Please select the city or town that you live in.</p>
+                   <p>Please select the city or town on the attendee's ID.</p>
                    <mat-form-field appearance="fill">
                      <mat-label>Select your city*</mat-label>
                    <mat-select id="cityNm" formControlName="cityNm">
@@ -58,8 +88,9 @@
           <button mat-raised-button color="primary" type="submit" [disabled]="(!userForm.valid || submitProcess)">Submit user info</button>
           <div *ngIf="submitProcess">Please wait for your user to process.</div>
     </mat-card-actions>
-   </form>
     </mat-card>
+    </form>
+    <div style="height:10px;"></div>
     <mat-card *ngIf="this.addOrChange == 1">
       <mat-card-header>
         <mat-card-title>Add a user to an event</mat-card-title>
@@ -71,14 +102,38 @@
           <mat-label>Select event</mat-label>
         <mat-select id="eventId" formControlName="eventId">
           <mat-option *ngFor="let event of this.events" [value]="event.id">
-            {{event.eventStartTms | date:'shortDateTime'}} - {{event.eventEndTms | date:'shortTime'}}
+            {{event.eventStartTms | date:'M/d/YY h:mm a'}} - {{event.eventEndTms | date:'h:mm a'}}
         </mat-option>
       </mat-select>
-      </mat-form-field>
+      </mat-form-field>&nbsp;
       <button mat-raised-button color="primary" type="submit" [disabled]="submitUserEvent || !eventId">Add user to event</button>
           <div *ngIf="submitUserEvent">Please wait for your user to be added to the event.</div>
           <div class="confirmmessage" *ngIf="submitUserEventResult">{{submitUserEventResult}}</div>
       </form>
+      </mat-card-content>
+    </mat-card>
+    <div style="height:10px;"></div>
+    <mat-card *ngIf="this.addOrChange == 1">
+      <mat-card-header>
+        <mat-card-title>Modify user attributes</mat-card-title>
+        <mat-card-subtitle>Change any user attributes and provide permissions.</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <i>Coming soon</i>
+        <div class="content" fxLayout="row wrap" fxLayoutGap="16px grid" style="padding-left: 24px; padding-right: 24px;">
+          <div fxFlex="33%" fxFlex.xs="100%" fxFlex.sm="100%" style="vertical-align: middle; min-height: 75px; padding: 10px;">
+            <mat-slide-toggle color="primary" id="adminUserInd" name="adminUserInd" formControlName="adminUserInd" (change)="changeAdminInd($event)">Admin</mat-slide-toggle><br/>
+            <mat-hint>Set user as system admin.</mat-hint>
+          </div>
+          <div fxFlex="33%" fxFlex.xs="100%" fxFlex.sm="100%" style="vertical-align: middle; min-height: 75px; padding: 10px;">
+            <mat-slide-toggle color="primary" id="volUserInd" name="volUserInd" formControlName="volUserInd" (change)="changeVolInd($event)">Volunteer</mat-slide-toggle><br/>
+            <mat-hint>Set user as a volunteer.</mat-hint>
+          </div>
+          <div fxFlex="33%" fxFlex.xs="100%" fxFlex.sm="100%" style="vertical-align: middle; min-height: 75px; padding: 10px;">
+            <mat-slide-toggle color="primary" id="banUserInd" name="banUserInd" formControlName="banUserInd" (change)="changeBanInd($event)">Banned</mat-slide-toggle><br/>
+            <mat-hint>Ban a user.</mat-hint>
+          </div>
+        </div>
       </mat-card-content>
     </mat-card>
     </div>

@@ -139,6 +139,24 @@ export class DataService {
       return this.httpClient.put(url, null, {responseType: 'text'}).toPromise();
     }
 
+    public async changeVolunteerState(id: number, facebookId: string): Promise<string> {
+      var url = this.REST_API_SERVER + 'api/users/update/volunteer/' + encodeURIComponent(id) + '/'
+      + encodeURIComponent(facebookId) + '';
+      return this.httpClient.put(url, null, {responseType: 'text'}).toPromise();
+    }
+
+    public async changeBanState(id: number, facebookId: string): Promise<string> {
+      var url = this.REST_API_SERVER + 'api/users/update/ban/' + encodeURIComponent(id) + '/'
+      + encodeURIComponent(facebookId) + '';
+      return this.httpClient.put(url, null, {responseType: 'text'}).toPromise();
+    }
+
+    public async changeAdminState(id: number, facebookId: string): Promise<string> {
+      var url = this.REST_API_SERVER + 'api/users/update/admin/' + encodeURIComponent(id) + '/'
+      + encodeURIComponent(facebookId) + '';
+      return this.httpClient.put(url, null, {responseType: 'text'}).toPromise();
+    }
+
     public getStandbyMaster(facebookId: string): any {
       var url = this.REST_API_SERVER + '/api/computerreset/api/events/standby/list/' + encodeURIComponent(facebookId) + '';
       return this.httpClient.get(url);
@@ -154,11 +172,6 @@ export class DataService {
       var url = this.REST_API_SERVER + '/api/computerreset/api/users/lookup/' + encodeURIComponent(nameVal) + '/'
       + encodeURIComponent(facebookId) + '';
       return this.httpClient.get<UserManual[]>(url).toPromise();
-    }
-
-    public manualUser(userInfo: UserManual): any {
-      var url = this.REST_API_SERVER + '/api/computerreset/api/users/manual';
-      return this.httpClient.post(url, userInfo);
     }
 
     public getUserCurrSlot(facebookId: string): any {
