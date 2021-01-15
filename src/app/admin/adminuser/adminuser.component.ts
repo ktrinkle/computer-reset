@@ -2,8 +2,11 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { DataService } from '../../data.service';
 import { Timeslot, UserManual, StateList, CityList, Signup } from '../../data';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
-import { Subject, Observable } from 'rxjs';
-import { takeUntil, map, startWith } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { takeUntil, debounceTime, switchMap, tap } from 'rxjs/operators';
+import { AlertComponent } from '../adminfuture/adminfuture.component';
+import { MatSnackBar, MAT_SNACK_BAR_DATA } from '@angular/material/snack-bar';
+
 
 @Component({
   selector: 'app-adminuser',
@@ -26,20 +29,22 @@ export class AdminuserComponent implements OnInit, OnDestroy {
   public addOrChange = 0;
   public submitUserEvent: boolean = false;
   public submitUserEventResult: string;
-  private readonly onDestroy = new Subject<void>();
   selectId = new FormControl();
+  adminUserInd = new FormControl();
+  volUserInd = new FormControl();
+  banUserInd = new FormControl();
+  public loadingLookup: boolean = false;
 
-  filteredOptions: Observable<UserManual[]>;
+  lookupList: UserManual[];  //to go away?
 
   destroy$: Subject<void> = new Subject<void>();
 
   constructor(private dataService: DataService,
-    private formBuilder: FormBuilder) {}
+    private _snackBar: MatSnackBar) {}
 
   ngOnInit(): void {
-    console.log('Opening user management');
-    this.userForm = this.formBuilder.group({
-      id: new FormControl(''),
+    this.userForm = new FormGroup({
+      id: new FormControl('0'),
       firstNm: new FormControl(''),
       lastNm: new FormControl(''),
       cityNm: new FormControl(''),
@@ -51,13 +56,17 @@ export class AdminuserComponent implements OnInit, OnDestroy {
       volunteerFlag: new FormControl('')
     });
 
-    this.userAssignEvent = this.formBuilder.group({
+    this.userAssignEvent = new FormGroup({
       eventId: new FormControl(''),
-      realName: new FormControl(''),
+      realNm: new FormControl(''),
+      firstNm: new FormControl(''),
+      lastNm: new FormControl(''),
       facebookId: new FormControl('', [Validators.required]),
       cityNm: new FormControl('', [Validators.required]),
-      stateCd: new FormControl('', [Validators.required])
+      stateCd: new FormControl('', [Validators.required]),
+      fbId: new FormControl('')
     });
+
 
     this.dataService.getEventAll(this.dataService.userFull.facebookId).subscribe((data: Timeslot[]) => {
         this.events = data;
@@ -75,44 +84,56 @@ export class AdminuserComponent implements OnInit, OnDestroy {
       }
     );
 
-    /*this.filteredOptions = this.selectId.valueChanges
-    .pipe(
-      startWith(''),
-      map(value => typeof value === 'string' ? value : value.firstNm),
-      map(name => name ? this._filter(name) : this.userList.slice())
-    );*/
-
-
+    //failing on data?.trim.length() > 2, saying is not a function
+    this.selectId.valueChanges.pipe(
+      //filter(data => data.length > 2),
+      debounceTime(500),
+      tap(() => {
+        this.lookupList = [];
+        this.loadingLookup = true;
+      }),
+      switchMap(value => this.dataService.lookupUser(value.toString(), this.dataService.userFull.facebookId))
+    )
+    .subscribe((data: UserManual[]) => {
+      this.lookupList = data;
+      this.loadingLookup = false;
+      if (data.length == 1) {
+        data.map(row => {
+          this.userForm.patchValue(row);
+          this.userAssignEvent.patchValue(row)});
+        };
+      }
+    );
   }
 
   ngOnDestroy(): void {
 
   }
 
-  private _filter(name: string): UserManual[] {
-    const filterValue = name.toLowerCase();
-
-    return this.userList.filter(option => option.firstNm.toLowerCase().indexOf(filterValue) === 0);
+  showName(lookup: UserManual) : string {
+    //set values in other form
+    console.log(lookup);
+    this.currentUser = lookup;
+    console.log(this.currentUser);
+    return lookup ? lookup.firstNm + ' ' + lookup.lastNm : '';
   }
 
   public submitUserForm(): void {
     //submits user form as userManual. Same API uses both, we just use ID as the delineation
     //since this is admin we are not really doing validation
 
-    console.log('Beginning submit');
+    //console.log('Beginning submit');
     this.submitProcess = true;
 
-    this.currentUser = {} as UserManual;
-    console.log(this.currentUser);
     console.log(this.userForm);
     if (this.addOrChange == 0) {
+      this.currentUser = {} as UserManual;
       this.currentUser.id = 0;
-      this.currentUser.realNm = this.userForm.value.firstNm + ' ' + this.userForm.value.lastNm;
-    } else {
+    } else {  //assume we already have a currentuser
       this.currentUser.id = this.userForm.value.id;
-      this.currentUser.realNm = this.userForm.value.realNm;
     };
 
+    this.currentUser.realNm = this.userForm.value.realNm;
     this.currentUser.firstNm = this.userForm.value.firstNm;
     this.currentUser.lastNm = this.userForm.value.lastNm;
     this.currentUser.cityNm = this.userForm.value.cityNm;
@@ -121,41 +142,38 @@ export class AdminuserComponent implements OnInit, OnDestroy {
     //set our facebook ID
     this.currentUser.facebookId = this.dataService.userFull.facebookId;
 
-    //this returns a users object.
+    //this returns a users object. But it's coming back null and not firing on an update?
+
+    console.log("CurrentUser");
+    console.log(this.currentUser);
 
     this.dataService.updateUser(this.currentUser).subscribe(data => {
       this.currentUser = data;
-      this.userForm.value.id = data.id;
-      this.userForm.value.firstName = data.firstNm;
-      this.userForm.value.lastNm = data.lastNm;
-      this.userForm.value.cityNm = data.cityNm;
-      this.userForm.value.stateCd = data.stateCd;
-      this.userForm.value.realNm = data.realNm;
-      this.userForm.value.fbId = data.fbId;
-      this.userForm.value.banFlag = data.banFlag;
-      this.userForm.value.adminFlag = data.adminFlag;
-      this.userForm.value.volunteerFlag = data.volunteerFlag;
+      console.log(data);
+      this.userForm.patchValue(data);
       //do the stuff for assign a user to the event
-      this.userAssignEvent.value.facebookId = data.fbId;
-      this.userAssignEvent.value.cityNm = data.cityNm;
-      this.userAssignEvent.value.stateCd = data.stateCd;
-      this.userAssignEvent.value.realNm = data.realNm;
+      this.userAssignEvent.patchValue(data);
       this.addOrChange = 1; //change to edit
       this.submitProcess = false;
       this.submitResult = "This user has been successfully entered into the system.";
+
+      console.log(this.currentUser);
+      console.log(this.userAssignEvent);
     })
   }
 
   clearUserForm() {
     this.submitProcess = false;
     this.submitResult = null;
-    this.userForm = null;
-    this.userAssignEvent = null;
+    this.userForm.reset({});
+    this.userAssignEvent.reset({});
+    this.currentUser = {} as UserManual;
   }
 
   submitEvent() {
     //builds out signup object. We already have the first pieces.
     this.submitUserEvent = true;
+    console.log(this.userAssignEvent);
 
     if (!this.userAssignEvent.value.eventId || this.userAssignEvent.value.eventId == 0) {
       //error if nothing is selected
@@ -189,29 +207,26 @@ export class AdminuserComponent implements OnInit, OnDestroy {
 
   async changeAdminInd(event: any) {
     //parse out event
-    var openInd = event.source.checked;
     var id = this.userForm.value.id;
 
     var rtnTxt = await this.dataService.changeAdminState(id, this.dataService.userFull.facebookId);
-    //we don't care about this value right now but may snackbar it
+    this.openSnackBar(rtnTxt);
   }
 
   async changeBanInd(event: any) {
     //parse out event
-    var openInd = event.source.checked;
     var id = this.userForm.value.id;
 
     var rtnTxt = await this.dataService.changeBanState(id, this.dataService.userFull.facebookId);
-    //we don't care about this value right now but may snackbar it
+    this.openSnackBar(rtnTxt);
   }
 
   async changeVolInd(event: any) {
     //parse out event
-    var openInd = event.source.checked;
     var id = this.userForm.value.id;
 
     var rtnTxt = await this.dataService.changeVolunteerState(id, this.dataService.userFull.facebookId);
-    //we don't care about this value right now but may snackbar it
+    this.openSnackBar(rtnTxt);
   }
 
   /*onChanges(): void {
@@ -228,6 +243,13 @@ export class AdminuserComponent implements OnInit, OnDestroy {
         this.cities = result;
       }
     );
+  }
+
+  openSnackBar(displayText: string) {
+    this._snackBar.openFromComponent(AlertComponent, {
+      duration: 5000,
+      data: displayText
+    });
   }
 
 }

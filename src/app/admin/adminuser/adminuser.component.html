@@ -3,31 +3,31 @@
     <mat-tab label="Add User"></mat-tab>
     <mat-tab label="Update User"></mat-tab>
 </mat-tab-group>
-<form [formGroup]="userForm" (ngSubmit)="submitUserForm()">
 <mat-card *ngIf="this.addOrChange == 1">
   <mat-card-header>
     <mat-card-title>Find a user</mat-card-title>
     <mat-card-subtitle>Search for an existing user in the system.</mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
-    <form>
-      <mat-form-field>
+    <div class="content"  style="padding-left: 24px; padding-right: 24px;">
+      <mat-form-field appearance="fill">
         <input type="text"
-               placeholder="Pick one"
-               aria-label="Attendee"
-               matInput
-               formControlName="selectId"
-               [matAutocomplete]="auto">
-        <mat-autocomplete #auto="matAutocomplete">
-          <mat-option *ngFor="let option of filteredOptions | async" [value]="option.id">
-            {{option.firstNm}} {{option.lastNm}} ({{option.realNm}})
-          </mat-option>
-        </mat-autocomplete>
+              placeholder="Pick one"
+              aria-label="Attendee"
+              matInput
+              [formControl]="selectId"
+              [matAutocomplete]="auto">
       </mat-form-field>
-    </form>
+      <mat-autocomplete #auto="matAutocomplete" [displayWith]="showName">
+        <mat-option *ngFor="let option of lookupList" [value]="option">
+          {{option.firstNm}} {{option.lastNm}} ({{option.realNm}})
+        </mat-option>
+      </mat-autocomplete>
+      </div>
   </mat-card-content>
 </mat-card>
 <div style="height:10px;"></div>
+<form [formGroup]="userForm" (ngSubmit)="submitUserForm()">
   <mat-card>
     <mat-card-header>
         <mat-card-title><span *ngIf="this.addOrChange == 0">Add a new user</span>
@@ -39,26 +39,26 @@
               <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="100%" style="padding: 10px;">
                 <mat-form-field appearance="fill">
                 <mat-label>First Name</mat-label>
-                <input matInput value="firstNm" id="firstNm" formControlName="firstNm">
+                <input matInput formControlName="firstNm">
               </mat-form-field>
             </div>
             <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="100%" style="padding: 10px;">
             <mat-form-field appearance="fill">
               <mat-label>Last Name</mat-label>
-              <input matInput value="lastNm" id="lastNm" formControlName="lastNm">
+              <input matInput formControlName="lastNm">
             </mat-form-field>
           </div>
           <div fxFlex="100%" fxFlex.xs="100%" fxFlex.sm="100%" style="padding: 10px;">
             <mat-form-field appearance="fill">
               <mat-label>Full Name</mat-label>
-              <input matInput value="realNm" id="realNm" formControlName="realNm">
+              <input matInput formControlName="realNm">
             </mat-form-field>
           </div>
             <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="100%" style="vertical-align: middle; min-height: 75px; padding: 10px;">
               <p>Please select the state of the new attendee.</p>
                <mat-form-field appearance="fill">
                   <mat-label>Select state*</mat-label>
-                   <mat-select id="stateCd" formControlName="stateCd" (selectionChange)="changeCityList($event)">
+                   <mat-select formControlName="stateCd" (selectionChange)="changeCityList($event)">
                      <mat-option *ngFor="let state of states" [value]="state.stateCode">
                        {{state.stateCode}}
                      </mat-option>
@@ -71,7 +71,7 @@
                    <p>Please select the city or town on the attendee's ID.</p>
                    <mat-form-field appearance="fill">
                      <mat-label>Select your city*</mat-label>
-                   <mat-select id="cityNm" formControlName="cityNm">
+                   <mat-select formControlName="cityNm">
                      <mat-option *ngFor="let city of cities" [value]="city.city">
                      {{city.city}}
                    </mat-option>
@@ -98,17 +98,19 @@
       </mat-card-header>
       <mat-card-content>
         <form [formGroup]="userAssignEvent" (ngSubmit)="submitEvent()">
-        <mat-form-field appearance="fill">
+          <div class="content"  style="padding-left: 24px; padding-right: 24px;">
+            <mat-form-field appearance="fill">
           <mat-label>Select event</mat-label>
-        <mat-select id="eventId" formControlName="eventId">
+        <mat-select id="eventId" name="eventId" formControlName="eventId">
           <mat-option *ngFor="let event of this.events" [value]="event.id">
             {{event.eventStartTms | date:'M/d/YY h:mm a'}} - {{event.eventEndTms | date:'h:mm a'}}
         </mat-option>
       </mat-select>
       </mat-form-field>&nbsp;
-      <button mat-raised-button color="primary" type="submit" [disabled]="submitUserEvent || !eventId">Add user to event</button>
+      <button mat-raised-button color="primary" type="submit" [disabled]="(submitUserEvent)">Add user to event</button>
           <div *ngIf="submitUserEvent">Please wait for your user to be added to the event.</div>
           <div class="confirmmessage" *ngIf="submitUserEventResult">{{submitUserEventResult}}</div>
+      </div>
       </form>
       </mat-card-content>
     </mat-card>
@@ -119,18 +121,17 @@
         <mat-card-subtitle>Change any user attributes and provide permissions.</mat-card-subtitle>
       </mat-card-header>
       <mat-card-content>
-        <i>Coming soon</i>
         <div class="content" fxLayout="row wrap" fxLayoutGap="16px grid" style="padding-left: 24px; padding-right: 24px;">
           <div fxFlex="33%" fxFlex.xs="100%" fxFlex.sm="100%" style="vertical-align: middle; min-height: 75px; padding: 10px;">
-            <mat-slide-toggle color="primary" id="adminUserInd" name="adminUserInd" formControlName="adminUserInd" (change)="changeAdminInd($event)">Admin</mat-slide-toggle><br/>
+            <mat-slide-toggle color="primary" id="adminUserInd" name="adminUserInd" [formControl]="adminUserInd" (change)="changeAdminInd($event)">Admin</mat-slide-toggle><br/>
             <mat-hint>Set user as system admin.</mat-hint>
           </div>
           <div fxFlex="33%" fxFlex.xs="100%" fxFlex.sm="100%" style="vertical-align: middle; min-height: 75px; padding: 10px;">
-            <mat-slide-toggle color="primary" id="volUserInd" name="volUserInd" formControlName="volUserInd" (change)="changeVolInd($event)">Volunteer</mat-slide-toggle><br/>
+            <mat-slide-toggle color="primary" id="volUserInd" name="volUserInd" [formControl]="volUserInd" (change)="changeVolInd($event)">Volunteer</mat-slide-toggle><br/>
             <mat-hint>Set user as a volunteer.</mat-hint>
           </div>
           <div fxFlex="33%" fxFlex.xs="100%" fxFlex.sm="100%" style="vertical-align: middle; min-height: 75px; padding: 10px;">
-            <mat-slide-toggle color="primary" id="banUserInd" name="banUserInd" formControlName="banUserInd" (change)="changeBanInd($event)">Banned</mat-slide-toggle><br/>
+            <mat-slide-toggle color="primary" id="banUserInd" name="banUserInd" [formControl]="banUserInd" (change)="changeBanInd($event)">Banned</mat-slide-toggle><br/>
             <mat-hint>Ban a user.</mat-hint>
           </div>
         </div>
