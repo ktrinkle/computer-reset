@@ -1,11 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { DataService } from '../../data.service';
 import { Timeslot, UserManual, StateList, CityList, Signup } from '../../data';
-import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { takeUntil, debounceTime, switchMap, tap } from 'rxjs/operators';
 import { AlertComponent } from '../adminfuture/adminfuture.component';
-import { MatSnackBar, MAT_SNACK_BAR_DATA } from '@angular/material/snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 @Component({
@@ -97,10 +97,15 @@ export class AdminuserComponent implements OnInit, OnDestroy {
     .subscribe((data: UserManual[]) => {
       this.lookupList = data;
       this.loadingLookup = false;
-      if (data.length == 1) {
-        data.map(row => {
-          this.userForm.patchValue(row);
-          this.userAssignEvent.patchValue(row)});
+      if (data.length == 0) {
+        this.userForm.patchValue(this.selectId.value);
+        this.userAssignEvent.patchValue(this.selectId.value);
+        this.adminUserInd.patchValue(this.selectId.value.adminFlag);
+        this.currentUser = this.selectId.value;
+        this.volUserInd.patchValue(this.selectId.value.volunteerFlag);
+        this.banUserInd.patchValue(this.selectId.value.banFlag);
+        this.submitResult = "";
+        this.submitUserEventResult = "";
         };
       }
     );
@@ -111,10 +116,8 @@ export class AdminuserComponent implements OnInit, OnDestroy {
   }
 
   showName(lookup: UserManual) : string {
-    //set values in other form
-    console.log(lookup);
+    //set values in display textbox
     this.currentUser = lookup;
-    console.log(this.currentUser);
     return lookup ? lookup.firstNm + ' ' + lookup.lastNm : '';
   }
 
@@ -142,31 +145,23 @@ export class AdminuserComponent implements OnInit, OnDestroy {
     //set our facebook ID
     this.currentUser.facebookId = this.dataService.userFull.facebookId;
 
-    //this returns a users object. But it's coming back null and not firing on an update?
-
-    console.log("CurrentUser");
-    console.log(this.currentUser);
-
     this.dataService.updateUser(this.currentUser).subscribe(data => {
       this.currentUser = data;
-      console.log(data);
       this.userForm.patchValue(data);
       //do the stuff for assign a user to the event
       this.userAssignEvent.patchValue(data);
       this.addOrChange = 1; //change to edit
       this.submitProcess = false;
       this.submitResult = "This user has been successfully entered into the system.";
-
-      console.log(this.currentUser);
-      console.log(this.userAssignEvent);
+      this.selectId.reset();
     })
   }
 
   clearUserForm() {
     this.submitProcess = false;
     this.submitResult = null;
-    this.userForm.reset({});
-    this.userAssignEvent.reset({});
+    this.userForm.reset();
+    this.userAssignEvent.reset();
     this.currentUser = {} as UserManual;
   }
 
@@ -228,13 +223,6 @@ export class AdminuserComponent implements OnInit, OnDestroy {
     var rtnTxt = await this.dataService.changeVolunteerState(id, this.dataService.userFull.facebookId);
     this.openSnackBar(rtnTxt);
   }
-
-  /*onChanges(): void {
-    this.userForm.valueChanges.subscribe(val => {
-      this.submitResult = null;
-    });
-  }*/
-  //onchange for state
 
   changeCityList(event) {
     //console.log("GetCity");
