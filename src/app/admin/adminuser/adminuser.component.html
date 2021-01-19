@@ -36,6 +36,9 @@
         <mat-card-content>
 
             <div class="content" fxLayout="row wrap" fxLayoutGap="16px grid" style="padding-left: 24px; padding-right: 24px;">
+            <div fxFlex="100%" style="padding: 10px;">
+              <button mat-raised-button color="primary" type="button" (click)="clearUserForm()">Clear form</button>
+            </div>
               <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="100%" style="padding: 10px;">
                 <mat-form-field appearance="fill">
                 <mat-label>First Name</mat-label>
