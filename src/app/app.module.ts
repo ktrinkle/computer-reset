@@ -45,6 +45,7 @@ import { MatNativeDateModule, MatRippleModule } from '@angular/material/core';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { LoadEventComponent } from './helper/load-event/load-event.component';
 
 
 export function appInit(appConfigService: AppConfigService) {
@@ -71,6 +72,7 @@ export function appInitFb(appConfigService: AppConfigService) {
     RulesComponent,
     AlertComponent,
     DialogCancelComponent,
+    LoadEventComponent,
   ],
   imports: [
     BrowserModule,

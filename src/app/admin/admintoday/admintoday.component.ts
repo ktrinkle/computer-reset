@@ -23,6 +23,7 @@ export class AdmintodayComponent implements OnInit, OnDestroy {
   public selectedRowIndex = -1;
   public loadStatus = false;
   public noShowFlag = false;
+  public initialListStatus = false;
 
   constructor(private dataService: DataService,
     private formBuilder: FormBuilder) { }
@@ -30,9 +31,12 @@ export class AdmintodayComponent implements OnInit, OnDestroy {
     private readonly onDestroy = new Subject<void>();
 
   ngOnInit(): void {
-
+    this.initialListStatus = true;
     this.dataService.getEventFuture(this.dataService.userFull.facebookId)
-      .subscribe((data: Timeslot[]) => { this.events = data });
+      .subscribe((data: Timeslot[]) => {
+        this.events = data;
+        this.initialListStatus = false;
+     });
 
   }
 

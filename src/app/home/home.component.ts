@@ -1,10 +1,10 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { DataService } from '../data.service';
 import { Router } from '@angular/router';
 import { TimeslotSmall, openEvent } from '../data';
 import { utcToZonedTime } from 'date-fns-tz';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogConfig } from '@angular/material/dialog';
-import { MatSnackBar, MAT_SNACK_BAR_DATA } from '@angular/material/snack-bar';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { AlertComponent } from '../admin/adminfuture/adminfuture.component';
 
 export interface DialogData {
