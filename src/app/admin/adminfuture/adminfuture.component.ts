@@ -22,9 +22,10 @@ export class AdminfutureComponent implements OnInit, OnDestroy {
   public signupLimit: number = 0;
   public selectedRowIndex = -1;
   public loadStatus = false;
+  public initialListStatus = false;
 
 
-  constructor(private dataService: DataService, 
+  constructor(private dataService: DataService,
     private formBuilder: FormBuilder,
     private _snackBar: MatSnackBar) { }
 
@@ -56,12 +57,13 @@ export class AdminfutureComponent implements OnInit, OnDestroy {
   }
 
   get s() {
-    return this.signupForm.get('signupIds') as FormArray; 
+    return this.signupForm.get('signupIds') as FormArray;
     }
 
   ngOnInit() {
 
-    this.maxEvents = 99;
+    this.maxEvents = 1000;
+    this.initialListStatus = true;
 
     this.signupForm = this.formBuilder.group({
       attendNbr: new FormControl(''),
@@ -69,13 +71,16 @@ export class AdminfutureComponent implements OnInit, OnDestroy {
     });
 
     this.dataService.getEventFuture(this.dataService.userFull.facebookId)
-      .subscribe((data: Timeslot[]) => { this.events = data });
+      .subscribe((data: Timeslot[]) => {
+        this.events = data
+        this.initialListStatus = false;
+       });
 
     //console.log(this.dataService.userFull);
 
   }
 
-  ngOnDestroy() { 
+  ngOnDestroy() {
     this.onDestroy.next();
   }
 

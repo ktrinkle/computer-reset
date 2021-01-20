@@ -1,5 +1,16 @@
 <div style="padding: 13px;">
-    <mat-card>
+  <mat-card *ngIf="initialListStatus">
+    <mat-card-header>
+        <mat-card-title>Future event confirmation</mat-card-title>
+        <mat-card-subtitle>Loading upcoming events...</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <app-load-event></app-load-event>
+    </mat-card-content>
+    <mat-card-actions>
+</mat-card-actions>
+</mat-card>
+    <mat-card *ngIf="!initialListStatus">
       <mat-card-header>
           <mat-card-title>Future event confirmation</mat-card-title>
           <mat-card-subtitle>Select the event to confirm attendees for</mat-card-subtitle>
@@ -9,30 +20,30 @@
                   <!-- Date Definition -->
                   <ng-container matColumnDef="eventDate">
                     <mat-header-cell *matHeaderCellDef> Event Date </mat-header-cell>
-                    <mat-cell *matCellDef="let row"> 
+                    <mat-cell *matCellDef="let row">
                       <span fxShow fxHide.lt-md>{{row.eventStartTms | date:'fullDate'}}</span>
                       <span fxHide fxShow.lt-md>{{row.eventStartTms | date:'shortDate'}}</span>
                    </mat-cell>
                   </ng-container>
-                
+
                   <!-- Start time Definition -->
                   <ng-container matColumnDef="eventStart">
                     <mat-header-cell *matHeaderCellDef> Start Time </mat-header-cell>
                     <mat-cell *matCellDef="let row"> {{row.eventStartTms | date:'shortTime'}} </mat-cell>
                   </ng-container>
-                
+
                   <!-- Title Definition -->
                   <ng-container matColumnDef="eventEnd">
                     <mat-header-cell *matHeaderCellDef> End Time </mat-header-cell>
                     <mat-cell *matCellDef="let row"> {{row.eventEndTms | date:'shortTime'}} </mat-cell>
                   </ng-container>
-                
+
                    <!-- Signup Definition -->
                    <ng-container matColumnDef="manage">
                     <mat-header-cell *matHeaderCellDef></mat-header-cell>
                     <mat-cell *matCellDef="let row"> <button mat-raised-button color="primary" (click)="pickEvent(row.id);">Get List</button></mat-cell>
                   </ng-container>
-                  
+
                   <!-- Header and Row Declarations -->
                   <mat-header-row *matHeaderRowDef="['eventDate', 'eventStart', 'eventEnd', 'manage']"></mat-header-row>
                   <mat-row *matRowDef="let row; columns: ['eventDate', 'eventStart', 'eventEnd', 'manage']"
@@ -45,11 +56,63 @@
 
       <div *ngIf="eventId != 0">
         <form [formGroup]="signupForm">
-          <mat-spinner *ngIf="!loadStatus"></mat-spinner>
+          <mat-card style="margin-top:10px;" *ngIf="!loadStatus">
+            <mat-card-header>
+              <mat-card-title>Confirm attendees</mat-card-title>
+              <mat-card-subtitle>Loading attendees...</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+              <div class="content" fxLayout="row wrap" fxLayoutGap="16px grid" style="padding-left: 24px; padding-right: 24px;">
+                <div fxFlex="25%" class="mat-header-row mat-header-cell"> Signup Number </div>
+                <div fxFlex="25%" class="mat-header-row mat-header-cell"> Name </div>
+                <div fxFlex="25%" class="mat-header-row mat-header-cell"> Location </div>
+                <div fxFlex="25%" class="mat-header-row mat-header-cell"> Confirmed </div>
+                <div fxFlex="25%" class="mat-row mat-cell">
+                  <ngx-skeleton-loader count="10" [theme]="{
+                    'border-radius': '4px',
+                    height: '36px',
+                    margin: '10px 0 10px 0',
+                    width: '80%',
+                    display: 'block'
+                  }"></ngx-skeleton-loader>
+                </div>
+                <div fxFlex="25%" class="mat-row mat-cell">
+                  <ngx-skeleton-loader count="10" [theme]="{
+                    'border-radius': '4px',
+                    height: '36px',
+                    margin: '10px 0 10px 0',
+                    width: '70px',
+                    display: 'block'
+                  }"></ngx-skeleton-loader>
+                </div>
+                <div fxFlex="25%" class="mat-row mat-cell">
+                  <ngx-skeleton-loader count="10" [theme]="{
+                    'border-radius': '4px',
+                    height: '36px',
+                    margin: '10px 0 10px 0',
+                    width: '70px',
+                    display: 'block'
+                  }"></ngx-skeleton-loader>
+                </div>
+                <div fxFlex="25%" class="mat-row mat-cell">
+                   <ngx-skeleton-loader count="10" [theme]="{
+                    'border-radius': '4px',
+                    height: '36px',
+                    margin: '10px 0 10px 0',
+                    width: '60px',
+                    display: 'block'
+                  }"></ngx-skeleton-loader>
+                </div>
+               </div>
+
+            </mat-card-content>
+
+          </mat-card>
+
           <mat-card style="margin-top:10px;" *ngIf="loadStatus">
             <mat-card-header>
                 <mat-card-title>Confirm attendees</mat-card-title>
-                <mat-card-subtitle>This event has {{eventTimeslotSelect.eventSlotCnt}} slots available and 
+                <mat-card-subtitle>This event has {{eventTimeslotSelect.eventSlotCnt}} slots available and
                   allows {{eventTimeslotSelect.overbookCnt}} on the standby list.</mat-card-subtitle>
             </mat-card-header>
             <mat-card-content>
@@ -71,11 +134,11 @@
     <!-- Signup Definition -->
       <ng-container matColumnDef="name">
          <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
-         <mat-cell *matCellDef="let row"> 
+         <mat-cell *matCellDef="let row">
             {{row.realNm}} <br/>Facebook Name: {{row.firstNm}} {{row.lastNm}}
          </mat-cell>
        </ng-container>
-       
+
        <ng-container matColumnDef="personLoc">
        <mat-header-cell *matHeaderCellDef> Location </mat-header-cell>
        <mat-cell *matCellDef="let row" class="mat-cell-row1">
@@ -91,7 +154,7 @@
        <mat-slide-toggle color="primary" id="{{row.id}}" name="{{row.id}}" formControlName="{{row.id}}" (change)="updateSignup($event)"></mat-slide-toggle>
      </mat-cell>
     </ng-container>
-     
+
      <!-- Header and Row Declarations -->
      <mat-header-row *matHeaderRowDef="['signupNbr', 'name', 'personLoc', 'confirmed']"></mat-header-row>
      <mat-row *matRowDef="let row; columns: ['signupNbr', 'name', 'personLoc', 'confirmed']" class="mat-cell-row1"></mat-row>
@@ -102,5 +165,5 @@
         </mat-card>
         </form>
         </div>
-    
+
   </div>
