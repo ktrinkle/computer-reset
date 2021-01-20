@@ -32,9 +32,6 @@ export class EventComponent implements OnInit, OnDestroy {
   public loadStatus: boolean = true;
   public moveOrSignup: boolean;
   public signedupSlot: number;
-  private flexInd: boolean;
-
-  private openEvent: openEvent;
 
   public agreeClick(): void {
     this.agreeInd = true;
@@ -111,7 +108,6 @@ export class EventComponent implements OnInit, OnDestroy {
     //loads all events from web service and parses based on requirements
 
     this.dataService.getOpenEventUser(this.dataService.userFull.facebookId).subscribe({next: (data: openEvent)=>{
-      this.openEvent = data;
       this.events = data.timeslot;
       this.moveOrSignup = data.moveFlag;
       this.signedupSlot = data.signedUpTimeslot ?? -1;

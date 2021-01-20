@@ -22,13 +22,17 @@ export class UserlistComponent implements OnInit, OnDestroy {
   public selectedRowIndex = -1;
   public loadStatus = false;
   private readonly onDestroy = new Subject<void>();
+  public initialListStatus = true;
 
   constructor(private dataService: DataService,
     private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
     this.dataService.getEventFuture(this.dataService.userFull.facebookId)
-      .subscribe((data: Timeslot[]) => { this.events = data });
+      .subscribe((data: Timeslot[]) => {
+        this.events = data;
+        this.initialListStatus = false;
+       });
 
   }
 

@@ -1,5 +1,16 @@
 <div style="padding: 13px;">
-    <mat-card>
+  <mat-card *ngIf="initialListStatus">
+    <mat-card-header>
+        <mat-card-title>Today's Event</mat-card-title>
+        <mat-card-subtitle>Loading current events...</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <app-load-event></app-load-event>
+    </mat-card-content>
+    <mat-card-actions>
+</mat-card-actions>
+</mat-card>
+    <mat-card *ngIf="!initialListStatus">
       <mat-card-header>
           <mat-card-title>Today's Event</mat-card-title>
           <mat-card-subtitle>Select an event to list attendees</mat-card-subtitle>
@@ -45,7 +56,47 @@
 
       <div *ngIf="eventId != 0">
         <form [formGroup]="signupForm">
-          <mat-spinner *ngIf="!loadStatus"></mat-spinner>
+          <mat-card style="margin-top:10px;" *ngIf="!loadStatus">
+            <!---loading screen-->
+            <mat-card-header>
+                <mat-card-title>Today's attendees</mat-card-title>
+                <mat-card-subtitle>Loading attendees...</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+              <div class="content" fxLayout="row wrap" fxLayoutGap="16px grid" style="padding-left: 24px; padding-right: 24px;">
+                <div fxFlex="33%" class="mat-header-row mat-header-cell"> ID </div>
+                <div fxFlex="33%" class="mat-header-row mat-header-cell"> Name </div>
+                <div fxFlex="33%" class="mat-header-row mat-header-cell"> Attended </div>
+                <div fxFlex="33%" class="mat-row mat-cell">
+                  <ngx-skeleton-loader count="10" [theme]="{
+                    'border-radius': '4px',
+                    height: '36px',
+                    margin: '10px 0 10px 0',
+                    width: '80%',
+                    display: 'block'
+                  }"></ngx-skeleton-loader>
+                </div>
+                <div fxFlex="33%" class="mat-row mat-cell">
+                  <ngx-skeleton-loader count="10" [theme]="{
+                    'border-radius': '4px',
+                    height: '36px',
+                    margin: '10px 0 10px 0',
+                    width: '70px',
+                    display: 'block'
+                  }"></ngx-skeleton-loader>
+                </div>
+                <div fxFlex="33%" class="mat-row mat-cell">
+                  <ngx-skeleton-loader count="10" [theme]="{
+                    'border-radius': '4px',
+                    height: '36px',
+                    margin: '10px 0 10px 0',
+                    width: '70px',
+                    display: 'block'
+                  }"></ngx-skeleton-loader>
+                </div>
+                </div>
+            </mat-card-content>
+          </mat-card>
           <mat-card style="margin-top:10px;" *ngIf="loadStatus">
             <mat-card-header>
                 <mat-card-title>Today's attendees</mat-card-title>
