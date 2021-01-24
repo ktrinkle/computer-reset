@@ -15,6 +15,7 @@ export class AdminComponent implements OnInit {
     { label: 'Process standbys', path: 'standby'},
     { label: 'Schedule Events', path: 'event'},
     { label: 'User Management', path: 'user' },
+    { label: 'Past Events', path: 'past'},
   ];
 
   constructor( public router: Router) { }
