@@ -49,9 +49,9 @@ import { LoadEventComponent } from './helper/load-event/load-event.component';
 import { PasteventComponent } from './admin/pastevent/pastevent.component';
 
 
-export function appInit(appConfigService: AppConfigService) {
+/*export function appInit(appConfigService: AppConfigService) {
   return () => appConfigService.load();
-}
+}*/
 
 export function appInitFb(appConfigService: AppConfigService) {
   return () => appConfigService.loadFb();
@@ -112,14 +112,6 @@ export function appInitFb(appConfigService: AppConfigService) {
       // Http Interceptor(s) -  adds with Client Credentials
       [
           { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
-      ],
-      [AppConfigService,
-        {
-          provide: APP_INITIALIZER,
-          useFactory: appInit,
-          multi: true,
-          deps: [AppConfigService]
-        }
       ],
       [AppConfigService,
         {
