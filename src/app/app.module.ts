@@ -46,6 +46,7 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { LoadEventComponent } from './helper/load-event/load-event.component';
+import { PasteventComponent } from './admin/pastevent/pastevent.component';
 
 
 export function appInit(appConfigService: AppConfigService) {
@@ -73,6 +74,7 @@ export function appInitFb(appConfigService: AppConfigService) {
     AlertComponent,
     DialogCancelComponent,
     LoadEventComponent,
+    PasteventComponent,
   ],
   imports: [
     BrowserModule,

@@ -12,6 +12,7 @@ import { AdminuserComponent } from './admin/adminuser/adminuser.component';
 import { CreateeventComponent } from './admin/createevent/createevent.component';
 import { UserlistComponent } from './admin/userlist/userlist.component';
 import { StandbyComponent } from './admin/standby/standby.component';
+import { PasteventComponent } from './admin/pastevent/pastevent.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -42,6 +43,10 @@ const routes: Routes = [
   }, {
     path: 'user',
     component: AdminuserComponent,
+    canActivate: [AdminGuard]
+  }, {
+    path: 'past',
+    component: PasteventComponent,
     canActivate: [AdminGuard]
   },
   ]},
