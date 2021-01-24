@@ -97,7 +97,6 @@ export class HomeComponent implements OnInit {
     }});
   }
 
-  //currently not working right, deferring until next release
   public async deleteEvent(selectEvent: number) {
     if(selectEvent >= 0 || selectEvent <= 1999) {
 
