@@ -89,12 +89,14 @@ export interface ClaimPrincipal {
     realNm: string;
     adminFlag: boolean;
     volunteerFlag: boolean;
+    jwt: string;
   }
 
   export interface UserSmall {
     firstName: string;
     lastName: string;
     facebookId: string;
+    accessToken: string;
   }
 
   export interface UserEventSignup {

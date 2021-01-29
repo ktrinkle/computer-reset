@@ -1,5 +1,47 @@
 <div style="padding: 13px;">
-    <mat-card>
+  <mat-card style="margin-top:10px;" *ngIf="!loadStatus">
+    <!---loading screen-->
+    <mat-card-header>
+      <mat-card-title>Standby Processing</mat-card-title>
+      <mat-card-subtitle>Loading events...</mat-card-subtitle>
+  </mat-card-header>
+    <mat-card-content>
+      <div class="content" fxLayout="row wrap" fxLayoutGap="16px grid" style="padding-left: 24px; padding-right: 24px;">
+        <div fxFlex="33%" class="mat-header-row mat-header-cell"> Event Date </div>
+        <div fxFlex="33%" class="mat-header-row mat-header-cell"> Start Time </div>
+        <div fxFlex="33%" class="mat-header-row mat-header-cell"> Available slots </div>
+        <div fxFlex="33%" class="mat-row mat-cell">
+          <ngx-skeleton-loader count="10" [theme]="{
+            'border-radius': '4px',
+            height: '36px',
+            margin: '10px 0 10px 0',
+            width: '80%',
+            display: 'block'
+          }"></ngx-skeleton-loader>
+        </div>
+        <div fxFlex="33%" class="mat-row mat-cell">
+          <ngx-skeleton-loader count="10" [theme]="{
+            'border-radius': '4px',
+            height: '36px',
+            margin: '10px 0 10px 0',
+            width: '70px',
+            display: 'block'
+          }"></ngx-skeleton-loader>
+        </div>
+        <div fxFlex="33%" class="mat-row mat-cell">
+          <ngx-skeleton-loader count="10" [theme]="{
+            'border-radius': '4px',
+            height: '36px',
+            margin: '10px 0 10px 0',
+            width: '70px',
+            display: 'block'
+          }"></ngx-skeleton-loader>
+        </div>
+        </div>
+    </mat-card-content>
+  </mat-card>
+
+    <mat-card *ngIf="loadStatus">
       <mat-card-header>
           <mat-card-title>Standby Processing</mat-card-title>
       </mat-card-header>
@@ -37,7 +79,6 @@
       </mat-card>
 
       <form [formGroup]="signupForm">
-        <mat-spinner *ngIf="!loadStatus"></mat-spinner>
         <mat-card style="margin-top:10px;" *ngIf="loadStatus">
           <mat-card-header>
               <mat-card-title>Signed up users</mat-card-title>

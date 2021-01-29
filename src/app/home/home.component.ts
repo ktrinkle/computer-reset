@@ -31,6 +31,7 @@ export class HomeComponent implements OnInit {
   public signedupSlot: number;
   public deleteInd: boolean = false;
   rtn: boolean;
+  testString: string;
 
   //dummy for loader
   public loader = [0, 1, 2, 3];

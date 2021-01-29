@@ -14,19 +14,6 @@ export class AppConfigService {
   constructor(private http: HttpClient, private authenticationService: AuthenticationService,
     private dataService: DataService) {}
 
-  load() :Promise<any>  {
-
-    //console.log('Initializing app');
-    const promise = this.authenticationService.loginApi('byronpcjr','IdSFaWr7*@[')
-      .toPromise()
-      .then(data => {
-        Object.assign(this, data);
-        return data;
-      });
-
-    return promise;
-  }
-
   loadFb() :Promise<any>  {
 
     //console.log('Initializing FB');
@@ -47,12 +34,14 @@ export class AppConfigService {
               //console.log('fbId' + uc.val);
             }
           }
-          )
+          );
+          this.dataService.facebookToken = data[0].access_token;
        });
       } else {
         this.dataService.userFull.firstName = 'Dev';
         this.dataService.userFull.lastName = 'Mode';
         this.dataService.userFull.facebookId = '997';
+        this.dataService.facebookToken = "dev";
       }
 
     return promise;
