@@ -15,6 +15,8 @@ export class DataService {
   public userFull: UserModel = {id: 0, firstName: null, lastName: null, cityName: null,
     stateCode: null, realName: null, facebookId: null, adminFlag: false, volunteerFlag: false};
 
+  public facebookToken: string;
+
   private REST_API_SERVER = environment.api_url;
 
   constructor(private httpClient: HttpClient) { }
