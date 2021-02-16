@@ -50,6 +50,11 @@ export class DataService {
       return this.httpClient.post(url, userReq);
     }
 
+    public async getUserInfoLogin(userReq: UserSmall): Promise<any> {
+      var url = this.REST_API_SERVER + '/api/computerreset/api/users/attrib/';
+      return this.httpClient.post(url, userReq).toPromise();
+    }
+
     public updateUserNote(userNote: UserEventNote): any {
       var url = this.REST_API_SERVER + '/api/computerreset/api/events/signup/note';
       var apirtn = this.httpClient.post(url, userNote, {responseType: 'text'}).toPromise();
