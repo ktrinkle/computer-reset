@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { environment } from './../../environments/environment';
 
 import { ApiUser } from '../data';
@@ -20,19 +19,6 @@ export class AuthenticationService {
     public get currentUserValue(): ApiUser {
         //console.log(this.currentUserSubject.value);
         return this.currentUserSubject.value;
-    }
-
-    loginApi(username: string, password: string) {
-      var url = this.REST_API_SERVER + '/users/authenticate';
-
-        return this.http.post<any>(url, { username, password })
-            .pipe(map(user => {
-                // store user details and jwt token in local storage to keep user logged in between page refreshes
-                sessionStorage.setItem('apiToken', user.token);
-                //sessionStorage.setItem('apiToken', JSON.stringify(user.token));
-                this.currentUserSubject.next(user);
-                return user;
-            }));
     }
 
     logout() {
