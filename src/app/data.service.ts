@@ -44,15 +44,14 @@ export class DataService {
       return this.httpClient.get(url);
     }
 
-    public getUserInfo(userReq: UserSmall): any {
-      var url = this.REST_API_SERVER + '/api/computerreset/api/users/attrib/';
-      //console.log(this.userSmall);
-      return this.httpClient.post(url, userReq);
+    public async getUserInfoLogin(userReq: UserSmall): Promise<any> {
+      var url = this.REST_API_SERVER + '/api/computerreset/api/users';
+      return await this.httpClient.post(url, userReq).toPromise();
     }
 
-    public async getUserInfoLogin(userReq: UserSmall): Promise<any> {
-      var url = this.REST_API_SERVER + '/api/computerreset/api/users/attrib/';
-      return this.httpClient.post(url, userReq).toPromise();
+    public getUserInfo(userReq: UserSmall): any {
+      var url = this.REST_API_SERVER + '/api/computerreset/api/users/attrib';
+      return this.httpClient.post(url, userReq);
     }
 
     public updateUserNote(userNote: UserEventNote): any {
@@ -62,7 +61,7 @@ export class DataService {
       return apirtn;
     }
 
-    //modified to show in DFW local at all times
+    // modified to show in DFW local at all times
     public getEvent(facebookId: string){
       var url = this.REST_API_SERVER + '/api/computerreset/api/events/show/open/' + encodeURIComponent(facebookId) + '';
       return this.httpClient.get(url);

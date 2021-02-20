@@ -38,13 +38,7 @@ export class AppComponent implements OnInit, OnDestroy {
     //UserRetrieve
     const userInfo = this.dataService.getUserInfoLogin(userLookup)
         .then(data => {
-          this.admin = data.adminFlag ?? false;
-          this.volunteer = data.volunteerFlag ?? false;
-          this.dataService.userFull.adminFlag = this.admin;
-          this.dataService.userFull.realName = data.realNm;
-          this.dataService.userFull.cityName = data.cityNm;
-          this.dataService.userFull.stateCode = data.stateCd;
-          sessionStorage.setItem('accessToken', data.jwt);
+          sessionStorage.setItem('accessToken', data);
         });
 
    }
