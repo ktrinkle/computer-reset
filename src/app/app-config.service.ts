@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AuthenticationService } from './authentication/authentication.service';
 import { DataService } from './data.service';
+import { UserSmall } from './data';
 import { environment } from 'src/environments/environment';
 
 
@@ -36,12 +37,28 @@ export class AppConfigService {
           }
           );
           this.dataService.facebookToken = data[0].access_token;
-       });
+          var userLookup:UserSmall = {
+            firstName: this.dataService.userFull.firstName,
+            lastName: this.dataService.userFull.lastName,
+            facebookId: this.dataService.userFull.facebookId,
+            accessToken: this.dataService.facebookToken
+          };
+          var promise2 = this.dataService.getLogin(userLookup).then(data =>
+            sessionStorage.setItem('apiToken', data))
+          })
       } else {
         this.dataService.userFull.firstName = 'Dev';
         this.dataService.userFull.lastName = 'Mode';
         this.dataService.userFull.facebookId = environment.dev_user_id;
         this.dataService.facebookToken = 'dev';
+        var userLookup:UserSmall = {
+          firstName: this.dataService.userFull.firstName,
+          lastName: this.dataService.userFull.lastName,
+          facebookId: this.dataService.userFull.facebookId,
+          accessToken: this.dataService.facebookToken
+        };
+        var promise2 = this.dataService.getLogin(userLookup).then(data =>
+          sessionStorage.setItem('apiToken', data))
       }
 
     return promise;
