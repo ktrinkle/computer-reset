@@ -58,7 +58,7 @@ export class CreateeventComponent implements OnInit, OnDestroy {
     this.currEvents = this.formBuilder.group({});
 
     //We shall see if this works ok. Promise would be bad since we want new events to show
-    this.dataService.getEventFuture(this.dataService.userFull.facebookId).subscribe((data: Timeslot[]) => {
+    this.dataService.getEventFuture().subscribe((data: Timeslot[]) => {
         this.events = data;
         this.events.forEach(event => {
           this.currEvents.addControl(event.id.toString(), new FormControl(event.eventClosed));
@@ -150,7 +150,7 @@ export class CreateeventComponent implements OnInit, OnDestroy {
       var openInd = event.source.checked;
       var id = event.source.id;
 
-      var rtnTxt = await this.dataService.changeEventState(id, this.dataService.userFull.facebookId);
+      var rtnTxt = await this.dataService.changeEventState(id);
       //we don't care about this value right now but may snackbar it
   }
 
@@ -163,7 +163,7 @@ export class CreateeventComponent implements OnInit, OnDestroy {
     var id: number = parseInt(privateId);
     var openInd = event.source.checked;
 
-    var rtnTxt = await this.dataService.changePrivateState(id, this.dataService.userFull.facebookId);
+    var rtnTxt = await this.dataService.changePrivateState(id);
     //we don't care about this value right now but may snackbar it
 }
 

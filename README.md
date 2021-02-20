@@ -1,27 +1,29 @@
-# ComputerReset
+# Computer Reset UI
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.0.5.
+This is the UI for the Computer Reset Liquidation site. This is written in Angular 11, and sits atop the Computer Reset API project which is a .NET core project.
 
-## Development server
+Hosting is performed on an Azure App Service - this is because of authentication requirements.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+## Login flow
 
-## Code scaffolding
+Only Facebook authentication is supported, and this is handled via the EasyAuth flow in Azure. Calls in order are:
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+| Order | Endpoint | Called by | Notes |
+|--|--|--|--|
+| 1 | /.auth/me | app.config.service.ts | Get the Facebook login user ID and name, and access token |
+| 2 | /api/users | app.component.ts | HTTP post to the API to convert the access token to a JWT. |
+| 3 | /api/users/attrib | app.component.ts | HTTP post to get the user attributes, and create a user if the user does not already exist. |
 
-## Build
+When running in development mode, a specified user ID stored in environment.ts will be used to override Facebook login.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+## Admin functionality
 
-## Running unit tests
+Admin functionality is protected in the UI by a route guard. All of the APIs also have protection to require the user to be flagged in the database.
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+### Manual users
 
-## Running end-to-end tests
+Users can be manually added via the admin UI. They are assigned a fake Facebook ID via a sequence stored in the database, with a value lower than any Facebook user ID.
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+## Automated tests
 
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+This project has none. Sorry. While it would be best practice to do so, this is supposed to last a short period of time before the site gets destroyed upon completion of the liquidation.

@@ -40,8 +40,8 @@ export class AppConfigService {
       } else {
         this.dataService.userFull.firstName = 'Dev';
         this.dataService.userFull.lastName = 'Mode';
-        this.dataService.userFull.facebookId = '997';
-        this.dataService.facebookToken = "dev";
+        this.dataService.userFull.facebookId = environment.dev_user_id;
+        this.dataService.facebookToken = 'dev';
       }
 
     return promise;

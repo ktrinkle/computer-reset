@@ -68,7 +68,7 @@ export class AdminuserComponent implements OnInit, OnDestroy {
     });
 
 
-    this.dataService.getEventAll(this.dataService.userFull.facebookId).subscribe((data: Timeslot[]) => {
+    this.dataService.getEventAll().subscribe((data: Timeslot[]) => {
         this.events = data;
       });
 
@@ -92,7 +92,7 @@ export class AdminuserComponent implements OnInit, OnDestroy {
         this.lookupList = [];
         this.loadingLookup = true;
       }),
-      switchMap(value => this.dataService.lookupUser(value.toString(), this.dataService.userFull.facebookId))
+      switchMap(value => this.dataService.lookupUser(value.toString()))
     )
     .subscribe((data: UserManual[]) => {
       this.lookupList = data;
@@ -204,7 +204,7 @@ export class AdminuserComponent implements OnInit, OnDestroy {
     //parse out event
     var id = this.userForm.value.id;
 
-    var rtnTxt = await this.dataService.changeAdminState(id, this.dataService.userFull.facebookId);
+    var rtnTxt = await this.dataService.changeAdminState(id);
     this.openSnackBar(rtnTxt);
   }
 
@@ -212,7 +212,7 @@ export class AdminuserComponent implements OnInit, OnDestroy {
     //parse out event
     var id = this.userForm.value.id;
 
-    var rtnTxt = await this.dataService.changeBanState(id, this.dataService.userFull.facebookId);
+    var rtnTxt = await this.dataService.changeBanState(id);
     this.openSnackBar(rtnTxt);
   }
 
@@ -220,7 +220,7 @@ export class AdminuserComponent implements OnInit, OnDestroy {
     //parse out event
     var id = this.userForm.value.id;
 
-    var rtnTxt = await this.dataService.changeVolunteerState(id, this.dataService.userFull.facebookId);
+    var rtnTxt = await this.dataService.changeVolunteerState(id);
     this.openSnackBar(rtnTxt);
   }
 

@@ -70,7 +70,7 @@ export class AdminfutureComponent implements OnInit, OnDestroy {
       maxEvents: new FormControl(this.maxEvents, [Validators.pattern('[0-9]*')])
     });
 
-    this.dataService.getEventFuture(this.dataService.userFull.facebookId)
+    this.dataService.getEventFuture()
       .subscribe((data: Timeslot[]) => {
         this.events = data
         this.initialListStatus = false;
@@ -103,7 +103,7 @@ export class AdminfutureComponent implements OnInit, OnDestroy {
     });
     //trying a promise
     this.eventSignedUp = [];
-    const promise = this.dataService.getSignedUpUsers(eventTimeslot.id, this.dataService.userFull.facebookId)
+    const promise = this.dataService.getSignedUpUsers(eventTimeslot.id)
     .then((data: UserEventSignup[]) => {
         // Success
         data.map((event: UserEventSignup) => {
@@ -130,7 +130,7 @@ export class AdminfutureComponent implements OnInit, OnDestroy {
       this.signupForm.value.formField = null;
       this.openSnackBar("This value is invalid. Please try again.");
     } else {
-      this.openSnackBar(await this.dataService.sendUserSlot(id, attendNbr, this.dataService.userFull.facebookId));
+      this.openSnackBar(await this.dataService.sendUserSlot(id, attendNbr));
     }
   }
 
