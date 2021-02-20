@@ -50,9 +50,10 @@ export class DataService {
     }
 
     public getUserInfo(userReq: UserSmall): any {
-      var url = this.REST_API_SERVER + '/api/computerreset/api/users/attrib';
+      var url = this.REST_API_SERVER + '/api/computerreset/api/users/attrib/';
       return this.httpClient.post(url, userReq);
     }
+
 
     public updateUserNote(userNote: UserEventNote): any {
       var url = this.REST_API_SERVER + '/api/computerreset/api/events/signup/note';
