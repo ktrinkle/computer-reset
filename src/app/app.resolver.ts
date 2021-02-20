@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'any'
 })
-export class UserResolver implements Resolve<Observable<any>> {
+export class UserResolver implements Resolve<string> {
 
   constructor(public dataService: DataService) { }
 
@@ -19,7 +19,12 @@ export class UserResolver implements Resolve<Observable<any>> {
       accessToken: this.dataService.facebookToken
     };
 
-    return this.dataService.getLogin(userLookup);
+    const promise = this.dataService.getLogin(userLookup);
+    promise.then(data => {
+      sessionStorage.setItem('apiToken', data);
+    });
+
+    return promise;
   }
 
 }
