@@ -17,7 +17,7 @@ import { UserResolver } from './app.resolver';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full'},
-  { path: '', resolve: { data: UserResolver }, children: [
+  { path: '', children: [  // resolve: { data: UserResolver },
   { path: 'home', component: HomeComponent },
   { path: 'privacy', component: PrivacyComponent },
   { path: 'event', component: EventComponent },

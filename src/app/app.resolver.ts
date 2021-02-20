@@ -11,7 +11,7 @@ export class UserResolver implements Resolve<Observable<any>> {
 
   constructor(public dataService: DataService) { }
 
-  resolve(route: ActivatedRouteSnapshot): Observable<any> {
+  resolve(route: ActivatedRouteSnapshot): Promise<any> {
     var userLookup:UserSmall = {
       firstName: this.dataService.userFull.firstName,
       lastName: this.dataService.userFull.lastName,
@@ -19,7 +19,7 @@ export class UserResolver implements Resolve<Observable<any>> {
       accessToken: this.dataService.facebookToken
     };
 
-    return this.dataService.getUserInfo(userLookup);
+    return this.dataService.getLogin(userLookup);
   }
 
 }
