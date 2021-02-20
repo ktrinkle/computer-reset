@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { UserSmall, UserModel, UserRetrieve } from './data';
 import { DataService } from './data.service';
 import { AuthenticationService } from './authentication/authentication.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, ResolveData } from '@angular/router';
 //import { AppConfigService } from './app-config.service';
 
 @Component({
@@ -36,18 +36,16 @@ export class AppComponent implements OnInit, OnDestroy {
     };
 
     // UserRetrieve promise. Afterwards, we have the JWT so we can use the bearer.
-    const promise = this.getLogindata(userLookup);
-
-    promise.then(data => {
-          sessionStorage.setItem('apiToken', data);
-          this.dataService.getUserInfo(userLookup).subscribe(data => {
-            this.admin = data.adminFlag ?? false;
-            this.dataService.userFull.adminFlag = this.admin;
-            this.dataService.userFull.realName = data.realNm;
-            this.dataService.userFull.cityName = data.cityNm;
-            this.dataService.userFull.stateCode = data.stateCd;
-          });
-        });
+    /*const promise = this.getLogindata(userLookup).then(token => {
+      this.appReady = true;*/
+      this.dataService.getUserInfo(userLookup).subscribe(data => {
+        this.admin = data.adminFlag ?? false;
+        this.dataService.userFull.adminFlag = this.admin;
+        this.dataService.userFull.realName = data.realNm;
+        this.dataService.userFull.cityName = data.cityNm;
+        this.dataService.userFull.stateCode = data.stateCd;
+      })
+   // });
    }
 
   ngOnDestroy() {
@@ -55,7 +53,10 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   async getLogindata(userLookup: UserSmall): Promise<any> {
-    return await this.dataService.getLogin(userLookup);
+    const token = await this.dataService.getLogin(userLookup).then(data =>
+      sessionStorage.setItem('apiToken', data));
+
+    return token;
   }
 }
 
