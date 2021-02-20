@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  //api_url: "https://computerresetliquidation-dev.azurewebsites.net",
+  // api_url: "https://computerresetliquidation-dev.azurewebsites.net",
   api_url: 'https://localhost:5001',
   api_login: '',
 };
