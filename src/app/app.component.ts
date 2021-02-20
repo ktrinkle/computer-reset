@@ -35,12 +35,18 @@ export class AppComponent implements OnInit, OnDestroy {
       accessToken: this.dataService.facebookToken
     };
 
-    //UserRetrieve
-    const userInfo = this.dataService.getUserInfoLogin(userLookup)
+    // UserRetrieve promise. Afterwards, we have the JWT so we can use the bearer.
+    this.dataService.getUserInfoLogin(userLookup)
         .then(data => {
           sessionStorage.setItem('accessToken', data);
+          this.dataService.getUserInfo(userLookup).subscribe(data => {
+            this.admin = data.adminFlag ?? false;
+            this.dataService.userFull.adminFlag = this.admin;
+            this.dataService.userFull.realName = data.realNm;
+            this.dataService.userFull.cityName = data.cityNm;
+            this.dataService.userFull.stateCode = data.stateCd;
+          });
         });
-
    }
 
   ngOnDestroy() {
