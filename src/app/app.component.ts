@@ -36,16 +36,16 @@ export class AppComponent implements OnInit, OnDestroy {
     };
 
     // UserRetrieve promise. Afterwards, we have the JWT so we can use the bearer.
-    /*const promise = this.getLogindata(userLookup).then(token => {
-      this.appReady = true;*/
+    const promise = this.getLogindata(userLookup).then(token => {
       this.dataService.getUserInfo(userLookup).subscribe(data => {
         this.admin = data.adminFlag ?? false;
         this.dataService.userFull.adminFlag = this.admin;
         this.dataService.userFull.realName = data.realNm;
         this.dataService.userFull.cityName = data.cityNm;
         this.dataService.userFull.stateCode = data.stateCd;
-      })
-   // });
+      });
+     Object.assign(token);
+     });
    }
 
   ngOnDestroy() {
@@ -53,8 +53,10 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   async getLogindata(userLookup: UserSmall): Promise<any> {
-    const token = await this.dataService.getLogin(userLookup).then(data =>
-      sessionStorage.setItem('apiToken', data));
+    const token = await this.dataService.getLogin(userLookup).then(data => {
+      sessionStorage.setItem('apiToken', data);
+      Object.assign(data);
+    });
 
     return token;
   }

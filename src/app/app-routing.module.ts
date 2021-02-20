@@ -17,7 +17,6 @@ import { UserResolver } from './app.resolver';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full'},
-  { path: '', children: [  // resolve: { data: UserResolver },
   { path: 'home', component: HomeComponent },
   { path: 'privacy', component: PrivacyComponent },
   { path: 'event', component: EventComponent },
@@ -51,7 +50,6 @@ const routes: Routes = [
     component: PasteventComponent,
     canActivate: [AdminGuard]
   },
-  ]},
 ]}
 ];
 
