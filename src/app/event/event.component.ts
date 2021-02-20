@@ -107,7 +107,7 @@ export class EventComponent implements OnInit, OnDestroy {
   loadEvents() {
     //loads all events from web service and parses based on requirements
 
-    this.dataService.getOpenEventUser(this.dataService.userFull.facebookId).subscribe({next: (data: openEvent)=>{
+    this.dataService.getOpenEventUser().subscribe({next: (data: openEvent)=>{
       this.events = data.timeslot;
       this.moveOrSignup = data.moveFlag;
       this.signedupSlot = data.signedUpTimeslot ?? -1;

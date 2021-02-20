@@ -32,7 +32,7 @@ export class AdmintodayComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.initialListStatus = true;
-    this.dataService.getEventFuture(this.dataService.userFull.facebookId)
+    this.dataService.getEventFuture()
       .subscribe((data: Timeslot[]) => {
         this.events = data;
         this.initialListStatus = false;
@@ -54,7 +54,7 @@ export class AdmintodayComponent implements OnInit, OnDestroy {
     //console.log(this.maxEvents);
     //trying a promise
     this.eventSignedUp = [];
-    const promise = this.dataService.getSignupDayOf(eventTimeslot.id, this.dataService.userFull.facebookId)
+    const promise = this.dataService.getSignupDayOf(eventTimeslot.id)
     .then((data: UserEventDayOf[]) => {
         // Success
         data.map((event: UserEventDayOf) => {
@@ -100,7 +100,7 @@ export class AdmintodayComponent implements OnInit, OnDestroy {
     var attendVal = event.source.checked;
     var id = event.source.id;
 
-    var rtnTxt = await this.dataService.sendUserAttend(id, this.dataService.userFull.facebookId);
+    var rtnTxt = await this.dataService.sendUserAttend(id);
     //we don't care about this value right now but may snackbar it
   }
 
@@ -112,7 +112,7 @@ export class AdmintodayComponent implements OnInit, OnDestroy {
     //console.log(signupId);
     var id: number = parseInt(noShowId);
 
-    var rtnTxt = await this.dataService.sendNoShow(id, this.dataService.userFull.facebookId);
+    var rtnTxt = await this.dataService.sendNoShow(id);
     //we don't care about this value right now but may snackbar it
   }
 
@@ -122,7 +122,7 @@ export class AdmintodayComponent implements OnInit, OnDestroy {
     //reset form
     this.noShowForm = this.formBuilder.group({});
     this.signedUpNoShow = [];
-    const promise = this.dataService.getSignupDayOf(id, this.dataService.userFull.facebookId)
+    const promise = this.dataService.getSignupDayOf(id)
     .then((data: UserEventDayOf[]) => {
         // Success
         data.map((event: UserEventDayOf) => {

@@ -28,7 +28,7 @@ export class UserlistComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
-    this.dataService.getEventFuture(this.dataService.userFull.facebookId)
+    this.dataService.getEventFuture()
       .subscribe((data: Timeslot[]) => {
         this.events = data;
         this.initialListStatus = false;
@@ -79,7 +79,7 @@ async pullEventSignedUp(eventTimeslot: Timeslot ) {
   this.signupForm = this.formBuilder.group({});
   //trying a promise
   this.eventSignedUp = [];
-  const promise = this.dataService.getSignedUpUsers(eventTimeslot.id, this.dataService.userFull.facebookId)
+  const promise = this.dataService.getSignedUpUsers(eventTimeslot.id)
   .then((data: UserEventSignup[]) => {
       // Success
       data.map((event: UserEventSignup) => {
@@ -104,7 +104,7 @@ async pullEventSignedUp(eventTimeslot: Timeslot ) {
     var attendVal = event.source.checked;
     var id = event.source.id;
 
-    var rtnTxt = await this.dataService.sendUserConfirm(id, this.dataService.userFull.facebookId);
+    var rtnTxt = await this.dataService.sendUserConfirm(id);
     //we don't care about this value right now but may snackbar it
   }
 
