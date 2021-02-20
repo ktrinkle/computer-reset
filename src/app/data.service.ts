@@ -44,9 +44,9 @@ export class DataService {
       return this.httpClient.get(url);
     }
 
-    public async getUserInfoLogin(userReq: UserSmall): Promise<any> {
+    public async getLogin(userReq: UserSmall): Promise<any> {
       var url = this.REST_API_SERVER + '/api/computerreset/api/users';
-      return await this.httpClient.post(url, userReq).toPromise();
+      return await this.httpClient.post(url, userReq, {responseType: 'text'}).toPromise();
     }
 
     public getUserInfo(userReq: UserSmall): any {
