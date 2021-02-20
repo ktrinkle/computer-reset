@@ -73,7 +73,7 @@ export class HomeComponent implements OnInit {
 
     this.events = null;
 
-    this.dataService.getOpenEventUser(this.dataService.userFull.facebookId).subscribe({next: (data: openEvent)=>{
+    this.dataService.getOpenEventUser().subscribe({next: (data: openEvent)=>{
       this.openEvent = data;
       this.events = data.timeslot;
       this.moveOrSignup = data.moveFlag;

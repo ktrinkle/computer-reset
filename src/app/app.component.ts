@@ -37,10 +37,9 @@ export class AppComponent implements OnInit, OnDestroy {
 
     // UserRetrieve promise. Afterwards, we have the JWT so we can use the bearer.
     const promise = this.getLogindata(userLookup);
-    console.log(promise);
 
     promise.then(data => {
-          sessionStorage.setItem('accessToken', data);
+          sessionStorage.setItem('apiToken', data);
           this.dataService.getUserInfo(userLookup).subscribe(data => {
             this.admin = data.adminFlag ?? false;
             this.dataService.userFull.adminFlag = this.admin;

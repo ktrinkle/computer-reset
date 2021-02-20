@@ -36,7 +36,7 @@ export class StandbyComponent implements OnInit, OnDestroy {
 
   loadStandby() {
     this.signupForm = this.formBuilder.group({});
-    this.dataService.getStandbyMaster(this.dataService.userFull.facebookId)
+    this.dataService.getStandbyMaster()
       .subscribe({next: (data: any) => {
         this.standbyList = data;
         this.slot = data.slot;

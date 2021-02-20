@@ -17,13 +17,12 @@ export class AuthenticationService {
     }
 
     public get currentUserValue(): ApiUser {
-        //console.log(this.currentUserSubject.value);
         return this.currentUserSubject.value;
     }
 
     logout() {
         // remove user from local storage to log user out
-        sessionStorage.removeItem('currentUser');
+        sessionStorage.removeItem('apiToken');
         this.currentUserSubject.next(null);
     }
 }
