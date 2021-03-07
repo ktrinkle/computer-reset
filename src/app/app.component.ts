@@ -3,6 +3,7 @@ import { UserSmall, UserModel, UserRetrieve } from './data';
 import { DataService } from './data.service';
 import { AuthenticationService } from './authentication/authentication.service';
 import { ActivatedRoute, ResolveData } from '@angular/router';
+import { concatMap } from 'rxjs/operators'
 //import { AppConfigService } from './app-config.service';
 
 @Component({
@@ -19,33 +20,29 @@ export class AppComponent implements OnInit, OnDestroy {
   admin: boolean = false;
   volunteer: boolean = false;
   userRtn: any;
+  userLookup: UserSmall;
 
   constructor(public authenticationService: AuthenticationService,
-     public dataService: DataService,
-     private route: ActivatedRoute) { }
+     public dataService: DataService) {}
 
   ngOnInit() {
     //move our admin call here
-    //console.log('App.component starting');
+    console.log('App.component starting');
 
-    var userLookup:UserSmall = {
-      firstName: this.dataService.userFull.firstName,
-      lastName: this.dataService.userFull.lastName,
-      facebookId: this.dataService.userFull.facebookId,
-      accessToken: this.dataService.facebookToken
-    };
-
-    // UserRetrieve promise. Afterwards, we have the JWT so we can use the bearer.
-    const promise = this.getLogindata(userLookup).then(token => {
-      this.dataService.getUserInfo(userLookup).subscribe(data => {
-        this.admin = data.adminFlag ?? false;
+    /*const promise = this.getLogindata(userLookup).then(data => {
+      console.log(promise);
+      console.log(Date);
+      this.appReady = true;*/
+      this.dataService.getUserInfo(this.userLookup).subscribe(attrib => {
+        this.admin = attrib.adminFlag ?? false;
         this.dataService.userFull.adminFlag = this.admin;
-        this.dataService.userFull.realName = data.realNm;
-        this.dataService.userFull.cityName = data.cityNm;
-        this.dataService.userFull.stateCode = data.stateCd;
-      });
-     Object.assign(token);
-     });
+        this.dataService.userFull.realName = attrib.realNm;
+        this.dataService.userFull.cityName = attrib.cityNm;
+        this.dataService.userFull.stateCode = attrib.stateCd;
+        console.log(attrib);
+      })
+    // })
+
    }
 
   ngOnDestroy() {
@@ -53,7 +50,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   async getLogindata(userLookup: UserSmall): Promise<any> {
-    const token = await this.dataService.getLogin(userLookup).then(data => {
+    const token = await this.dataService.getLogin(userLookup).toPromise().then(data => {
       sessionStorage.setItem('apiToken', data);
       Object.assign(data);
     });
