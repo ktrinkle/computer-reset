@@ -13,7 +13,6 @@ import { CreateeventComponent } from './admin/createevent/createevent.component'
 import { UserlistComponent } from './admin/userlist/userlist.component';
 import { StandbyComponent } from './admin/standby/standby.component';
 import { PasteventComponent } from './admin/pastevent/pastevent.component';
-import { UserResolver } from './app.resolver';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full'},
