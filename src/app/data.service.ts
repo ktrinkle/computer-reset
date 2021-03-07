@@ -44,16 +44,15 @@ export class DataService {
       return this.httpClient.get(url);
     }
 
-    public async getLogin(userReq: UserSmall): Promise<any> {
+    public getLogin(userReq: UserSmall): any {
       var url = this.REST_API_SERVER + '/api/computerreset/api/users';
-      return await this.httpClient.post(url, userReq, {responseType: 'text'}).toPromise();
+      return this.httpClient.post(url, userReq, {responseType: 'text'});
     }
 
     public getUserInfo(userReq: UserSmall): any {
       var url = this.REST_API_SERVER + '/api/computerreset/api/users/attrib/';
       return this.httpClient.post(url, userReq);
     }
-
 
     public updateUserNote(userNote: UserEventNote): any {
       var url = this.REST_API_SERVER + '/api/computerreset/api/events/signup/note';
