@@ -86,6 +86,11 @@ export class DataService {
       return this.httpClient.post(url, eventReq, {responseType: 'text'});
     }
 
+    public adminAddToEvent(eventReq: Signup): any {
+      var url = this.REST_API_SERVER + '/api/computerreset/api/users/addtoevent';
+      return this.httpClient.post(url, eventReq, {responseType: 'text'});
+    }
+
     public updateEvent(eventInfo: Timeslot): any {
       var url = this.REST_API_SERVER + '/api/computerreset/api/events/create';
       return this.httpClient.post(url, eventInfo, {responseType : 'text'});
