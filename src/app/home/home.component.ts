@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from '../data.service';
 import { Router } from '@angular/router';
-import { TimeslotSmall, openEvent } from '../data';
+import { TimeslotSmall, openEvent, frontPage } from '../data';
 import { utcToZonedTime } from 'date-fns-tz';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -25,7 +25,6 @@ export class HomeComponent implements OnInit {
   public signedupEvents: TimeslotSmall[] = [];
   public confirmedEvents: TimeslotSmall[] = [];
   public waitlist: TimeslotSmall[] = [];
-  private openEvent: openEvent;
   public moveInd: boolean = false;
   public moveOrSignup: boolean;
   public signedupSlot: number;
@@ -73,8 +72,15 @@ export class HomeComponent implements OnInit {
 
     this.events = null;
 
-    this.dataService.getOpenEventUser().subscribe({next: (data: openEvent)=>{
-      this.openEvent = data;
+    this.dataService.getOpenEventUser().subscribe({next: (data: frontPage)=>{
+      if (!sessionStorage.getItem('apiToken')) {
+        sessionStorage.setItem('apiToken', data.sessionAuth);
+      };
+      const userInfo = data.userInfo;
+      this.dataService.userFull.adminFlag = userInfo.adminFlag ?? false;
+      this.dataService.userFull.realName = userInfo.realNm;
+      this.dataService.userFull.cityName = userInfo.cityNm;
+      this.dataService.userFull.stateCode = userInfo.stateCd;
       this.events = data.timeslot;
       this.moveOrSignup = data.moveFlag;
       this.signedupSlot = data.signedUpTimeslot ?? -1;

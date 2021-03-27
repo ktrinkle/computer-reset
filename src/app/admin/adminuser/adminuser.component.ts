@@ -194,7 +194,7 @@ export class AdminuserComponent implements OnInit, OnDestroy {
     };
 
     //all is good, lets fire the web service
-    this.dataService.signupForEvent(signUp).subscribe((data => {
+    this.dataService.adminAddToEvent(signUp).subscribe((data => {
         this.submitUserEventResult = data;
         this.submitUserEvent = false;
     }));

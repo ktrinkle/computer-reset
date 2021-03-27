@@ -49,6 +49,11 @@ export class DataService {
       return this.httpClient.post(url, userReq, {responseType: 'text'});
     }
 
+    public getFrontPage(userReq: UserSmall): any {
+      var url = this.REST_API_SERVER + '/api/computerreset/api/users/frontpage';
+      return this.httpClient.post(url, userReq, {responseType: 'text'});
+    }
+
     public getUserInfo(userReq: UserSmall): any {
       var url = this.REST_API_SERVER + '/api/computerreset/api/users/attrib/';
       return this.httpClient.post(url, userReq);
