@@ -184,6 +184,16 @@ export interface ClaimPrincipal {
   }
 
   export interface openEvent{
+    sessionAuth: string;
+    timeslot: TimeslotSmall[];
+    signedUpTimeslot: number;
+    moveFlag: boolean;
+    flexSlot: boolean;
+  }
+
+  export interface frontPage{
+    sessionAuth: string;
+    userInfo: UserRetrieve;
     timeslot: TimeslotSmall[];
     signedUpTimeslot: number;
     moveFlag: boolean;

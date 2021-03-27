@@ -1,10 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { UserSmall, UserModel, UserRetrieve } from './data';
+import { UserSmall } from './data';
 import { DataService } from './data.service';
 import { AuthenticationService } from './authentication/authentication.service';
-import { ActivatedRoute, ResolveData } from '@angular/router';
-import { concatMap } from 'rxjs/operators'
-//import { AppConfigService } from './app-config.service';
 
 @Component({
   selector: 'app-root',
@@ -26,22 +23,6 @@ export class AppComponent implements OnInit, OnDestroy {
      public dataService: DataService) {}
 
   ngOnInit() {
-    //move our admin call here
-    console.log('App.component starting');
-
-    /*const promise = this.getLogindata(userLookup).then(data => {
-      console.log(promise);
-      console.log(Date);
-      this.appReady = true;*/
-      this.dataService.getUserInfo(this.userLookup).subscribe(attrib => {
-        this.admin = attrib.adminFlag ?? false;
-        this.dataService.userFull.adminFlag = this.admin;
-        this.dataService.userFull.realName = attrib.realNm;
-        this.dataService.userFull.cityName = attrib.cityNm;
-        this.dataService.userFull.stateCode = attrib.stateCd;
-        console.log(attrib);
-      })
-    // })
 
    }
 
@@ -49,14 +30,6 @@ export class AppComponent implements OnInit, OnDestroy {
     sessionStorage.clear();
   }
 
-  async getLogindata(userLookup: UserSmall): Promise<any> {
-    const token = await this.dataService.getLogin(userLookup).toPromise().then(data => {
-      sessionStorage.setItem('apiToken', data);
-      Object.assign(data);
-    });
-
-    return token;
-  }
 }
 
 

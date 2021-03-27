@@ -6,6 +6,7 @@ import { EventComponent } from './event/event.component';
 import { AdminComponent } from './admin/admin.component';
 import { AppComponent } from './app.component';
 import { AdminGuard } from './admin/admin.guard';
+import { LoadGuard } from './helper/load.guard';
 import { AdminfutureComponent } from './admin/adminfuture/adminfuture.component';
 import { AdmintodayComponent } from './admin/admintoday/admintoday.component';
 import { AdminuserComponent } from './admin/adminuser/adminuser.component';
@@ -18,36 +19,36 @@ const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full'},
   { path: 'home', component: HomeComponent },
   { path: 'privacy', component: PrivacyComponent },
-  { path: 'event', component: EventComponent },
-  { path: 'admin', component: AdminComponent, canActivate: [AdminGuard] , children: [
+  { path: 'event', component: EventComponent, canActivate: [LoadGuard] },
+  { path: 'admin', component: AdminComponent, canActivate: [AdminGuard, LoadGuard] , children: [
     {
     path: 'userlist',
     component: UserlistComponent,
-    canActivate: [AdminGuard]
+    canActivate: [AdminGuard, LoadGuard]
   },{
     path: 'future',
     component: AdminfutureComponent,
-    canActivate: [AdminGuard]
+    canActivate: [AdminGuard, LoadGuard]
   }, {
     path: 'today',
     component: AdmintodayComponent,
-    canActivate: [AdminGuard]
+    canActivate: [AdminGuard, LoadGuard]
   }, {
     path: 'standby',
     component: StandbyComponent,
-    canActivate: [AdminGuard]
+    canActivate: [AdminGuard, LoadGuard]
   }, {
     path: 'event',
     component: CreateeventComponent,
-    canActivate: [AdminGuard]
+    canActivate: [AdminGuard, LoadGuard]
   }, {
     path: 'user',
     component: AdminuserComponent,
-    canActivate: [AdminGuard]
+    canActivate: [AdminGuard, LoadGuard]
   }, {
     path: 'past',
     component: PasteventComponent,
-    canActivate: [AdminGuard]
+    canActivate: [AdminGuard, LoadGuard]
   },
 ]}
 ];
