@@ -12,7 +12,7 @@ export class LoadGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot) {
 
-      if (this.dataService.userFull.id) {
+      if (this.dataService.userFull.adminFlag != null) {
         return true;
       } else {
         return false;

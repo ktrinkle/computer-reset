@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from '../data.service';
 import { Router } from '@angular/router';
-import { TimeslotSmall, openEvent, frontPage } from '../data';
+import { TimeslotSmall, UserRetrieve, frontPage, UserSmall } from '../data';
 import { utcToZonedTime } from 'date-fns-tz';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -29,6 +29,7 @@ export class HomeComponent implements OnInit {
   public moveOrSignup: boolean;
   public signedupSlot: number;
   public deleteInd: boolean = false;
+  public userLoad: UserSmall;
   rtn: boolean;
   testString: string;
 
@@ -58,8 +59,15 @@ export class HomeComponent implements OnInit {
 
     this.fullName = this.dataService.userFull.firstName + " " + this.dataService.userFull.lastName;
 
+    this.userLoad = {
+      firstName: this.dataService.userFull.firstName,
+      lastName: this.dataService.userFull.lastName,
+      facebookId: this.dataService.userFull.facebookId,
+      accessToken: this.dataService.facebookToken
+    };
+
     this.loadStatus = false;
-    this.loadEvents();
+    this.loadEvents(this.userLoad);
 
   }
 
@@ -67,17 +75,18 @@ export class HomeComponent implements OnInit {
 
   }
 
-  loadEvents() {
+  loadEvents(userLoad: UserSmall) {
     //loads all events from web service and parses based on requirements
 
     this.events = null;
 
-    this.dataService.getOpenEventUser().subscribe({next: (data: frontPage)=>{
-      if (!sessionStorage.getItem('apiToken')) {
+    this.dataService.getFrontPage(this.userLoad).subscribe({next: (data: frontPage)=>{
+      if (sessionStorage.getItem('apiToken') == undefined) {
         sessionStorage.setItem('apiToken', data.sessionAuth);
       };
-      const userInfo = data.userInfo;
-      this.dataService.userFull.adminFlag = userInfo.adminFlag ?? false;
+      var userInfo:UserRetrieve = data.userInfo;
+      var adminFlag = userInfo.adminFlag;
+      this.dataService.userFull.adminFlag = adminFlag;
       this.dataService.userFull.realName = userInfo.realNm;
       this.dataService.userFull.cityName = userInfo.cityNm;
       this.dataService.userFull.stateCode = userInfo.stateCd;
@@ -94,10 +103,10 @@ export class HomeComponent implements OnInit {
     complete: () => {
       this.confirmedEvents = this.events.filter(event => event.userSlot == "G");
       this.signedupEvents = this.events.filter(event => event.userSlot == "S");
-      //not really doing this anymore but it's still here
+      // not really doing this anymore but it's still here
       this.waitlist = this.events.filter(event => event.userSlot == "C");
 
-      //set deleteind
+      // set deleteind
       this.deleteInd = this.events.filter(event => event.userSlot == null).length == this.events.length;
       this.loadStatus = true;
 
@@ -116,7 +125,7 @@ export class HomeComponent implements OnInit {
           this.rtn = true;
           this.dataService.userDeleteSignup(selectEvent, this.dataService.userFull.facebookId).then(data => {
             this.openSnackBar(data);
-            this.loadEvents();
+            this.loadEvents(this.userLoad);
           });
         } else {
           this.rtn = false;

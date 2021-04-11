@@ -51,7 +51,7 @@ export class DataService {
 
     public getFrontPage(userReq: UserSmall): any {
       var url = this.REST_API_SERVER + '/api/computerreset/api/users/frontpage';
-      return this.httpClient.post(url, userReq, {responseType: 'text'});
+      return this.httpClient.post(url, userReq);
     }
 
     public getUserInfo(userReq: UserSmall): any {

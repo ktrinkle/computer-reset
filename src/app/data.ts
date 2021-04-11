@@ -89,7 +89,6 @@ export interface ClaimPrincipal {
     realNm: string;
     adminFlag: boolean;
     volunteerFlag: boolean;
-    jwt: string;
   }
 
   export interface UserSmall {
