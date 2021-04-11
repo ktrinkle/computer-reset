@@ -11,9 +11,11 @@ export class AdminGuard implements CanActivate {
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot) {
-      const token = sessionStorage.getItem('apiToken');
-
-      return this.dataService.userFull.adminFlag;
+      if (this.dataService.userFull.adminFlag == true) {
+        return true;
+      } else {
+        return false;
+      }
   }
-  
+
 }

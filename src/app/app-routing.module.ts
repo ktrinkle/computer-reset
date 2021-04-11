@@ -20,35 +20,35 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'privacy', component: PrivacyComponent },
   { path: 'event', component: EventComponent, canActivate: [LoadGuard] },
-  { path: 'admin', component: AdminComponent, canActivate: [AdminGuard, LoadGuard] , children: [
+  { path: 'admin', component: AdminComponent, canActivate: [AdminGuard] , children: [
     {
     path: 'userlist',
     component: UserlistComponent,
-    canActivate: [AdminGuard, LoadGuard]
+    canActivate: [AdminGuard]
   },{
     path: 'future',
     component: AdminfutureComponent,
-    canActivate: [AdminGuard, LoadGuard]
+    canActivate: [AdminGuard]
   }, {
     path: 'today',
     component: AdmintodayComponent,
-    canActivate: [AdminGuard, LoadGuard]
+    canActivate: [AdminGuard]
   }, {
     path: 'standby',
     component: StandbyComponent,
-    canActivate: [AdminGuard, LoadGuard]
+    canActivate: [AdminGuard]
   }, {
     path: 'event',
     component: CreateeventComponent,
-    canActivate: [AdminGuard, LoadGuard]
+    canActivate: [AdminGuard]
   }, {
     path: 'user',
     component: AdminuserComponent,
-    canActivate: [AdminGuard, LoadGuard]
+    canActivate: [AdminGuard]
   }, {
     path: 'past',
     component: PasteventComponent,
-    canActivate: [AdminGuard, LoadGuard]
+    canActivate: [AdminGuard]
   },
 ]}
 ];

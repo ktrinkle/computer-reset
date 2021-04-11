@@ -14,8 +14,6 @@ export class AppComponent implements OnInit, OnDestroy {
   isLoading = true;
   appReady = false;
   fullName = "";
-  admin: boolean = false;
-  volunteer: boolean = false;
   userRtn: any;
   userLookup: UserSmall;
 
