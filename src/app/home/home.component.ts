@@ -82,6 +82,7 @@ export class HomeComponent implements OnInit {
 
     this.dataService.getFrontPage(this.userLoad).subscribe({next: (data: frontPage)=>{
       if (sessionStorage.getItem('apiToken') == undefined) {
+        console.log(data.sessionAuth);
         sessionStorage.setItem('apiToken', data.sessionAuth);
       };
       var userInfo:UserRetrieve = data.userInfo;
