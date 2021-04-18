@@ -198,3 +198,12 @@ export interface ClaimPrincipal {
     moveFlag: boolean;
     flexSlot: boolean;
   }
+
+  export interface jwt{
+    fbId: string;
+    firstName: string;
+    lastName: string;
+    nbf: number;
+    exp: number;
+    iat: number;
+  }

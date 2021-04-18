@@ -46,6 +46,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { LoadEventComponent } from './helper/load-event/load-event.component';
 import { PasteventComponent } from './admin/pastevent/pastevent.component';
+import { AppAlertComponent } from './helper/alert/alert.component';
 
 
 export function appInitFb(appConfigService: AppConfigService) {
@@ -66,10 +67,10 @@ export function appInitFb(appConfigService: AppConfigService) {
     UserlistComponent,
     StandbyComponent,
     RulesComponent,
-    AlertComponent,
+    AppAlertComponent,
     DialogCancelComponent,
     LoadEventComponent,
-    PasteventComponent,
+    PasteventComponent
   ],
   imports: [
     BrowserModule,
@@ -120,9 +121,11 @@ export function appInitFb(appConfigService: AppConfigService) {
     AdminfutureComponent,
     HomeComponent,
     DialogCancelComponent,
+    AppAlertComponent
   ],
   entryComponents: [
-    DialogCancelComponent
+    DialogCancelComponent,
+    AppAlertComponent
   ],
   bootstrap: [AppComponent]
 })
