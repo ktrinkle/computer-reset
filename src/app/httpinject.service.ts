@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from './../environments/environment';
-
 import { AuthenticationService } from './authentication/authentication.service';
 
 @Injectable()
@@ -14,7 +13,12 @@ export class JwtInterceptor implements HttpInterceptor {
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         // add auth header with jwt if user is logged in and request is to the api url
-        const currentUser = this.authenticationService.currentUserValue;
+        let currentUser = this.authenticationService.currentUserValue;
+        const tokenExpired: boolean = this.authenticationService.checkJwtExpired(currentUser);
+        // slightly hacky way of checking expiry and sending back to login
+        if (tokenExpired && !environment.production) {
+          window.location.href = '/.auth/login/facebook';
+        }
         const isLoggedIn = currentUser;
         const isApiUrl = request.url.startsWith(this.REST_API_SERVER);
         if (isLoggedIn && isApiUrl) {
