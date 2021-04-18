@@ -32,6 +32,7 @@ export class EventComponent implements OnInit, OnDestroy {
   public loadStatus: boolean = true;
   public moveOrSignup: boolean;
   public signedupSlot: number;
+  public stopChange: boolean = false;
 
   public agreeClick(): void {
     this.agreeInd = true;
@@ -157,12 +158,14 @@ export class EventComponent implements OnInit, OnDestroy {
         await this.dataService.signupForEvent(this.signUp).subscribe((data => {
           this.submitResult = data;
           this.submitProcess = false;
+          this.stopChange = true;
           this.loadEvents();
       }));
       } else {
         //assume a move
         var res = await this.dataService.userMoveSlot(this.signedupSlot, this.signUp.eventId, this.signUp.fbId).then(data => {
           this.submitResult = data.toString();
+          this.stopChange = true;
           this.loadEvents();
         });
         this.submitProcess = false;
@@ -174,7 +177,12 @@ export class EventComponent implements OnInit, OnDestroy {
 
   onChanges(): void {
     this.eventForm.valueChanges.subscribe(val => {
-      this.submitResult = null;
+      if (this.stopChange == false) {
+        this.submitResult = null;
+      } else {
+        this.stopChange = false;
+      }
+
     });
   }
   //onchange for state
