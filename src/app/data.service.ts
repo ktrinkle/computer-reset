@@ -3,6 +3,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { throwError } from 'rxjs';
 import { UserSmall, Signup, UserModel, UserEventSignup, UserEventDayOf, UserEventNote, Timeslot, UserManual, openEvent } from './data';
 import { environment } from './../environments/environment';
+import { AuthenticationService } from './authentication/authentication.service';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +20,7 @@ export class DataService {
 
   private REST_API_SERVER = environment.api_url;
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient, private authenticationService: AuthenticationService) { }
 
   public callToken(): any {
     return sessionStorage.get('accessToken');
@@ -27,15 +28,22 @@ export class DataService {
 
   handleError(error: HttpErrorResponse) {
     let errorMessage = 'Unknown error!';
-    if (error.error instanceof ErrorEvent) {
+    if (error.status === 403|| error.status === 401) {
+      this.authenticationService.logout();
+      window.location.href = '/.auth/login/facebook';
+      return null;
+    }
+    else {
+      if (error.error instanceof ErrorEvent) {
       // Client-side errors
       errorMessage = `Error: ${error.error.message}`;
-    } else {
+      } else {
       // Server-side errors
       errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+      }
+      window.alert(errorMessage);
+      return throwError(errorMessage);
     }
-    window.alert(errorMessage);
-    return throwError(errorMessage);
   }
 
   /** GET - gets Azure Auth info from Facebook for UI to parse */

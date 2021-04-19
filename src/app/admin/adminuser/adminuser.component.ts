@@ -82,7 +82,7 @@ export class AdminuserComponent implements OnInit, OnDestroy {
       takeUntil(this.destroy$)).subscribe(result => {
         this.cities = result;
       }
-    );
+    ).catch(err => this.dataService.handleError);
 
     //failing on data?.trim.length() > 2, saying is not a function
     this.selectId.valueChanges.pipe(
@@ -145,7 +145,7 @@ export class AdminuserComponent implements OnInit, OnDestroy {
     //set our facebook ID
     this.currentUser.facebookId = this.dataService.userFull.facebookId;
 
-    this.dataService.updateUser(this.currentUser).subscribe(data => {
+    this.dataService.updateUser(this.currentUser).subscribe({next: data => {
       this.currentUser = data;
       this.userForm.patchValue(data);
       //do the stuff for assign a user to the event
@@ -154,7 +154,10 @@ export class AdminuserComponent implements OnInit, OnDestroy {
       this.submitProcess = false;
       this.submitResult = "This user has been successfully entered into the system.";
       this.selectId.reset();
-    })
+    },
+    error: (err) => {
+      this.dataService.handleError(err);
+    }})
   }
 
   clearUserForm() {
@@ -193,11 +196,14 @@ export class AdminuserComponent implements OnInit, OnDestroy {
       this.submitUserEvent = false;
     };
 
-    //all is good, lets fire the web service
-    this.dataService.adminAddToEvent(signUp).subscribe((data => {
+    // all is good, lets fire the web service
+    this.dataService.adminAddToEvent(signUp).subscribe({next:(data => {
         this.submitUserEventResult = data;
         this.submitUserEvent = false;
-    }));
+    }),
+    error: (err) => {
+      this.dataService.handleError(err);
+    }});
   }
 
   async changeAdminInd(event: any) {

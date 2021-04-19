@@ -120,6 +120,9 @@ export class EventComponent implements OnInit, OnDestroy {
       });
 
     },
+    error: (err) => {
+      this.dataService.handleError(err);
+    },
     complete: () => {
       this.loadStatus = true;}});
   }
@@ -155,19 +158,23 @@ export class EventComponent implements OnInit, OnDestroy {
       //all is good, lets fire the web service
       //determine if move or signup
       if (!this.moveOrSignup) {
-        await this.dataService.signupForEvent(this.signUp).subscribe((data => {
+        await this.dataService.signupForEvent(this.signUp).subscribe({next: (data => {
           this.submitResult = data;
           this.submitProcess = false;
           this.stopChange = true;
           this.loadEvents();
-      }));
+      }),
+      error: (err) => {
+        this.dataService.handleError(err);
+      }});
       } else {
         //assume a move
         var res = await this.dataService.userMoveSlot(this.signedupSlot, this.signUp.eventId, this.signUp.fbId).then(data => {
           this.submitResult = data.toString();
           this.stopChange = true;
           this.loadEvents();
-        });
+        })
+        .catch(err => this.dataService.handleError(err));
         this.submitProcess = false;
       }
     }

@@ -100,6 +100,9 @@ export class HomeComponent implements OnInit {
       });
 
     },
+    error: (err) => {
+      this.dataService.handleError(err);
+    },
     complete: () => {
       this.confirmedEvents = this.events.filter(event => event.userSlot == "G");
       this.signedupEvents = this.events.filter(event => event.userSlot == "S");
@@ -123,10 +126,11 @@ export class HomeComponent implements OnInit {
       ref.afterClosed().subscribe(result => {
         if (result == true) {
           this.rtn = true;
-          this.dataService.userDeleteSignup(selectEvent, this.dataService.userFull.facebookId).then(data => {
+          this.dataService.userDeleteSignup(selectEvent, this.dataService.userFull.facebookId)
+            .then(data => {
             this.openSnackBar(data);
             this.loadEvents(this.userLoad);
-          });
+          }).catch(err => this.dataService.handleError(err));
         } else {
           this.rtn = false;
         }
