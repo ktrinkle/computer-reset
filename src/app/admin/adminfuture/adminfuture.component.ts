@@ -4,6 +4,7 @@ import { Timeslot, UserEventSignup, UserEventNote } from '../../data';
 import { FormGroup, FormControl, Validators, FormBuilder, ReactiveFormsModule, FormArray } from '@angular/forms';
 import { MatSnackBar, MAT_SNACK_BAR_DATA } from '@angular/material/snack-bar';
 import { Subject } from 'rxjs';
+import { ThrowStmt } from '@angular/compiler';
 
 
 @Component({
@@ -71,10 +72,14 @@ export class AdminfutureComponent implements OnInit, OnDestroy {
     });
 
     this.dataService.getEventFuture()
-      .subscribe((data: Timeslot[]) => {
+      .subscribe({next: (data: Timeslot[]) => {
         this.events = data
         this.initialListStatus = false;
-       });
+       },
+       error: (err) => {
+        this.dataService.handleError(err);
+      }
+      });
 
     //console.log(this.dataService.userFull);
 
@@ -104,6 +109,7 @@ export class AdminfutureComponent implements OnInit, OnDestroy {
     //trying a promise
     this.eventSignedUp = [];
     const promise = this.dataService.getSignedUpUsers(eventTimeslot.id)
+    .catch(err => this.dataService.handleError(err))
     .then((data: UserEventSignup[]) => {
         // Success
         data.map((event: UserEventSignup) => {
@@ -151,7 +157,7 @@ export class AdminfutureComponent implements OnInit, OnDestroy {
     var rtn = this.dataService.updateUserNote(userNote).then(data => {
       this.openSnackBar(data);
       Object.assign(this, data.toString())
-    });
+    }).catch(err => this.dataService.handleError(err));
   }
 
   highlight(row){
