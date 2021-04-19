@@ -58,14 +58,18 @@ export class CreateeventComponent implements OnInit, OnDestroy {
     this.currEvents = this.formBuilder.group({});
 
     //We shall see if this works ok. Promise would be bad since we want new events to show
-    this.dataService.getEventFuture().subscribe((data: Timeslot[]) => {
+    this.dataService.getEventFuture().subscribe({next: (data: Timeslot[]) => {
         this.events = data;
         this.events.forEach(event => {
           this.currEvents.addControl(event.id.toString(), new FormControl(event.eventClosed));
           this.currEvents.addControl('pvt' + event.id.toString(), new FormControl(event.privateEventInd));
         });
         //console.log(this.currEvents);
-       });
+       },
+       error: (err) => {
+         this.dataService.handleError(err);
+       }
+      });
   }
 
   highlight(row){
@@ -137,11 +141,17 @@ export class CreateeventComponent implements OnInit, OnDestroy {
       this.submitProcess = false;
     } else {
       //all is good, lets fire the web service
-      this.dataService.updateEvent(this.eventTimeslotSelect).subscribe((data => {
+      this.dataService.updateEvent(this.eventTimeslotSelect).subscribe({next: (data => {
           this.submitResult = data;
           this.submitProcess = false;
-      }));
-      this.loadEvents();
+      }),
+      error: (err) => {
+        this.dataService.handleError(err);
+      },
+      complete: () => {
+        this.loadEvents()
+      }
+      });
     }
   }
 

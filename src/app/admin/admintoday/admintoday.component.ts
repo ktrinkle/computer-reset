@@ -33,11 +33,14 @@ export class AdmintodayComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.initialListStatus = true;
     this.dataService.getEventFuture()
-      .subscribe((data: Timeslot[]) => {
+      .subscribe({next: (data: Timeslot[]) => {
         this.events = data;
         this.initialListStatus = false;
-     });
-
+     },
+     error: (err) => {
+      this.dataService.handleError(err);
+    }
+    });
   }
 
   ngOnDestroy() {
@@ -55,6 +58,7 @@ export class AdmintodayComponent implements OnInit, OnDestroy {
     //trying a promise
     this.eventSignedUp = [];
     const promise = this.dataService.getSignupDayOf(eventTimeslot.id)
+    .catch(err => this.dataService.handleError(err))
     .then((data: UserEventDayOf[]) => {
         // Success
         data.map((event: UserEventDayOf) => {
@@ -123,6 +127,7 @@ export class AdmintodayComponent implements OnInit, OnDestroy {
     this.noShowForm = this.formBuilder.group({});
     this.signedUpNoShow = [];
     const promise = this.dataService.getSignupDayOf(id)
+    .catch(err => this.dataService.handleError(err))
     .then((data: UserEventDayOf[]) => {
         // Success
         data.map((event: UserEventDayOf) => {

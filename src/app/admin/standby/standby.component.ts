@@ -45,6 +45,9 @@ export class StandbyComponent implements OnInit, OnDestroy {
           this.signupForm.addControl('signupTxt' + event.id.toString(), new FormControl(event.signupTxt));
         });
       },
+      error: (err) => {
+        this.dataService.handleError(err);
+      },
       complete: () => {
         this.loadStatus = true;
       }

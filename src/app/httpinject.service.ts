@@ -14,11 +14,6 @@ export class JwtInterceptor implements HttpInterceptor {
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         // add auth header with jwt if user is logged in and request is to the api url
         let currentUser = this.authenticationService.currentUserValue;
-        const tokenExpired: boolean = this.authenticationService.checkJwtExpired(currentUser);
-        // slightly hacky way of checking expiry and sending back to login
-        if (tokenExpired && !environment.production) {
-          window.location.href = '/.auth/login/facebook';
-        }
         const isLoggedIn = currentUser;
         const isApiUrl = request.url.startsWith(this.REST_API_SERVER);
         if (isLoggedIn && isApiUrl) {
