@@ -11,8 +11,7 @@ Only Facebook authentication is supported, and this is handled via the EasyAuth 
 | Order | Endpoint | Called by | Notes |
 |--|--|--|--|
 | 1 | /.auth/me | app.config.service.ts | Get the Facebook login user ID and name, and access token |
-| 2 | /api/users | app.component.ts | HTTP post to the API to convert the access token to a JWT. |
-| 3 | /api/users/attrib | app.component.ts | HTTP post to get the user attributes, and create a user if the user does not already exist. |
+| 2 | /api/users/frontpage | home.component.ts | HTTP post to the API to convert the access token to a JWT, and get frontpage information. |
 
 When running in development mode, a specified user ID stored in environment.ts will be used to override Facebook login.
 
@@ -27,3 +26,7 @@ Users can be manually added via the admin UI. They are assigned a fake Facebook 
 ## Automated tests
 
 This project has none. Sorry. While it would be best practice to do so, this is supposed to last a short period of time before the site gets destroyed upon completion of the liquidation.
+
+## License
+
+This is licensed under the MIT license.
