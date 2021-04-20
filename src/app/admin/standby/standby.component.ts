@@ -36,7 +36,7 @@ export class StandbyComponent implements OnInit, OnDestroy {
 
   loadStandby() {
     this.signupForm = this.formBuilder.group({});
-    this.dataService.getStandbyMaster(this.dataService.userFull.facebookId)
+    this.dataService.getStandbyMaster()
       .subscribe({next: (data: any) => {
         this.standbyList = data;
         this.slot = data.slot;
@@ -44,6 +44,9 @@ export class StandbyComponent implements OnInit, OnDestroy {
         this.standbyDetail.forEach(event => {
           this.signupForm.addControl('signupTxt' + event.id.toString(), new FormControl(event.signupTxt));
         });
+      },
+      error: (err) => {
+        this.dataService.handleError(err);
       },
       complete: () => {
         this.loadStatus = true;
@@ -77,7 +80,7 @@ export class StandbyComponent implements OnInit, OnDestroy {
     var newEvent = event.value;
     var id = event.source.id;
 
-    this.openSnackBar(await this.dataService.moveUserSlot(id, newEvent, this.dataService.userFull.facebookId));
+    this.openSnackBar(await this.dataService.moveUserSlot(id, newEvent));
 
     this.loadStandby();
   }

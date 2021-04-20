@@ -95,6 +95,7 @@ export interface ClaimPrincipal {
     firstName: string;
     lastName: string;
     facebookId: string;
+    accessToken: string;
   }
 
   export interface UserEventSignup {
@@ -196,4 +197,13 @@ export interface ClaimPrincipal {
     signedUpTimeslot: number;
     moveFlag: boolean;
     flexSlot: boolean;
+  }
+
+  export interface jwt{
+    fbId: string;
+    firstName: string;
+    lastName: string;
+    nbf: number;
+    exp: number;
+    iat: number;
   }

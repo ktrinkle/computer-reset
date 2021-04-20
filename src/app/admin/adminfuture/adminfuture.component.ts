@@ -4,6 +4,7 @@ import { Timeslot, UserEventSignup, UserEventNote } from '../../data';
 import { FormGroup, FormControl, Validators, FormBuilder, ReactiveFormsModule, FormArray } from '@angular/forms';
 import { MatSnackBar, MAT_SNACK_BAR_DATA } from '@angular/material/snack-bar';
 import { Subject } from 'rxjs';
+import { ThrowStmt } from '@angular/compiler';
 
 
 @Component({
@@ -70,11 +71,15 @@ export class AdminfutureComponent implements OnInit, OnDestroy {
       maxEvents: new FormControl(this.maxEvents, [Validators.pattern('[0-9]*')])
     });
 
-    this.dataService.getEventFuture(this.dataService.userFull.facebookId)
-      .subscribe((data: Timeslot[]) => {
+    this.dataService.getEventFuture()
+      .subscribe({next: (data: Timeslot[]) => {
         this.events = data
         this.initialListStatus = false;
-       });
+       },
+       error: (err) => {
+        this.dataService.handleError(err);
+      }
+      });
 
     //console.log(this.dataService.userFull);
 
@@ -103,7 +108,8 @@ export class AdminfutureComponent implements OnInit, OnDestroy {
     });
     //trying a promise
     this.eventSignedUp = [];
-    const promise = this.dataService.getSignedUpUsers(eventTimeslot.id, this.dataService.userFull.facebookId)
+    const promise = this.dataService.getSignedUpUsers(eventTimeslot.id)
+    .catch(err => this.dataService.handleError(err))
     .then((data: UserEventSignup[]) => {
         // Success
         data.map((event: UserEventSignup) => {
@@ -130,7 +136,7 @@ export class AdminfutureComponent implements OnInit, OnDestroy {
       this.signupForm.value.formField = null;
       this.openSnackBar("This value is invalid. Please try again.");
     } else {
-      this.openSnackBar(await this.dataService.sendUserSlot(id, attendNbr, this.dataService.userFull.facebookId));
+      this.openSnackBar(await this.dataService.sendUserSlot(id, attendNbr));
     }
   }
 
@@ -151,7 +157,7 @@ export class AdminfutureComponent implements OnInit, OnDestroy {
     var rtn = this.dataService.updateUserNote(userNote).then(data => {
       this.openSnackBar(data);
       Object.assign(this, data.toString())
-    });
+    }).catch(err => this.dataService.handleError(err));
   }
 
   highlight(row){

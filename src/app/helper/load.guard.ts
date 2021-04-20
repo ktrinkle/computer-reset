@@ -5,13 +5,14 @@ import { DataService } from '../data.service';
 @Injectable({
   providedIn: 'root'
 })
-export class AdminGuard implements CanActivate {
+export class LoadGuard implements CanActivate {
   constructor (private dataService: DataService) { }
 
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot) {
-      if (this.dataService.userFull.adminFlag == true) {
+
+      if (this.dataService.userFull.adminFlag != null) {
         return true;
       } else {
         return false;

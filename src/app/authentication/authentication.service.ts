@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { environment } from './../../environments/environment';
-
-import { ApiUser } from '../data';
+import { Router } from '@angular/router';
+import jwt_decode from 'jwt-decode';
+import { jwt } from '../data';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
-    private currentUserSubject: BehaviorSubject<ApiUser>;
-    public currentUser: Observable<ApiUser>;
+    private currentUserSubject: BehaviorSubject<string>;
+    public currentUser: Observable<string>;
     private REST_API_SERVER = environment.api_url;
 
     constructor(private http: HttpClient) {
@@ -17,27 +17,30 @@ export class AuthenticationService {
         this.currentUser = this.currentUserSubject.asObservable();
     }
 
-    public get currentUserValue(): ApiUser {
-        //console.log(this.currentUserSubject.value);
+    public get currentUserValue(): string {
+        this.currentUserSubject.next(sessionStorage.getItem('apiToken'));
         return this.currentUserSubject.value;
     }
 
-    loginApi(username: string, password: string) {
-      var url = this.REST_API_SERVER + '/users/authenticate';
+    public checkJwtExpired(token?: string): boolean {
+      if (!token) {
+        return true;
+      }
 
-        return this.http.post<any>(url, { username, password })
-            .pipe(map(user => {
-                // store user details and jwt token in local storage to keep user logged in between page refreshes
-                sessionStorage.setItem('apiToken', user.token);
-                //sessionStorage.setItem('apiToken', JSON.stringify(user.token));
-                this.currentUserSubject.next(user);
-                return user;
-            }));
+      const decoded: jwt = jwt_decode(token);
+
+      if (decoded.exp === undefined) {
+        return true;
+      }
+
+      const date = new Date(0);
+      date.setUTCSeconds(decoded.exp);
+      return !(date.valueOf() > new Date().valueOf());
     }
 
     logout() {
         // remove user from local storage to log user out
-        sessionStorage.removeItem('currentUser');
+        sessionStorage.removeItem('apiToken');
         this.currentUserSubject.next(null);
     }
 }
