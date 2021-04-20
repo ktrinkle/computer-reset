@@ -80,7 +80,7 @@ export class StandbyComponent implements OnInit, OnDestroy {
     var newEvent = event.value;
     var id = event.source.id;
 
-    this.openSnackBar(await this.dataService.moveUserSlot(id, newEvent, this.dataService.userFull.facebookId));
+    this.openSnackBar(await this.dataService.moveUserSlot(id, newEvent));
 
     this.loadStandby();
   }
