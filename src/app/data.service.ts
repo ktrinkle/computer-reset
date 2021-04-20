@@ -176,9 +176,9 @@ export class DataService {
       return this.httpClient.get(url);
     }
 
-    public async moveUserSlot(slotId: number, newEventId: number, facebookId: string): Promise<string> {
+    public async moveUserSlot(slotId: number, newEventId: number): Promise<string> {
       var url = this.REST_API_SERVER + '/api/computerreset/api/events/move/' + encodeURIComponent(slotId) + '/' +
-        encodeURIComponent(newEventId) + '/' + encodeURIComponent(facebookId) + '';
+        encodeURIComponent(newEventId) + '';
       return this.httpClient.put(url, null, {responseType: 'text'}).toPromise();
     }
 
