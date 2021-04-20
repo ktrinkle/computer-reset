@@ -29,7 +29,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
@@ -47,11 +46,8 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { LoadEventComponent } from './helper/load-event/load-event.component';
 import { PasteventComponent } from './admin/pastevent/pastevent.component';
+import { AppAlertComponent } from './helper/alert/alert.component';
 
-
-export function appInit(appConfigService: AppConfigService) {
-  return () => appConfigService.load();
-}
 
 export function appInitFb(appConfigService: AppConfigService) {
   return () => appConfigService.loadFb();
@@ -71,10 +67,10 @@ export function appInitFb(appConfigService: AppConfigService) {
     UserlistComponent,
     StandbyComponent,
     RulesComponent,
-    AlertComponent,
+    AppAlertComponent,
     DialogCancelComponent,
     LoadEventComponent,
-    PasteventComponent,
+    PasteventComponent
   ],
   imports: [
     BrowserModule,
@@ -85,7 +81,6 @@ export function appInitFb(appConfigService: AppConfigService) {
     MatIconModule,
     MatButtonModule,
     MatCardModule,
-    MatProgressSpinnerModule,
     MatTableModule,
     MatButtonToggleModule,
     FormsModule,
@@ -116,14 +111,6 @@ export function appInitFb(appConfigService: AppConfigService) {
       [AppConfigService,
         {
           provide: APP_INITIALIZER,
-          useFactory: appInit,
-          multi: true,
-          deps: [AppConfigService]
-        }
-      ],
-      [AppConfigService,
-        {
-          provide: APP_INITIALIZER,
           useFactory: appInitFb,
           multi: true,
           deps: [AppConfigService]
@@ -134,9 +121,11 @@ export function appInitFb(appConfigService: AppConfigService) {
     AdminfutureComponent,
     HomeComponent,
     DialogCancelComponent,
+    AppAlertComponent
   ],
   entryComponents: [
-    DialogCancelComponent
+    DialogCancelComponent,
+    AppAlertComponent
   ],
   bootstrap: [AppComponent]
 })

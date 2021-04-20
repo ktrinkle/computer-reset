@@ -32,12 +32,15 @@ export class AdmintodayComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.initialListStatus = true;
-    this.dataService.getEventFuture(this.dataService.userFull.facebookId)
-      .subscribe((data: Timeslot[]) => {
+    this.dataService.getEventFuture()
+      .subscribe({next: (data: Timeslot[]) => {
         this.events = data;
         this.initialListStatus = false;
-     });
-
+     },
+     error: (err) => {
+      this.dataService.handleError(err);
+    }
+    });
   }
 
   ngOnDestroy() {
@@ -54,7 +57,8 @@ export class AdmintodayComponent implements OnInit, OnDestroy {
     //console.log(this.maxEvents);
     //trying a promise
     this.eventSignedUp = [];
-    const promise = this.dataService.getSignupDayOf(eventTimeslot.id, this.dataService.userFull.facebookId)
+    const promise = this.dataService.getSignupDayOf(eventTimeslot.id)
+    .catch(err => this.dataService.handleError(err))
     .then((data: UserEventDayOf[]) => {
         // Success
         data.map((event: UserEventDayOf) => {
@@ -100,7 +104,7 @@ export class AdmintodayComponent implements OnInit, OnDestroy {
     var attendVal = event.source.checked;
     var id = event.source.id;
 
-    var rtnTxt = await this.dataService.sendUserAttend(id, this.dataService.userFull.facebookId);
+    var rtnTxt = await this.dataService.sendUserAttend(id);
     //we don't care about this value right now but may snackbar it
   }
 
@@ -112,7 +116,7 @@ export class AdmintodayComponent implements OnInit, OnDestroy {
     //console.log(signupId);
     var id: number = parseInt(noShowId);
 
-    var rtnTxt = await this.dataService.sendNoShow(id, this.dataService.userFull.facebookId);
+    var rtnTxt = await this.dataService.sendNoShow(id);
     //we don't care about this value right now but may snackbar it
   }
 
@@ -122,7 +126,8 @@ export class AdmintodayComponent implements OnInit, OnDestroy {
     //reset form
     this.noShowForm = this.formBuilder.group({});
     this.signedUpNoShow = [];
-    const promise = this.dataService.getSignupDayOf(id, this.dataService.userFull.facebookId)
+    const promise = this.dataService.getSignupDayOf(id)
+    .catch(err => this.dataService.handleError(err))
     .then((data: UserEventDayOf[]) => {
         // Success
         data.map((event: UserEventDayOf) => {

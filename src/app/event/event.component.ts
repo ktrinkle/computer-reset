@@ -32,6 +32,7 @@ export class EventComponent implements OnInit, OnDestroy {
   public loadStatus: boolean = true;
   public moveOrSignup: boolean;
   public signedupSlot: number;
+  public stopChange: boolean = false;
 
   public agreeClick(): void {
     this.agreeInd = true;
@@ -107,7 +108,7 @@ export class EventComponent implements OnInit, OnDestroy {
   loadEvents() {
     //loads all events from web service and parses based on requirements
 
-    this.dataService.getOpenEventUser(this.dataService.userFull.facebookId).subscribe({next: (data: openEvent)=>{
+    this.dataService.getOpenEventUser().subscribe({next: (data: openEvent)=>{
       this.events = data.timeslot;
       this.moveOrSignup = data.moveFlag;
       this.signedupSlot = data.signedUpTimeslot ?? -1;
@@ -118,6 +119,9 @@ export class EventComponent implements OnInit, OnDestroy {
         this.events[index] = event;
       });
 
+    },
+    error: (err) => {
+      this.dataService.handleError(err);
     },
     complete: () => {
       this.loadStatus = true;}});
@@ -154,17 +158,23 @@ export class EventComponent implements OnInit, OnDestroy {
       //all is good, lets fire the web service
       //determine if move or signup
       if (!this.moveOrSignup) {
-        await this.dataService.signupForEvent(this.signUp).subscribe((data => {
+        await this.dataService.signupForEvent(this.signUp).subscribe({next: (data => {
           this.submitResult = data;
           this.submitProcess = false;
+          this.stopChange = true;
           this.loadEvents();
-      }));
+      }),
+      error: (err) => {
+        this.dataService.handleError(err);
+      }});
       } else {
         //assume a move
         var res = await this.dataService.userMoveSlot(this.signedupSlot, this.signUp.eventId, this.signUp.fbId).then(data => {
           this.submitResult = data.toString();
+          this.stopChange = true;
           this.loadEvents();
-        });
+        })
+        .catch(err => this.dataService.handleError(err));
         this.submitProcess = false;
       }
     }
@@ -174,7 +184,12 @@ export class EventComponent implements OnInit, OnDestroy {
 
   onChanges(): void {
     this.eventForm.valueChanges.subscribe(val => {
-      this.submitResult = null;
+      if (this.stopChange == false) {
+        this.submitResult = null;
+      } else {
+        this.stopChange = false;
+      }
+
     });
   }
   //onchange for state

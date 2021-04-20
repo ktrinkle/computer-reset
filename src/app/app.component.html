@@ -1,7 +1,3 @@
-<!--div class="loading-screen-wrapper" [hidden]="appReady">
-      <p>Booting your Computer Reset experience...</p>
-      <p><img src="../../assets/charlie.gif" /></p>
-</div-->
 <div>
   <mat-toolbar color="primary">
     <div fxShow="true" fxHide.gt-sm="true">
@@ -17,7 +13,7 @@
     <div fxShow="true" fxHide.lt-md="true">
       <button mat-button routerLink="/privacy">Privacy Policy</button>
       <button mat-button routerLink="/event">Event signup</button>
-      <button *ngIf="admin" mat-button routerLink="/admin">Admin</button>
+      <button *ngIf="this.dataService.userFull.adminFlag" mat-button routerLink="/admin">Admin</button>
       <a mat-button href="/.auth/logout">Logout</a>
     </div>
 
@@ -28,14 +24,14 @@
       <div fxLayout="column">
         <button mat-button routerLink="/privacy">Privacy Policy</button>
         <button mat-button routerLink="/event">Event signup</button>
-        <button *ngIf="admin" mat-button routerLink="/admin">Admin</button>
-        <button *ngIf="admin" mat-button routerLink="/admin/today">Today's event</button>
-        <button *ngIf="admin" mat-button routerLink="/admin/userlist">Confirm attendees</button>
-        <button *ngIf="admin" mat-button routerLink="/admin/future">Select attendees</button>
-        <button *ngIf="admin" mat-button routerLink="/admin/standby">Process standbys</button>
-        <button *ngIf="admin" mat-button routerLink="/admin/event">Schedule events</button>
-        <button *ngIf="admin" mat-button routerLink="/admin/user">User management</button>
-        <button *ngIf="admin" mat-button routerLink="/admin/past">Past events</button>
+        <button *ngIf="this.dataService.userFull.adminFlag" mat-button routerLink="/admin">Admin</button>
+        <button *ngIf="this.dataService.userFull.adminFlag" mat-button routerLink="/admin/today">Today's event</button>
+        <button *ngIf="this.dataService.userFull.adminFlag" mat-button routerLink="/admin/userlist">Confirm attendees</button>
+        <button *ngIf="this.dataService.userFull.adminFlag" mat-button routerLink="/admin/future">Select attendees</button>
+        <button *ngIf="this.dataService.userFull.adminFlag" mat-button routerLink="/admin/standby">Process standbys</button>
+        <button *ngIf="this.dataService.userFull.adminFlag" mat-button routerLink="/admin/event">Schedule events</button>
+        <button *ngIf="this.dataService.userFull.adminFlag" mat-button routerLink="/admin/user">User management</button>
+        <button *ngIf="this.dataService.userFull.adminFlag" mat-button routerLink="/admin/past">Past events</button>
         <a mat-button href="/.auth/logout">Logout</a>
         <div>{{fullName}}</div>
         </div>
@@ -45,7 +41,3 @@
     </mat-sidenav-content>
   </mat-sidenav-container>
 </div>
-
-
-<!--/div-->
-<!--app-loading-screen [loading]="isLoading"></app-loading-screen-->

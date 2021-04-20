@@ -28,12 +28,15 @@ export class UserlistComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
-    this.dataService.getEventFuture(this.dataService.userFull.facebookId)
-      .subscribe((data: Timeslot[]) => {
+    this.dataService.getEventFuture()
+      .subscribe({next: (data: Timeslot[]) => {
         this.events = data;
         this.initialListStatus = false;
-       });
-
+       },
+       error: (err) => {
+         this.dataService.handleError(err);
+       }}
+      );
   }
 
   ngOnDestroy() {
@@ -41,7 +44,7 @@ export class UserlistComponent implements OnInit, OnDestroy {
   }
 
   public pickEvent(selectEvent: number) {
-    //test if number works
+    // test if number works
     if(selectEvent >= 0 || selectEvent <= 1999) {
       this.eventId = selectEvent;
 
@@ -52,7 +55,7 @@ export class UserlistComponent implements OnInit, OnDestroy {
         }
       });
 
-      //console.log(this.eventTimeslotSelect);
+      // console.log(this.eventTimeslotSelect);
       this.pullEventSignedUp(this.eventTimeslotSelect);
 
     } else {
@@ -69,26 +72,27 @@ export class UserlistComponent implements OnInit, OnDestroy {
 
 }
 
-//this is filtered to only pull folks who have a slot number. We use the same API, but do a filter on this level.
-//Mostly because I don't feel like making another API.
+// this is filtered to only pull folks who have a slot number. We use the same API, but do a filter on this level.
+// Mostly because I don't feel like making another API.
 async pullEventSignedUp(eventTimeslot: Timeslot ) {
-  //console.log("pull eventsignedup");
+  // console.log("pull eventsignedup");
   this.loadStatus = false;
   this.signupForm = null;
-  //reset form
+  // reset form
   this.signupForm = this.formBuilder.group({});
-  //trying a promise
+  // trying a promise
   this.eventSignedUp = [];
-  const promise = this.dataService.getSignedUpUsers(eventTimeslot.id, this.dataService.userFull.facebookId)
+  const promise = this.dataService.getSignedUpUsers(eventTimeslot.id)
+  .catch(err => this.dataService.handleError(err))
   .then((data: UserEventSignup[]) => {
       // Success
       data.map((event: UserEventSignup) => {
-        //console.log(event);
+        // console.log(event);
         if (event.attendNbr) {
           this.signupForm.addControl(event.id.toString(), new FormControl(event.confirmInd));  //defaults to false in DB
           this.eventSignedUp.push(event);
         }
-        //console.log(this.eventSignedUp);
+        // console.log(this.eventSignedUp);
       });
     Object.assign(this, data);
   })
@@ -100,12 +104,12 @@ async pullEventSignedUp(eventTimeslot: Timeslot ) {
   }
 
   async updateSignup(event: any) {
-    //parse out event
+    // parse out event
     var attendVal = event.source.checked;
     var id = event.source.id;
 
-    var rtnTxt = await this.dataService.sendUserConfirm(id, this.dataService.userFull.facebookId);
-    //we don't care about this value right now but may snackbar it
+    var rtnTxt = await this.dataService.sendUserConfirm(id);
+    // we don't care about this value right now but may snackbar it
   }
 
 }
