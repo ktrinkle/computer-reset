@@ -82,7 +82,7 @@ export class AdminuserComponent implements OnInit, OnDestroy {
       takeUntil(this.destroy$)).subscribe(result => {
         this.cities = result;
       }
-    ).catch(err => this.dataService.handleError);
+    );
 
     //failing on data?.trim.length() > 2, saying is not a function
     this.selectId.valueChanges.pipe(
