@@ -24,6 +24,7 @@ export class AdmintodayComponent implements OnInit, OnDestroy {
   public loadStatus = false;
   public noShowFlag = false;
   public initialListStatus = false;
+  public spiel: string;
 
   constructor(private dataService: DataService,
     private formBuilder: FormBuilder) { }
@@ -32,6 +33,12 @@ export class AdmintodayComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.initialListStatus = true;
+    const promise = this.dataService.getSpiel()
+      .catch(err => this.dataService.handleError(err))
+      .then(data => {
+        this.spiel = data.toString();
+      Object.assign(this, data);
+    });
     this.dataService.getEventFuture()
       .subscribe({next: (data: Timeslot[]) => {
         this.events = data;
