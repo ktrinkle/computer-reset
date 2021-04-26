@@ -209,4 +209,9 @@ export class DataService {
       return this.httpClient.post(url, userInfo);
     }
 
+    public getSpiel(): Promise<string> {
+      var url = this.REST_API_SERVER + '/api/computerreset/api/helper/spiel';
+      return this.httpClient.get(url, {responseType: 'text'}).toPromise();
+    }
+
 }
