@@ -10,36 +10,36 @@
                   <!-- Date Definition -->
                   <ng-container matColumnDef="eventDate">
                     <mat-header-cell *matHeaderCellDef> Event Date </mat-header-cell>
-                    <mat-cell *matCellDef="let row"> 
+                    <mat-cell *matCellDef="let row">
                       <span fxShow fxHide.lt-md>{{row.eventStartTms | date:'fullDate'}}</span>
                       <span fxHide fxShow.lt-md>{{row.eventStartTms | date:'shortDate'}}</span>
                    </mat-cell>
                   </ng-container>
-                
+
                   <!-- Start time Definition -->
                   <ng-container matColumnDef="eventTime">
                     <mat-header-cell *matHeaderCellDef> Time </mat-header-cell>
                     <mat-cell *matCellDef="let row"> {{row.eventStartTms | date:'shortTime'}} - {{row.eventEndTms | date:'shortTime'}}</mat-cell>
                   </ng-container>
-                
+
                   <!-- Title Definition -->
                   <ng-container matColumnDef="eventOpen">
                     <mat-header-cell *matHeaderCellDef> Open Date/Time </mat-header-cell>
                     <mat-cell *matCellDef="let row"> {{row.eventOpenTms | date:'short'}} </mat-cell>  <!--need to date format this-->
                   </ng-container>
-                
+
                   <!-- Manage Definition -->
                   <ng-container matColumnDef="manage">
                     <mat-header-cell *matHeaderCellDef>Manage Event</mat-header-cell>
-                    <mat-cell *matCellDef="let row"> 
+                    <mat-cell *matCellDef="let row">
                       <button mat-raised-button color="primary" (click)="manageEvent(row.id);">Edit event</button>
                     </mat-cell>
                   </ng-container>
-                  
+
                   <!-- Open/Close Definition -->
                    <ng-container matColumnDef="openclose">
                     <mat-header-cell *matHeaderCellDef>Open/Close Event</mat-header-cell>
-                    <mat-cell *matCellDef="let row"> 
+                    <mat-cell *matCellDef="let row">
                         <mat-slide-toggle color="accent" id="{{row.id}}" name="{{row.id}}" formControlName="{{row.id}}" (change)="changeEventState($event)">Closed event</mat-slide-toggle>
                     </mat-cell>
                   </ng-container>
@@ -47,7 +47,7 @@
                   <!-- Private Definition -->
                   <ng-container matColumnDef="private">
                     <mat-header-cell *matHeaderCellDef>Private Event</mat-header-cell>
-                    <mat-cell *matCellDef="let row"> 
+                    <mat-cell *matCellDef="let row">
                         <mat-slide-toggle color="accent" id="pvt{{row.id}}" name="pvt{{row.id}}" formControlName="pvt{{row.id}}" (change)="changePrivateState($event)">Private event</mat-slide-toggle>
                     </mat-cell>
                   </ng-container>
@@ -77,12 +77,12 @@
                   <div fxFlex="33%" fxFlex.xs="100%" fxFlex.sm="100%" style="vertical-align: middle; min-height: 75px; padding: 10px;">
                     <mat-form-field appearance="fill">
                     <mat-label>Enter event date</mat-label>
-                    <input matInput [matDatepicker]="picker" id="eventDate" name="eventDate" formControlName="eventDate" type="date">
+                    <input matInput [matDatepicker]="picker" id="eventDate" name="eventDate" placeholder="MM/DD/YYYY" formControlName="eventDate">
                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-datepicker #picker></mat-datepicker>
                   </mat-form-field>
                   </div>
-  
+
                   <div fxFlex="33%" fxFlex.xs="100%" fxFlex.sm="100%" style="vertical-align: middle; min-height: 75px; padding: 10px;">
                     <mat-form-field appearance="fill">
                     <mat-label>Start Time</mat-label>
@@ -92,7 +92,7 @@
                     </ngx-material-timepicker>
                   </mat-form-field>
                   </div>
-  
+
                   <div fxFlex="33%" fxFlex.xs="100%" fxFlex.sm="100%" style="vertical-align: middle; min-height: 75px; padding: 10px;">
                     <mat-form-field appearance="fill">
                     <mat-label>End Time</mat-label>
@@ -102,11 +102,11 @@
                     </ngx-material-timepicker>
                   </mat-form-field>
                   </div>
-  
+
                   <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="100%" style="vertical-align: middle; min-height: 75px; padding: 10px;">
                     <mat-form-field appearance="fill">
                     <mat-label>Enter open date</mat-label>
-                    <input matInput [matDatepicker]="openDate" id="openDate" name="openDate" formControlName="openDate" type="date">
+                    <input matInput [matDatepicker]="openDate" id="openDate" name="openDate" placeholder="MM/DD/YYYY" formControlName="openDate">
                     <mat-datepicker-toggle matSuffix [for]="openDate"></mat-datepicker-toggle>
                     <mat-datepicker #openDate></mat-datepicker>
                   </mat-form-field>
@@ -128,7 +128,7 @@
                     <input matInput id="eventSlotCnt" name="eventSlotCnt" formControlName="eventSlotCnt" type="number">
                     <mat-hint>Enter the number of attendees allowed to be in the warehouse.</mat-hint>
                   </mat-form-field>
-                </div>    
+                </div>
 
                 <div fxFlex="33%" fxFlex.xs="100%" fxFlex.sm="100%" style="vertical-align: middle; min-height: 75px; padding: 10px;">
                   <mat-form-field appearance="fill">
@@ -136,7 +136,7 @@
                   <input matInput id="overbookCnt" name="overbookCnt" formControlName="overbookCnt" type="number">
                   <mat-hint>Enter the number of attendees that we will support as standbys.</mat-hint>
                 </mat-form-field>
-              </div>  
+              </div>
 
               <div fxFlex="33%" fxFlex.xs="100%" fxFlex.sm="100%" style="vertical-align: middle; min-height: 75px; padding: 10px;">
                 <mat-form-field appearance="fill">
@@ -146,7 +146,7 @@
                   more than the signups and standbys, and allow for people who have been to the warehouse.
                 </mat-hint>
               </mat-form-field>
-            </div> 
+            </div>
             <div fxFlex="100%" style="clear: all; padding: 10px;">&nbsp;</div>
             <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="100%" style="vertical-align: middle; min-height: 75px; padding: 10px;">
               <mat-form-field appearance="fill">
@@ -155,7 +155,7 @@
               <mat-hint>Optional note for this event. This will be displayed to end users.
               </mat-hint>
             </mat-form-field>
-          </div> 
+          </div>
 
           <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="100%" style="vertical-align: middle; min-height: 75px; padding: 10px;">
             <mat-slide-toggle color="primary" id="privateEventInd" name="privateEventInd" formControlName="privateEventInd">Private event</mat-slide-toggle><br/>
@@ -164,13 +164,13 @@
 
         <div style="clear: all; padding: 10px;">&nbsp;</div>
         <div class="confirmmessage" *ngIf="submitResult">{{submitResult}}</div>
-                </div>          
+                </div>
           </mat-card-content>
           <mat-card-actions>
             <button mat-raised-button color="primary" type="submit" [disabled]="(!newEventForm.valid || submitProcess)">Process event</button>
             <div *ngIf="submitProcess">Please wait for your event to process.</div>
       </mat-card-actions>
-  
+
         </form>
       </mat-card>
 
