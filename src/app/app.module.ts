@@ -39,7 +39,6 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { MatNativeDateModule, MatRippleModule } from '@angular/material/core';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -72,9 +71,8 @@ export function appInitFb(appConfigService: AppConfigService) {
     LoadEventComponent,
     PasteventComponent
   ],
-  imports: [
+  imports:[
     BrowserModule,
-    AppRoutingModule,
     HttpClientModule,
     BrowserAnimationsModule,
     MatToolbarModule,
@@ -95,27 +93,27 @@ export function appInitFb(appConfigService: AppConfigService) {
     FlexLayoutModule,
     MatTabsModule,
     MatSnackBarModule,
-    MatSlideToggleModule,
-    NgxMaterialTimepickerModule,
     MatNativeDateModule,
     MatRippleModule,
     MatDialogModule,
     NgxSkeletonLoaderModule,
     MatAutocompleteModule,
+    MatSlideToggleModule,
+    AppRoutingModule
+  ],
+  providers: [
+    // Http Interceptor(s) -  adds with Client Credentials
+    [
+        { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
     ],
-    providers: [
-      // Http Interceptor(s) -  adds with Client Credentials
-      [
-          { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
-      ],
-      [AppConfigService,
-        {
-          provide: APP_INITIALIZER,
-          useFactory: appInitFb,
-          multi: true,
-          deps: [AppConfigService]
-        }
-      ]
+    [AppConfigService,
+      {
+        provide: APP_INITIALIZER,
+        useFactory: appInitFb,
+        multi: true,
+        deps: [AppConfigService]
+      }
+    ]
   ],
   exports: [
     AdminfutureComponent,

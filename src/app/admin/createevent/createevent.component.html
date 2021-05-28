@@ -86,20 +86,14 @@
                   <div fxFlex="33%" fxFlex.xs="100%" fxFlex.sm="100%" style="vertical-align: middle; min-height: 75px; padding: 10px;">
                     <mat-form-field appearance="fill">
                     <mat-label>Start Time</mat-label>
-                    <input matInput [ngxTimepicker]="startTm" id="startTm" name="startTm" formControlName="startTm" type="datetime-local">
-                    <ngx-material-timepicker #startTm>
-                      <ngx-timepicker-field [format]="24"></ngx-timepicker-field>
-                    </ngx-material-timepicker>
+                    <input matInput id="startTm" name="startTm" formControlName="startTm" type="datetime-local">
                   </mat-form-field>
                   </div>
 
                   <div fxFlex="33%" fxFlex.xs="100%" fxFlex.sm="100%" style="vertical-align: middle; min-height: 75px; padding: 10px;">
                     <mat-form-field appearance="fill">
                     <mat-label>End Time</mat-label>
-                    <input matInput [ngxTimepicker]="endTm" id="endTm" name="endTm" formControlName="endTm" type="datetime-local">
-                    <ngx-material-timepicker #endTm>
-                      <ngx-timepicker-field [format]="24"></ngx-timepicker-field>
-                    </ngx-material-timepicker>
+                    <input matInput id="endTm" name="endTm" formControlName="endTm" type="datetime-local">
                   </mat-form-field>
                   </div>
 
@@ -115,10 +109,7 @@
                   <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="100%" style="vertical-align: middle; min-height: 75px; padding: 10px;">
                     <mat-form-field appearance="fill">
                     <mat-label>Open Time</mat-label>
-                    <input matInput [ngxTimepicker]="openTm" id="openTm" name="openTm" formControlName="openTm" type="datetime-local">
-                    <ngx-material-timepicker #openTm>
-                      <ngx-timepicker-field [format]="24"></ngx-timepicker-field>
-                    </ngx-material-timepicker>
+                    <input matInput id="openTm" name="openTm" formControlName="openTm" type="datetime-local">
                   </mat-form-field>
                   </div>
 

@@ -25,6 +25,8 @@ export class CreateeventComponent implements OnInit, OnDestroy {
   public submitResult: string;
   public submitProcess: boolean = false;
   public selectEventId = 0;
+  hours24 = Array(24).fill(0).map((e, i) => this.pad(i));
+  minutes60 = Array(60).fill(0).map((e, i) => this.pad(i));
   private readonly onDestroy = new Subject<void>();
 
   destroy$: Subject<void> = new Subject<void>();
@@ -200,5 +202,9 @@ export class CreateeventComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void{
 
   }
+
+  pad(i: number | string): string {
+    return (i !== null && i < 10 && i.toLocaleString().length < 2) ? `0${i}` : `${i}`;
+}
 
 }
