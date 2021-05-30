@@ -1,0 +1,94 @@
+.timepicker {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  margin: 5px 0px;
+  .time-spacer {
+      width: 1em;
+      text-align: center;
+  }
+  .btn {
+      background-color: #F5F7F7;
+      color: #0078d2;
+      margin-left: 1em;
+      &:focus {
+          outline-color: #0078d2;
+      }
+  }
+  >.hour, >.minute {
+      width: 40px;
+  }
+  >div>input {
+      padding: 6px;
+      text-align: center;
+  }
+}
+.tp-add {
+  transform: rotate(-135deg);
+  -webkit-transform: rotate(-135deg);
+
+  top: 10px;
+}
+.tp-rm {
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+
+  top: -2px;
+}
+
+input.time-form {
+  width: 50px;
+  text-align: center;
+  font-size: inherit;
+  font-weight: 400;
+  line-height: 1.125;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  letter-spacing: normal;
+  border-radius: 4px 4px 0 0;
+  padding: .75em .75em 0 .75em;
+  background-color: rgba(0, 0, 0, 0.04);
+  border-bottom: 0.5px solid rgba(0, 0, 0, 0.87);
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  height: 38px;
+}
+
+span.time-form {
+  display: table;
+  float: left;
+  height: 100%;
+}
+
+label.time-form {
+  vertical-align: middle;
+  display: table-cell;
+}
+
+.time-form-wrap {
+  min-height: 75px;
+  padding: 10px;
+}
+
+.time-form-middle {
+  vertical-align: middle;
+  display: table-cell;
+}
+
+.inc-dec-value {
+  display: inline-block;
+  width: 100%;
+}
+
+.inc-dec-row {
+  text-align: center;
+}
+
+.bottom-time-buttom-padding {
+  padding-top: 4px;
+}
+
+.time-colon {
+  margin-left: 5px;
+  margin-right: 5px;
+}

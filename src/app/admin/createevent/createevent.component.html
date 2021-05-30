@@ -10,36 +10,36 @@
                   <!-- Date Definition -->
                   <ng-container matColumnDef="eventDate">
                     <mat-header-cell *matHeaderCellDef> Event Date </mat-header-cell>
-                    <mat-cell *matCellDef="let row"> 
+                    <mat-cell *matCellDef="let row">
                       <span fxShow fxHide.lt-md>{{row.eventStartTms | date:'fullDate'}}</span>
                       <span fxHide fxShow.lt-md>{{row.eventStartTms | date:'shortDate'}}</span>
                    </mat-cell>
                   </ng-container>
-                
+
                   <!-- Start time Definition -->
                   <ng-container matColumnDef="eventTime">
                     <mat-header-cell *matHeaderCellDef> Time </mat-header-cell>
                     <mat-cell *matCellDef="let row"> {{row.eventStartTms | date:'shortTime'}} - {{row.eventEndTms | date:'shortTime'}}</mat-cell>
                   </ng-container>
-                
+
                   <!-- Title Definition -->
                   <ng-container matColumnDef="eventOpen">
                     <mat-header-cell *matHeaderCellDef> Open Date/Time </mat-header-cell>
                     <mat-cell *matCellDef="let row"> {{row.eventOpenTms | date:'short'}} </mat-cell>  <!--need to date format this-->
                   </ng-container>
-                
+
                   <!-- Manage Definition -->
                   <ng-container matColumnDef="manage">
                     <mat-header-cell *matHeaderCellDef>Manage Event</mat-header-cell>
-                    <mat-cell *matCellDef="let row"> 
+                    <mat-cell *matCellDef="let row">
                       <button mat-raised-button color="primary" (click)="manageEvent(row.id);">Edit event</button>
                     </mat-cell>
                   </ng-container>
-                  
+
                   <!-- Open/Close Definition -->
                    <ng-container matColumnDef="openclose">
                     <mat-header-cell *matHeaderCellDef>Open/Close Event</mat-header-cell>
-                    <mat-cell *matCellDef="let row"> 
+                    <mat-cell *matCellDef="let row">
                         <mat-slide-toggle color="accent" id="{{row.id}}" name="{{row.id}}" formControlName="{{row.id}}" (change)="changeEventState($event)">Closed event</mat-slide-toggle>
                     </mat-cell>
                   </ng-container>
@@ -47,7 +47,7 @@
                   <!-- Private Definition -->
                   <ng-container matColumnDef="private">
                     <mat-header-cell *matHeaderCellDef>Private Event</mat-header-cell>
-                    <mat-cell *matCellDef="let row"> 
+                    <mat-cell *matCellDef="let row">
                         <mat-slide-toggle color="accent" id="pvt{{row.id}}" name="pvt{{row.id}}" formControlName="pvt{{row.id}}" (change)="changePrivateState($event)">Private event</mat-slide-toggle>
                     </mat-cell>
                   </ng-container>
@@ -68,58 +68,172 @@
           <mat-card-header>
               <mat-card-title>Create or Update an Event</mat-card-title>
           </mat-card-header>
-              <form [formGroup]="newEventForm" (ngSubmit)="eventSubmit()">
+              <form [formGroup]="newEventForm" (ngSubmit)="eventSubmit()" (onChange)="resetProcess()">
                 <mat-card-content>
-                  <p><button mat-raised-button color="primary" (click)="newEventForm.reset()">Clear form</button></p>
+                  <p><button mat-raised-button color="primary" type="reset">Clear form</button></p>
                   <p>Enter your new or modified event information below.</p>
                 <div class="content" fxLayout="row wrap" fxLayoutGap="16px grid">
 
-                  <div fxFlex="33%" fxFlex.xs="100%" fxFlex.sm="100%" style="vertical-align: middle; min-height: 75px; padding: 10px;">
-                    <mat-form-field appearance="fill">
+                  <div fxFlex="33%" fxFlex.xs="100%" fxFlex.sm="100%" class="time-form-wrap">
+                    <mat-form-field appearance="fill" class="time-form-middle">
                     <mat-label>Enter event date</mat-label>
-                    <input matInput [matDatepicker]="picker" id="eventDate" name="eventDate" formControlName="eventDate" type="date">
+                    <input matInput [matDatepicker]="picker" id="eventDate" name="eventDate" placeholder="MM/DD/YYYY" formControlName="eventDate">
                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-datepicker #picker></mat-datepicker>
                   </mat-form-field>
                   </div>
-  
-                  <div fxFlex="33%" fxFlex.xs="100%" fxFlex.sm="100%" style="vertical-align: middle; min-height: 75px; padding: 10px;">
-                    <mat-form-field appearance="fill">
-                    <mat-label>Start Time</mat-label>
-                    <input matInput [ngxTimepicker]="startTm" id="startTm" name="startTm" formControlName="startTm" type="datetime-local">
-                    <ngx-material-timepicker #startTm>
-                      <ngx-timepicker-field [format]="24"></ngx-timepicker-field>
-                    </ngx-material-timepicker>
-                  </mat-form-field>
+
+                  <div fxFlex="33%" fxFlex.xs="100%" fxFlex.sm="100%" class="time-form-wrap">
+                    <span class="time-form"><label for="startTime" class="time-form">Event Start Time: </label></span>
+                    <table id="startTime">
+                      <tr>
+                          <td class="inc-dec-row" (click)="modifyStartHour(1)">
+                              <mat-icon class="inc-dec-value" id="increase-hours">keyboard_arrow_up</mat-icon>
+                          </td>
+                          <td></td>
+                          <td class="inc-dec-row" (click)="modifyStartMinute(1)">
+                            <mat-icon class="inc-dec-value" id="increase-mins">keyboard_arrow_up</mat-icon>
+                          </td>
+                      </tr>
+                      <tr>
+                        <td><input type="text" id="hour_startTm"
+                                name="hour_startTm" class="form-control time-form" [(ngModel)]="startHourVal"
+                                maxlength="2" (onChange)="changeStartTimeHour"
+                                [matAutocomplete]="autoStartHours" numbersOnly>
+                            <mat-autocomplete #autoStartHours="matAutocomplete" panelWidth="auto">
+                                <mat-option *ngFor="let hour of hours24" [value]="hour">
+                                    {{ hour }}
+                                </mat-option>
+                            </mat-autocomplete>
+                        </td>
+                        <td>
+                            <div class="time-colon">:</div>
+                        </td>
+                        <td><input type="text" id="minute_startTm" name="minute_startTm" [(ngModel)]="startMinuteVal"
+                          class="form-control time-form" maxlength="2" (onChange)="changeStartTimeMinute"
+                                [matAutocomplete]="autoStartMinutes" numbersOnly>
+                            <mat-autocomplete #autoStartMinutes="matAutocomplete" panelWidth="auto">
+                                <mat-option *ngFor="let minute of minutes60" [value]="minute">
+                                    {{ minute }}
+                                </mat-option>
+                            </mat-autocomplete>
+                        </td>
+                    </tr>
+                      <tr>
+                        <td class="inc-dec-row" (click)="modifyStartHour(-1)">
+                            <mat-icon class="inc-dec-value" id="decrease-hours">keyboard_arrow_down</mat-icon>
+                        </td>
+                        <td></td>
+                        <td class="inc-dec-row" (click)="modifyStartMinute(-1)">
+                          <mat-icon class="inc-dec-value" id="decrease-mins">keyboard_arrow_down</mat-icon>
+                        </td>
+                    </tr>
+                    </table>
                   </div>
-  
-                  <div fxFlex="33%" fxFlex.xs="100%" fxFlex.sm="100%" style="vertical-align: middle; min-height: 75px; padding: 10px;">
-                    <mat-form-field appearance="fill">
-                    <mat-label>End Time</mat-label>
-                    <input matInput [ngxTimepicker]="endTm" id="endTm" name="endTm" formControlName="endTm" type="datetime-local">
-                    <ngx-material-timepicker #endTm>
-                      <ngx-timepicker-field [format]="24"></ngx-timepicker-field>
-                    </ngx-material-timepicker>
-                  </mat-form-field>
+
+                  <div fxFlex="33%" fxFlex.xs="100%" fxFlex.sm="100%" class="time-form-wrap">
+                    <span class="time-form"><label for="endTime" class="time-form">Event End Time: </label></span>
+                    <table id="endTime">
+                      <tr>
+                          <td class="inc-dec-row" (click)="modifyEndHour(1)">
+                              <mat-icon class="inc-dec-value" id="increase-end-hours">keyboard_arrow_up</mat-icon>
+                          </td>
+                          <td></td>
+                          <td class="inc-dec-row" (click)="modifyEndMinute(1)">
+                            <mat-icon class="inc-dec-value" id="increase-end-mins">keyboard_arrow_up</mat-icon>
+                          </td>
+                      </tr>
+                      <tr>
+                        <td><input type="text" id="hour_endTm"
+                                name="hour_endTm" class="form-control time-form"
+                                maxlength="2" (onChange)="changeEndTimeHour" [(ngModel)]="endHourVal"
+                                [matAutocomplete]="autoEndHours" numbersOnly>
+                            <mat-autocomplete #autoEndHours="matAutocomplete" panelWidth="auto">
+                                <mat-option *ngFor="let hour of hours24" [value]="hour">
+                                    {{ hour }}
+                                </mat-option>
+                            </mat-autocomplete>
+                        </td>
+                        <td>
+                            <div class="time-colon">:</div>
+                        </td>
+                        <td><input type="text" id="minute_endTm" name="minute_endTm" [(ngModel)]="endMinuteVal"
+                          class="form-control time-form" maxlength="2" (onChange)="changeEndTimeMinute"
+                                [matAutocomplete]="autoEndMinutes" numbersOnly class="time-form">
+                            <mat-autocomplete #autoEndMinutes="matAutocomplete" panelWidth="auto">
+                                <mat-option *ngFor="let minute of minutes60" [value]="minute">
+                                    {{ minute }}
+                                </mat-option>
+                            </mat-autocomplete>
+                        </td>
+                    </tr>
+                      <tr>
+                        <td class="inc-dec-row" (click)="modifyEndHour(-1)">
+                            <mat-icon class="inc-dec-value" id="decrease-end-hours">keyboard_arrow_down</mat-icon>
+                        </td>
+                        <td></td>
+                        <td class="inc-dec-row" (click)="modifyEndMinute(-1)">
+                          <mat-icon class="inc-dec-value" id="decrease-end-mins">keyboard_arrow_down</mat-icon>
+                        </td>
+                    </tr>
+                    </table>
                   </div>
-  
-                  <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="100%" style="vertical-align: middle; min-height: 75px; padding: 10px;">
-                    <mat-form-field appearance="fill">
+
+                  <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="100%" class="time-form-wrap">
+                    <mat-form-field appearance="fill" class="time-form-middle">
                     <mat-label>Enter open date</mat-label>
-                    <input matInput [matDatepicker]="openDate" id="openDate" name="openDate" formControlName="openDate" type="date">
+                    <input matInput [matDatepicker]="openDate" id="openDate" name="openDate" placeholder="MM/DD/YYYY" formControlName="openDate">
                     <mat-datepicker-toggle matSuffix [for]="openDate"></mat-datepicker-toggle>
                     <mat-datepicker #openDate></mat-datepicker>
                   </mat-form-field>
                   </div>
 
                   <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="100%" style="vertical-align: middle; min-height: 75px; padding: 10px;">
-                    <mat-form-field appearance="fill">
-                    <mat-label>Open Time</mat-label>
-                    <input matInput [ngxTimepicker]="openTm" id="openTm" name="openTm" formControlName="openTm" type="datetime-local">
-                    <ngx-material-timepicker #openTm>
-                      <ngx-timepicker-field [format]="24"></ngx-timepicker-field>
-                    </ngx-material-timepicker>
-                  </mat-form-field>
+                    <span class="time-form"><label for="eventOpenTime" class="time-form">Event Open Time: </label></span>
+                    <table id="eventOpenTime">
+                      <tr>
+                          <td class="inc-dec-row" (click)="modifyOpenHour(1)">
+                              <mat-icon class="inc-dec-value" id="increase-open-hours">keyboard_arrow_up</mat-icon>
+                          </td>
+                          <td></td>
+                          <td class="inc-dec-row" (click)="modifyOpenMinute(1)">
+                            <mat-icon class="inc-dec-value" id="increase-open-mins">keyboard_arrow_up</mat-icon>
+                          </td>
+                      </tr>
+                      <tr>
+                        <td><input type="text" id="hour_openTm"
+                                name="hour_openTm" class="form-control time-form"
+                                maxlength="2" (onChange)="changeOpenTimeHour" [(ngModel)]="openHourVal"
+                                [matAutocomplete]="autoOpenHours" numbersOnly>
+                            <mat-autocomplete #autoOpenHours="matAutocomplete" panelWidth="auto">
+                                <mat-option *ngFor="let hour of hours24" [value]="hour">
+                                    {{ hour }}
+                                </mat-option>
+                            </mat-autocomplete>
+                        </td>
+                        <td>
+                            <div class="time-colon">:</div>
+                        </td>
+                        <td><input type="text" id="minute_openTm" name="minute_openTm" [(ngModel)]="openMinuteVal"
+                          class="form-control time-form" maxlength="2" (onChange)="changeOpenTimeMinute"
+                                [matAutocomplete]="autoOpenMinutes" numbersOnly>
+                            <mat-autocomplete #autoOpenMinutes="matAutocomplete" panelWidth="auto">
+                                <mat-option *ngFor="let minute of minutes60" [value]="minute">
+                                    {{ minute }}
+                                </mat-option>
+                            </mat-autocomplete>
+                        </td>
+                    </tr>
+                      <tr>
+                        <td class="inc-dec-row" (click)="modifyOpenHour(-1)">
+                            <mat-icon class="inc-dec-value" id="decrease-open-hours">keyboard_arrow_down</mat-icon>
+                        </td>
+                        <td></td>
+                        <td class="inc-dec-row" (click)="modifyOpenMinute(-1)">
+                          <mat-icon class="inc-dec-value" id="decrease-open-mins">keyboard_arrow_down</mat-icon>
+                        </td>
+                    </tr>
+                    </table>
                   </div>
 
                   <div fxFlex="33%" fxFlex.xs="100%" fxFlex.sm="100%" style="vertical-align: middle; min-height: 75px; padding: 10px;">
@@ -128,7 +242,7 @@
                     <input matInput id="eventSlotCnt" name="eventSlotCnt" formControlName="eventSlotCnt" type="number">
                     <mat-hint>Enter the number of attendees allowed to be in the warehouse.</mat-hint>
                   </mat-form-field>
-                </div>    
+                </div>
 
                 <div fxFlex="33%" fxFlex.xs="100%" fxFlex.sm="100%" style="vertical-align: middle; min-height: 75px; padding: 10px;">
                   <mat-form-field appearance="fill">
@@ -136,7 +250,7 @@
                   <input matInput id="overbookCnt" name="overbookCnt" formControlName="overbookCnt" type="number">
                   <mat-hint>Enter the number of attendees that we will support as standbys.</mat-hint>
                 </mat-form-field>
-              </div>  
+              </div>
 
               <div fxFlex="33%" fxFlex.xs="100%" fxFlex.sm="100%" style="vertical-align: middle; min-height: 75px; padding: 10px;">
                 <mat-form-field appearance="fill">
@@ -146,7 +260,7 @@
                   more than the signups and standbys, and allow for people who have been to the warehouse.
                 </mat-hint>
               </mat-form-field>
-            </div> 
+            </div>
             <div fxFlex="100%" style="clear: all; padding: 10px;">&nbsp;</div>
             <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="100%" style="vertical-align: middle; min-height: 75px; padding: 10px;">
               <mat-form-field appearance="fill">
@@ -155,7 +269,7 @@
               <mat-hint>Optional note for this event. This will be displayed to end users.
               </mat-hint>
             </mat-form-field>
-          </div> 
+          </div>
 
           <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="100%" style="vertical-align: middle; min-height: 75px; padding: 10px;">
             <mat-slide-toggle color="primary" id="privateEventInd" name="privateEventInd" formControlName="privateEventInd">Private event</mat-slide-toggle><br/>
@@ -164,13 +278,13 @@
 
         <div style="clear: all; padding: 10px;">&nbsp;</div>
         <div class="confirmmessage" *ngIf="submitResult">{{submitResult}}</div>
-                </div>          
+                </div>
           </mat-card-content>
           <mat-card-actions>
             <button mat-raised-button color="primary" type="submit" [disabled]="(!newEventForm.valid || submitProcess)">Process event</button>
             <div *ngIf="submitProcess">Please wait for your event to process.</div>
       </mat-card-actions>
-  
+
         </form>
       </mat-card>
 
