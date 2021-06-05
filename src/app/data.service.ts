@@ -215,7 +215,7 @@ export class DataService {
     }
 
     public getDumpster(): any {
-      var url = this.REST_API_SERVER + '/api/ref/dumpster';
+      var url = this.REST_API_SERVER + '/api/computerreset/api/ref/dumpster';
       return this.httpClient.get(url);
     }
 
