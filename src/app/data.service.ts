@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { throwError } from 'rxjs';
-import { UserSmall, Signup, UserModel, UserEventSignup, UserEventDayOf, UserEventNote, Timeslot, UserManual, openEvent } from './data';
+import { UserSmall, Signup, UserModel, UserEventSignup, UserEventDayOf, UserEventNote, Timeslot, UserManual, openEvent, dumpster } from './data';
 import { environment } from './../environments/environment';
 import { AuthenticationService } from './authentication/authentication.service';
 
@@ -212,6 +212,11 @@ export class DataService {
     public getSpiel(): Promise<string> {
       var url = this.REST_API_SERVER + '/api/computerreset/api/helper/spiel';
       return this.httpClient.get(url, {responseType: 'text'}).toPromise();
+    }
+
+    public getDumpster(): any {
+      var url = this.REST_API_SERVER + '/api/computerreset/api/ref/dumpster';
+      return this.httpClient.get(url);
     }
 
 }
