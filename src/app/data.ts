@@ -207,3 +207,8 @@ export interface ClaimPrincipal {
     exp: number;
     iat: number;
   }
+
+  export interface dumpster{
+    dumpsterCount: number;
+    dumpsterVolume: number;
+  }
