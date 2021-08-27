@@ -44,7 +44,7 @@ export class CreateeventComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
 
-    this.newEventForm = this.formBuilder.group({
+    this.newEventForm = new FormGroup({
       eventDate: new FormControl(''), //needs datetime validation
       hour_startTm: new FormControl('', [Validators.pattern('[0-9]*')]),
       minute_startTm: new FormControl('',[Validators.pattern('[0-9]*')]),
