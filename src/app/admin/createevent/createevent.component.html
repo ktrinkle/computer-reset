@@ -96,7 +96,7 @@
                           </td>
                       </tr>
                       <tr>
-                        <td><input type="text" id="hour_startTm"
+                        <td><input type="text" id="hour_startTm" formControlName="hour_startTm"
                                 name="hour_startTm" class="form-control time-form" [(ngModel)]="startHourVal"
                                 maxlength="2" (onChange)="changeStartTimeHour"
                                 [matAutocomplete]="autoStartHours" numbersOnly>
@@ -111,7 +111,7 @@
                         </td>
                         <td><input type="text" id="minute_startTm" name="minute_startTm" [(ngModel)]="startMinuteVal"
                           class="form-control time-form" maxlength="2" (onChange)="changeStartTimeMinute"
-                                [matAutocomplete]="autoStartMinutes" numbersOnly>
+                                [matAutocomplete]="autoStartMinutes" formControlName="minute_startTm" numbersOnly>
                             <mat-autocomplete #autoStartMinutes="matAutocomplete" panelWidth="auto">
                                 <mat-option *ngFor="let minute of minutes60" [value]="minute">
                                     {{ minute }}
@@ -145,7 +145,7 @@
                       </tr>
                       <tr>
                         <td><input type="text" id="hour_endTm"
-                                name="hour_endTm" class="form-control time-form"
+                                name="hour_endTm" class="form-control time-form" formControlName="hour_endTm"
                                 maxlength="2" (onChange)="changeEndTimeHour" [(ngModel)]="endHourVal"
                                 [matAutocomplete]="autoEndHours" numbersOnly>
                             <mat-autocomplete #autoEndHours="matAutocomplete" panelWidth="auto">
@@ -158,7 +158,7 @@
                             <div class="time-colon">:</div>
                         </td>
                         <td><input type="text" id="minute_endTm" name="minute_endTm" [(ngModel)]="endMinuteVal"
-                          class="form-control time-form" maxlength="2" (onChange)="changeEndTimeMinute"
+                          class="form-control time-form" maxlength="2" (onChange)="changeEndTimeMinute" formControlName="minute_endTm"
                                 [matAutocomplete]="autoEndMinutes" numbersOnly class="time-form">
                             <mat-autocomplete #autoEndMinutes="matAutocomplete" panelWidth="auto">
                                 <mat-option *ngFor="let minute of minutes60" [value]="minute">
@@ -204,7 +204,7 @@
                         <td><input type="text" id="hour_openTm"
                                 name="hour_openTm" class="form-control time-form"
                                 maxlength="2" (onChange)="changeOpenTimeHour" [(ngModel)]="openHourVal"
-                                [matAutocomplete]="autoOpenHours" numbersOnly>
+                                [matAutocomplete]="autoOpenHours" formControlName="hour_openTm" numbersOnly>
                             <mat-autocomplete #autoOpenHours="matAutocomplete" panelWidth="auto">
                                 <mat-option *ngFor="let hour of hours24" [value]="hour">
                                     {{ hour }}
@@ -216,7 +216,7 @@
                         </td>
                         <td><input type="text" id="minute_openTm" name="minute_openTm" [(ngModel)]="openMinuteVal"
                           class="form-control time-form" maxlength="2" (onChange)="changeOpenTimeMinute"
-                                [matAutocomplete]="autoOpenMinutes" numbersOnly>
+                                [matAutocomplete]="autoOpenMinutes" formControlName="minute_openTm" numbersOnly>
                             <mat-autocomplete #autoOpenMinutes="matAutocomplete" panelWidth="auto">
                                 <mat-option *ngFor="let minute of minutes60" [value]="minute">
                                     {{ minute }}
