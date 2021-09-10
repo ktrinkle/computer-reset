@@ -220,7 +220,7 @@ export class DataService {
     }
 
     public requestUserDelete(facebookId: string): Promise<string> {
-      var url = this.REST_API_SERVER +  'api/users/requestDelete/' + encodeURIComponent(facebookId) + '';
+      var url = this.REST_API_SERVER +  '/api/computerreset/api/users/requestDelete/' + encodeURIComponent(facebookId) + '';
       return this.httpClient.put(url, null, {responseType: 'text'}).toPromise();
     }
 

@@ -29,7 +29,8 @@
     </p>
 </mat-card-content>
   <mat-card-actions>
-    <button class="big-button" onclick="requestDelete()">Request to delete your data</button>
+    <button big-button mat-raised-button color="primary" (click)='router.navigate(["/home"]);'>Return home</button>
+    <button big-button mat-raised-button color="warn" (click)="requestDelete();">Delete your data</button>
   </mat-card-actions>
   </mat-card>
   </div>
