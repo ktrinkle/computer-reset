@@ -1,0 +1,36 @@
+<div style="padding: 13px">
+  <mat-card style="margin-top:10px;">
+      <mat-card-header>
+          <mat-card-title>Request Data Deletion</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+  <p style="padding: 13px;">
+      By requesting data deletion, you agree to the following:
+      </p>
+      <mat-list><mat-list-item>You will be immediately banned from attending any future Computer Reset events.</mat-list-item>
+      <mat-list-item>You will lose access to the Computer Reset warehouse.
+      </mat-list-item>
+      <mat-list-item>You will be removed and banned from the Computer Reset Warehouse Liquidation Facebook group.
+      </mat-list-item>
+      <mat-list-item>You will be removed and banned from the Computer Reset Buy and Sell Facebook Group.
+      </mat-list-item>
+  </mat-list>
+  </mat-card-content>
+    <mat-card-content class="alertmessage">
+      <mat-list>
+    <mat-list-item><mat-icon>warning</mat-icon> Deleting users is a manual process and may take several weeks to complete.</mat-list-item>
+    <mat-list-item><mat-icon>warning</mat-icon> You will be banned immediately from this signup system.</mat-list-item>
+    <mat-list-item><mat-icon>warning</mat-icon> If you log into the signup system again, your data will be re-captured.</mat-list-item>
+  </mat-list>
+</mat-card-content>
+<mat-card-content>
+  <p style="padding: 13px;">
+    If you do not wish to delete your data, please return <a routerLink="/home">home</a>.
+    </p>
+</mat-card-content>
+  <mat-card-actions>
+    <button big-button mat-raised-button color="primary" (click)='router.navigate(["/home"]);'>Return home</button>
+    <button big-button mat-raised-button color="warn" (click)="requestDelete();">Delete your data</button>
+  </mat-card-actions>
+  </mat-card>
+  </div>

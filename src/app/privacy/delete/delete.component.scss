@@ -1,0 +1,29 @@
+.alertmessage {
+  background-color: #AB47BC;
+  color: #ffffff;
+  width: auto;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 4px;
+}
+
+.alertmessage mat-list-item {
+  color: #ffffff;
+  text-align: center;
+}
+
+mat-list-item.mat-list-item {
+  margin-bottom: 14px;
+  font-size: 100%;
+  clear: all;
+  height: auto;
+}
+
+.big-button{
+  width: 200px!important;
+  min-width: unset!important;
+  height: 50px!important;
+  text-align: center;
+  font-size: 110%;
+}

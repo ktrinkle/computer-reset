@@ -46,6 +46,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { LoadEventComponent } from './helper/load-event/load-event.component';
 import { PasteventComponent } from './admin/pastevent/pastevent.component';
 import { AppAlertComponent } from './helper/alert/alert.component';
+import { DeleteComponent } from './privacy/delete/delete.component';
 
 
 export function appInitFb(appConfigService: AppConfigService) {
@@ -69,7 +70,8 @@ export function appInitFb(appConfigService: AppConfigService) {
     AppAlertComponent,
     DialogCancelComponent,
     LoadEventComponent,
-    PasteventComponent
+    PasteventComponent,
+    DeleteComponent
   ],
   imports:[
     BrowserModule,
@@ -117,6 +119,7 @@ export function appInitFb(appConfigService: AppConfigService) {
   ],
   exports: [
     AdminfutureComponent,
+    PrivacyComponent,
     HomeComponent,
     DialogCancelComponent,
     AppAlertComponent
