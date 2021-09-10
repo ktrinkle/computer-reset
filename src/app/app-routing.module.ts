@@ -14,11 +14,16 @@ import { CreateeventComponent } from './admin/createevent/createevent.component'
 import { UserlistComponent } from './admin/userlist/userlist.component';
 import { StandbyComponent } from './admin/standby/standby.component';
 import { PasteventComponent } from './admin/pastevent/pastevent.component';
+import { DeleteComponent } from './privacy/delete/delete.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full'},
   { path: 'home', component: HomeComponent },
   { path: 'privacy', component: PrivacyComponent },
+    {
+    path: 'privacy/requestDataDelete',
+    component: DeleteComponent
+    },
   { path: 'event', component: EventComponent, canActivate: [LoadGuard] },
   { path: 'admin', component: AdminComponent, canActivate: [AdminGuard] , children: [
     {

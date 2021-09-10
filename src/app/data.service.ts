@@ -219,4 +219,9 @@ export class DataService {
       return this.httpClient.get(url);
     }
 
+    public requestUserDelete(facebookId: string): Promise<string> {
+      var url = this.REST_API_SERVER +  'api/users/requestDelete/' + encodeURIComponent(facebookId) + '';
+      return this.httpClient.put(url, null, {responseType: 'text'}).toPromise();
+    }
+
 }
