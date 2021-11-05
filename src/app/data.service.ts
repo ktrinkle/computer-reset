@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { throwError } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { UserSmall, Signup, UserModel, UserEventSignup, UserEventDayOf, UserEventNote, Timeslot, UserManual, openEvent, dumpster } from './data';
 import { environment } from './../environments/environment';
 import { AuthenticationService } from './authentication/authentication.service';
@@ -222,6 +222,11 @@ export class DataService {
     public requestUserDelete(facebookId: string): Promise<string> {
       var url = this.REST_API_SERVER +  '/api/computerreset/api/users/requestDelete/' + encodeURIComponent(facebookId) + '';
       return this.httpClient.put(url, null, {responseType: 'text'}).toPromise();
+    }
+
+    public getCountryCodes(): Observable<any> {
+      var url = this.REST_API_SERVER + '/api/computerreset/api/ref/country';
+      return this.httpClient.get(url);
     }
 
 }

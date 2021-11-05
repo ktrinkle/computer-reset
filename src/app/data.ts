@@ -212,3 +212,10 @@ export interface ClaimPrincipal {
     dumpsterCount: number;
     dumpsterVolume: number;
   }
+
+  export interface CountryList{
+    id: number,
+    countryNm: string,
+    countryCode: string,
+    countryCode3: string
+  }
