@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { DataService } from '../data.service';
-import { Signup, StateList, CityList, TimeslotSmall, openEvent } from '../data';
+import { Signup, StateList, CityList, TimeslotSmall, openEvent, CountryList } from '../data';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
@@ -26,6 +26,7 @@ export class EventComponent implements OnInit, OnDestroy {
   public eventForm: FormGroup;
   public states: StateList[];
   public cities: CityList[];
+  public country: CountryList[];
   public responseJson: string;
   public submitResult: string;
   public submitProcess: boolean = false;
@@ -33,6 +34,8 @@ export class EventComponent implements OnInit, OnDestroy {
   public moveOrSignup: boolean;
   public signedupSlot: number;
   public stopChange: boolean = false;
+
+  public intlInd: boolean;
 
   public agreeClick(): void {
     this.agreeInd = true;
@@ -65,6 +68,10 @@ export class EventComponent implements OnInit, OnDestroy {
 
       this.dataService.getState().subscribe(
         result => { this.states = result; }
+        );
+
+      this.dataService.getCountryCodes().subscribe(
+        result => { this.country = result; }
         );
 
       //add real name default
