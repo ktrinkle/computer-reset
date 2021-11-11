@@ -7,10 +7,10 @@
         <mat-card-content>
           <app-rules></app-rules>
           <mat-divider></mat-divider>
+          <div class="alertmessage"><mat-icon>announcement</mat-icon>There is no bathroom available at Computer Reset.</div>
+          <mat-divider></mat-divider>
           <div class="weathermessage"><mat-icon>warning</mat-icon>Events can be canceled at any time due to local weather conditions and/or Covid-19 pandemic status.
           The volunteers are not responsible for any of your travel costs incurred if an event cancels.</div>
-          <mat-divider></mat-divider>
-          <div class="weathermessage"><mat-icon>announcement</mat-icon>There is no bathroom at Computer Reset.</div>
       </mat-card-content>
     <mat-card-actions>
       <p><button mat-raised-button color="primary" (click)="agreeClick();">I agree to these rules</button> <span *ngIf="agreeInd==true && !loadStatus">Please wait for events to load.</span></p>
