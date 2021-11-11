@@ -14,7 +14,7 @@ export class DataService {
   public signupIdPass: number;
 
   public userFull: UserModel = {id: 0, firstName: null, lastName: null, cityName: null,
-    stateCode: null, realName: null, facebookId: null, adminFlag: false, volunteerFlag: false};
+    stateCode: null, countryCd: null, realName: null, facebookId: null, adminFlag: false, volunteerFlag: false};
 
   public facebookToken: string;
 
@@ -57,7 +57,7 @@ export class DataService {
       return this.httpClient.post(url, userReq, {responseType: 'text'});
     }
 
-    public getFrontPage(userReq: UserSmall): any {
+    public getFrontPage(userReq: UserSmall): Observable<any>  {
       var url = this.REST_API_SERVER + '/api/computerreset/api/users/frontpage';
       return this.httpClient.post(url, userReq);
     }
@@ -75,27 +75,27 @@ export class DataService {
     }
 
     // modified to show in DFW local at all times
-    public getEvent(){
+    public getEvent(): Observable<any> {
       var url = this.REST_API_SERVER + '/api/computerreset/api/events/show/open';
       return this.httpClient.get(url);
     }
 
-    public getEventFuture() {
+    public getEventFuture(): Observable<any> {
       var url = this.REST_API_SERVER + '/api/computerreset/api/events/show/upcoming';
       return this.httpClient.get(url);
     }
 
-    public getEventAll() {
+    public getEventAll(): Observable<any> {
       var url = this.REST_API_SERVER + '/api/computerreset/api/events/show/all/';
       return this.httpClient.get(url);
     }
 
-    public getState(): any {
+    public getState(): Observable<any> {
       var url = this.REST_API_SERVER + '/api/computerreset/api/ref/state';
       return this.httpClient.get(url);
     }
 
-    public getCity(stateCd: string): any {
+    public getCity(stateCd: string): Observable<any> {
       let url = this.REST_API_SERVER + '/api/computerreset/api/ref/citylist/' + encodeURIComponent(stateCd) + '';
       return this.httpClient.get(url);
     }
@@ -158,6 +158,11 @@ export class DataService {
 
     public async changeVolunteerState(id: number): Promise<string> {
       var url = this.REST_API_SERVER + '/api/computerreset/api/users/update/volunteer/' + encodeURIComponent(id) + '';
+      return this.httpClient.put(url, null, {responseType: 'text'}).toPromise();
+    }
+
+    public async changeIntlState(id: number): Promise<string> {
+      var url = this.REST_API_SERVER + '/api/computerreset/api/events/intl/' + encodeURIComponent(id) + '';
       return this.httpClient.put(url, null, {responseType: 'text'}).toPromise();
     }
 

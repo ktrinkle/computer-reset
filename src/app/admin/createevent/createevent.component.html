@@ -52,11 +52,19 @@
                     </mat-cell>
                   </ng-container>
 
+                  <!-- Intl Definition -->
+                  <ng-container matColumnDef="intl">
+                    <mat-header-cell *matHeaderCellDef>International Event</mat-header-cell>
+                    <mat-cell *matCellDef="let row">
+                        <mat-slide-toggle color="accent" id="intl{{row.id}}" name="intl{{row.id}}" formControlName="intl{{row.id}}" (change)="changeIntlState($event)">International event</mat-slide-toggle>
+                    </mat-cell>
+                  </ng-container>
+
                   <!-- Header and Row Declarations -->
                   <mat-header-row *matHeaderRowDef="['eventDate', 'eventTime', 'eventOpen', 'manage']"></mat-header-row>
                   <mat-row *matRowDef="let row; columns: ['eventDate', 'eventTime', 'eventOpen', 'manage']"
                   [ngClass]="{'highlight': selectEventId == row.id}" class="mat-row1"></mat-row>
-                  <mat-row *matRowDef="let row; columns: ['openclose','private']"
+                  <mat-row *matRowDef="let row; columns: ['openclose','private', 'intl']"
                   [ngClass]="{'highlight': selectEventId == row.id}" class="mat-row2"></mat-row>
                   </mat-table>
                 </form>
@@ -262,7 +270,7 @@
               </mat-form-field>
             </div>
             <div fxFlex="100%" style="clear: all; padding: 10px;">&nbsp;</div>
-            <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="100%" style="vertical-align: middle; min-height: 75px; padding: 10px;">
+            <div fxFlex="33%" fxFlex.xs="100%" fxFlex.sm="100%" style="vertical-align: middle; min-height: 75px; padding: 10px;">
               <mat-form-field appearance="fill">
               <mat-label>Event Message</mat-label>
               <input matInput id="eventNote" name="eventNote" formControlName="eventNote" type="text">
@@ -271,10 +279,15 @@
             </mat-form-field>
           </div>
 
-          <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="100%" style="vertical-align: middle; min-height: 75px; padding: 10px;">
+          <div fxFlex="33%" fxFlex.xs="100%" fxFlex.sm="100%" style="vertical-align: middle; min-height: 75px; padding: 10px;">
             <mat-slide-toggle color="primary" id="privateEventInd" name="privateEventInd" formControlName="privateEventInd">Private event</mat-slide-toggle><br/>
             <mat-hint>Hide this event from users who log into the system. </mat-hint>
+          </div>
+          <div fxFlex="33%" fxFlex.xs="100%" fxFlex.sm="100%" style="vertical-align: middle; min-height: 75px; padding: 10px;">
+            <mat-slide-toggle color="primary" id="intlEventInd" name="intlEventInd" formControlName="intlEventInd">International event</mat-slide-toggle><br/>
+            <mat-hint>This event is an international event. </mat-hint>
         </div>
+
 
         <div style="clear: all; padding: 10px;">&nbsp;</div>
         <div class="confirmmessage" *ngIf="submitResult">{{submitResult}}</div>

@@ -1,3 +1,4 @@
 {
-    "appService.deploySubpath": "dist/computer-reset"
+    "appService.deploySubpath": "dist/computer-reset",
+    "typescript.tsdk": "node_modules/typescript/lib"
 }

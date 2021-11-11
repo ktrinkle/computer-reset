@@ -16,6 +16,7 @@ export interface ClaimPrincipal {
     lastName: string;
     cityName: string;
     stateCode: string;
+    countryCd: string;
     realName: string;
     facebookId: string;
     adminFlag: boolean;
@@ -52,6 +53,7 @@ export interface ClaimPrincipal {
     eventId: number;
     cityNm: string;
     stateCd: string;
+    countryCd: string;
     realname: string;
     firstNm: string;
     lastNm: string;
@@ -86,6 +88,7 @@ export interface ClaimPrincipal {
   export interface UserRetrieve {
     cityNm: string;
     stateCd: string;
+    countryCd: string;
     realNm: string;
     adminFlag: boolean;
     volunteerFlag: boolean;
@@ -106,6 +109,7 @@ export interface ClaimPrincipal {
     realNm: string;
     cityNm: string;
     stateCd: string;
+    countryCd: string;
     timeslotId: number;
     signupTms: Date;
     attendNbr: number;
@@ -135,6 +139,7 @@ export interface ClaimPrincipal {
     banFlag: boolean;
     cityNm: string;
     stateCd: string;
+    countryCd: string;
     confirmInd: boolean;
     noShowInd: boolean;
   }
@@ -146,6 +151,7 @@ export interface ClaimPrincipal {
     realNm: string;
     cityNm: string;
     stateCd: string;
+    countryCd: string;
     metroplexInd: boolean;
     timeslotId: number;
     eventStartTms: Date;
@@ -174,6 +180,7 @@ export interface ClaimPrincipal {
     lastNm: string;
     cityNm: string;
     stateCd: string;
+    countryCd: string;
     realNm: string;
     fbId: string;
     banFlag: boolean;
@@ -216,6 +223,6 @@ export interface ClaimPrincipal {
   export interface CountryList{
     id: number,
     countryNm: string,
-    countryCode: string,
-    countryCode3: string
+    countryCd: string,
+    countryCd3: string
   }
