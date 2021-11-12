@@ -82,7 +82,7 @@ export class EventComponent implements OnInit, OnDestroy {
       }
 
       //default us to Dallas, Tx
-      if (this.dataService.userFull.stateCode == null ) {
+      if (this.dataService.userFull.stateCode == null && this.dataService.userFull.countryCd == null) {
         this.eventForm.patchValue({stateCd: "TX"});
         this.dataService.getCity("TX").pipe(
           takeUntil(this.destroy$)).subscribe(result => {
@@ -99,9 +99,7 @@ export class EventComponent implements OnInit, OnDestroy {
       }
 
       // If the user isn't USA, default. We only show this if we have an international event.
-      if (this.dataService.userFull.countryCd == null ) {
-        this.eventForm.patchValue({countryCd: "US"});
-      } else {
+      if (this.dataService.userFull.countryCd != null ) {
         this.eventForm.patchValue({countryCd: this.dataService.userFull.countryCd});
       }
 
@@ -180,7 +178,7 @@ export class EventComponent implements OnInit, OnDestroy {
     } else if (!this.signUp.cityNm) {
       this.submitResult = "We did not find a city. Please try again.";
       this.submitProcess = false;
-    } else if (!this.signUp.stateCd || !this.signUp.countryCd) {
+    } else if (!this.signUp.stateCd && !this.signUp.countryCd) {
       this.submitResult = "We did not find a country or state. Please try again."
       this.submitProcess = false;
     /*} else if (!this.moveOrSignup) {

@@ -1,4 +1,5 @@
 {
     "appService.deploySubpath": "dist/computer-reset",
-    "typescript.tsdk": "node_modules/typescript/lib"
+    "typescript.tsdk": "node_modules/typescript/lib",
+    "appService.defaultWebAppToDeploy": "None"
 }
