@@ -161,8 +161,14 @@ export class EventComponent implements OnInit, OnDestroy {
     }
 
     this.signUp.cityNm = this.eventForm.value.cityNm;
-    this.signUp.stateCd = this.eventForm.value.stateCd; //this is a code, not an index
-    this.signUp.countryCd = this.eventForm.value.countryCd;
+
+    if (this.intlInd) {
+      this.signUp.countryCd = this.eventForm.value.countryCd;
+    }
+
+    if (!this.intlInd) {
+      this.signUp.stateCd = this.eventForm.value.stateCd;
+    }
 
     this.signUp.eventId = this.eventForm.value.eventId; //always take from form, assuming we pre-populate
 
