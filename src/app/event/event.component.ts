@@ -81,7 +81,7 @@ export class EventComponent implements OnInit, OnDestroy {
         this.eventForm.patchValue({realName: this.dataService.userFull.realName});
       }
 
-      //default us to Dallas, Tx
+      // default us to Dallas, Tx only if a new user
       if (this.dataService.userFull.stateCode == null && this.dataService.userFull.countryCd == null) {
         this.eventForm.patchValue({stateCd: "TX"});
         this.dataService.getCity("TX").pipe(
@@ -131,8 +131,8 @@ export class EventComponent implements OnInit, OnDestroy {
         event.eventStartTms = utcToZonedTime(event.eventStartTms, 'America/Chicago');
         event.eventEndTms = utcToZonedTime(event.eventEndTms, 'America/Chicago');
         if (event.id === this.signUp.eventId) {
-          console.log(event.id);
-          console.log(this.signUp.eventId);
+          // console.log(event.id);
+          // console.log(this.signUp.eventId);
           this.intlInd = event.intlEventInd;
         }
         this.events[index] = event;
@@ -171,7 +171,7 @@ export class EventComponent implements OnInit, OnDestroy {
     this.signUp.eventId = this.eventForm.value.eventId; //always take from form, assuming we pre-populate
 
     //final checks. This is in case of form hacking.
-    console.log(this.signUp);
+    // console.log(this.signUp);
     if (this.signUp.eventId == 0 || !this.signUp.eventId) {
       this.submitResult = "You may have not selected an event. Please try again.";
       this.submitProcess = false;
@@ -225,9 +225,9 @@ export class EventComponent implements OnInit, OnDestroy {
   }
 
   changeIntlEvent(intlEvent: boolean) {
-    console.log(intlEvent);
+    // console.log(intlEvent);
     this.intlInd = intlEvent;
-    console.log(this.intlInd);
+    // console.log(this.intlInd);
   }
 
 }

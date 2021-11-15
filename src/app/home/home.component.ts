@@ -155,7 +155,7 @@ export class DialogCancelComponent {
     private dialogRef: MatDialogRef<DialogCancelComponent>) {}
 
   onNoClick(): void {
-    console.log('false');
+    // console.log('false');
     this.dialogRef.close(false);
   }
 
