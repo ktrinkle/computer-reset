@@ -14,7 +14,7 @@ import { utcToZonedTime } from 'date-fns-tz';
 
 export class EventComponent implements OnInit, OnDestroy {
 
-  public signUp: Signup = {realname: "", cityNm: "", stateCd: "", eventId: 0,
+  public signUp: Signup = {realname: "", cityNm: "", stateCd: "", countryCd: "", eventId: 0,
     fbId: this.dataService.userFull.facebookId,
     firstNm: this.dataService.userFull.firstName,
     lastNm: this.dataService.userFull.lastName,
@@ -54,8 +54,10 @@ export class EventComponent implements OnInit, OnDestroy {
         realName: new FormControl(this.dataService.userFull.firstName + " " + this.dataService.userFull.lastName),
         facebookId: new FormControl(this.dataService.userFull.facebookId, [Validators.required]),
         cityNm: new FormControl('', [Validators.required]),
-        stateCd: new FormControl('', [Validators.required]),
-        flexibleInd: new FormControl('')
+        stateCd: new FormControl(''),
+        countryCd: new FormControl(''),
+        flexibleInd: new FormControl(''),
+        intlInd: new FormControl('')
       });
 
       //get routed event id if needed
@@ -79,8 +81,8 @@ export class EventComponent implements OnInit, OnDestroy {
         this.eventForm.patchValue({realName: this.dataService.userFull.realName});
       }
 
-      //default us to Dallas, Tx
-      if (this.dataService.userFull.stateCode == null ) {
+      // default us to Dallas, Tx only if a new user
+      if (this.dataService.userFull.stateCode == null && this.dataService.userFull.countryCd == null) {
         this.eventForm.patchValue({stateCd: "TX"});
         this.dataService.getCity("TX").pipe(
           takeUntil(this.destroy$)).subscribe(result => {
@@ -94,6 +96,11 @@ export class EventComponent implements OnInit, OnDestroy {
             this.cities = result;
           }
         );
+      }
+
+      // If the user isn't USA, default. We only show this if we have an international event.
+      if (this.dataService.userFull.countryCd != null ) {
+        this.eventForm.patchValue({countryCd: this.dataService.userFull.countryCd});
       }
 
       if (this.dataService.userFull.cityName == null ) {
@@ -123,6 +130,11 @@ export class EventComponent implements OnInit, OnDestroy {
       this.events.forEach((event, index) => {
         event.eventStartTms = utcToZonedTime(event.eventStartTms, 'America/Chicago');
         event.eventEndTms = utcToZonedTime(event.eventEndTms, 'America/Chicago');
+        if (event.id === this.signUp.eventId) {
+          // console.log(event.id);
+          // console.log(this.signUp.eventId);
+          this.intlInd = event.intlEventInd;
+        }
         this.events[index] = event;
       });
 
@@ -147,20 +159,31 @@ export class EventComponent implements OnInit, OnDestroy {
     }
 
     this.signUp.cityNm = this.eventForm.value.cityNm;
-    this.signUp.stateCd = this.eventForm.value.stateCd; //this is a code, not an index
+
+    if (this.intlInd) {
+      this.signUp.countryCd = this.eventForm.value.countryCd;
+    }
+
+    if (!this.intlInd) {
+      this.signUp.stateCd = this.eventForm.value.stateCd;
+    }
 
     this.signUp.eventId = this.eventForm.value.eventId; //always take from form, assuming we pre-populate
 
     //final checks. This is in case of form hacking.
+    // console.log(this.signUp);
     if (this.signUp.eventId == 0 || !this.signUp.eventId) {
       this.submitResult = "You may have not selected an event. Please try again.";
       this.submitProcess = false;
-    } else if (!this.signUp.cityNm || !this.signUp.stateCd ) {
-      this.submitResult = "We did not find a city or state selected. Please try again.";
+    } else if (!this.signUp.cityNm) {
+      this.submitResult = "We did not find a city. Please try again.";
       this.submitProcess = false;
-    } else if (!this.moveOrSignup && this.signedupSlot == -1) {
+    } else if (!this.signUp.stateCd && !this.signUp.countryCd) {
+      this.submitResult = "We did not find a country or state. Please try again."
+      this.submitProcess = false;
+    /*} else if (!this.moveOrSignup) {
       this.submitResult = "You are already signed up for an open slot."
-      this.submitProcess = false;
+      this.submitProcess = false;*/
     } else {
       //all is good, lets fire the web service
       //determine if move or signup
@@ -174,15 +197,6 @@ export class EventComponent implements OnInit, OnDestroy {
       error: (err) => {
         this.dataService.handleError(err);
       }});
-      } else {
-        //assume a move
-        var res = await this.dataService.userMoveSlot(this.signedupSlot, this.signUp.eventId, this.signUp.fbId).then(data => {
-          this.submitResult = data.toString();
-          this.stopChange = true;
-          this.loadEvents();
-        })
-        .catch(err => this.dataService.handleError(err));
-        this.submitProcess = false;
       }
     }
   }
@@ -199,7 +213,7 @@ export class EventComponent implements OnInit, OnDestroy {
 
     });
   }
-  //onchange for state
+  // onchange for state
 
   changeCityList(event) {
     //console.log("GetCity");
@@ -208,6 +222,12 @@ export class EventComponent implements OnInit, OnDestroy {
         this.cities = result;
       }
     );
+  }
+
+  changeIntlEvent(intlEvent: boolean) {
+    // console.log(intlEvent);
+    this.intlInd = intlEvent;
+    // console.log(this.intlInd);
   }
 
 }

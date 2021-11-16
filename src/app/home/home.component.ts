@@ -106,8 +106,6 @@ export class HomeComponent implements OnInit {
     complete: () => {
       this.confirmedEvents = this.events.filter(event => event.userSlot == "G");
       this.signedupEvents = this.events.filter(event => event.userSlot == "S");
-      // not really doing this anymore but it's still here
-      this.waitlist = this.events.filter(event => event.userSlot == "C");
 
       // set deleteind
       this.deleteInd = this.events.filter(event => event.userSlot == null).length == this.events.length;
@@ -157,7 +155,7 @@ export class DialogCancelComponent {
     private dialogRef: MatDialogRef<DialogCancelComponent>) {}
 
   onNoClick(): void {
-    console.log('false');
+    // console.log('false');
     this.dialogRef.close(false);
   }
 

@@ -48,6 +48,13 @@ import { PasteventComponent } from './admin/pastevent/pastevent.component';
 import { AppAlertComponent } from './helper/alert/alert.component';
 import { DeleteComponent } from './privacy/delete/delete.component';
 
+// Store
+import { environment } from '../environments/environment';
+import { StoreModule } from '@ngrx/store';
+import { reducers, metaReducers } from './store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { EffectsModule } from '@ngrx/effects';
+import { CrEffects } from './store/cr.effects';
 
 export function appInitFb(appConfigService: AppConfigService) {
   return () => appConfigService.loadFb();
@@ -101,7 +108,10 @@ export function appInitFb(appConfigService: AppConfigService) {
     NgxSkeletonLoaderModule,
     MatAutocompleteModule,
     MatSlideToggleModule,
-    AppRoutingModule
+    AppRoutingModule,
+    StoreModule.forRoot(reducers, { metaReducers }),
+    !environment.production ? StoreDevtoolsModule.instrument() : [],
+    EffectsModule.forRoot([CrEffects]),
   ],
   providers: [
     // Http Interceptor(s) -  adds with Client Credentials

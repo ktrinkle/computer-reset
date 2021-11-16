@@ -142,7 +142,7 @@
        <ng-container matColumnDef="personLoc">
        <mat-header-cell *matHeaderCellDef> Location </mat-header-cell>
        <mat-cell *matCellDef="let row" class="mat-cell-row1">
-        {{row.cityNm}}, {{row.stateCd}}<br/>
+        {{row.cityNm}}, {{row.stateCd}} {{row.countryCd}}<br/>
         {{row.signupTxt}}
           </mat-cell>
      </ng-container>

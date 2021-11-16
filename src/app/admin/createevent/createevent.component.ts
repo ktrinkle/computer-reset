@@ -5,7 +5,6 @@ import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms'
 import { Subject } from 'rxjs';
 import { DatePipe } from '@angular/common';
 import { format, parse } from 'date-fns';
-import { MatAutocomplete } from '@angular/material/autocomplete';
 
 @Component({
   selector: 'app-createevent',
@@ -58,7 +57,8 @@ export class CreateeventComponent implements OnInit, OnDestroy {
       signupCnt: new FormControl('20', [Validators.pattern('[0-9]*')]),
       eventId: new FormControl(''),
       eventNote: new FormControl(''),
-      privateEventInd: new FormControl('')
+      privateEventInd: new FormControl(''),
+      intlEventInd: new FormControl('')
     });
 
     this.loadStatus = false;
@@ -75,8 +75,9 @@ export class CreateeventComponent implements OnInit, OnDestroy {
         this.events.forEach(event => {
           this.currEvents.addControl(event.id.toString(), new FormControl(event.eventClosed));
           this.currEvents.addControl('pvt' + event.id.toString(), new FormControl(event.privateEventInd));
+          this.currEvents.addControl('intl' + event.id.toString(), new FormControl(event.intlEventInd));
         });
-        //console.log(this.currEvents);
+        // console.log(this.currEvents);
        },
        error: (err) => {
          this.dataService.handleError(err);
@@ -89,30 +90,30 @@ export class CreateeventComponent implements OnInit, OnDestroy {
   }
 
   eventSubmit() {
-    //builds out timeslot into eventTimeSlotSelect object, overwriting what is there.
+    // builds out timeslot into eventTimeSlotSelect object, overwriting what is there.
     this.submitProcess = true;
 
-    //this sets update or insert
+    // this sets update or insert
     if (this.newEventForm.value.eventId) {
       this.eventTimeslotSelect.id = this.newEventForm.value.eventId;
     } else {
       this.eventTimeslotSelect.id === null;
     }
 
-    //compile event_start_tms and event_end_tms from 2 fields via strings
-    //this is being transmitted as UTC without timezone, so we need to inject timezone
+    // compile event_start_tms and event_end_tms from 2 fields via strings
+    // this is being transmitted as UTC without timezone, so we need to inject timezone
 
-    console.log(this.newEventForm.value);
+    // console.log(this.newEventForm.value);
     var startDt = this.datePipe.transform(this.newEventForm.value.eventDate, 'yyyy-MM-dd');
     var startTm = startDt + ' ' + this.newEventForm.value.hour_startTm + ':' + this.newEventForm.value.minute_startTm;
     var endTm = startDt + ' ' + this.newEventForm.value.hour_endTm + ':' + this.newEventForm.value.minute_endTm;
-    console.log(startTm);
-    console.log(endTm);
+    // console.log(startTm);
+    // console.log(endTm);
 
     var eventStartTms = parse(startTm, "yyyy-MM-dd HH:mm", new Date());
-    console.log(eventStartTms);
+    // console.log(eventStartTms);
     var eventEndTms = parse(endTm, "yyyy-MM-dd HH:mm", new Date());
-    console.log(eventEndTms);
+    // console.log(eventEndTms);
 
     this.eventTimeslotSelect.eventStartTms = new Date(eventStartTms);
     this.eventTimeslotSelect.eventEndTms = new Date(eventEndTms);
@@ -122,32 +123,38 @@ export class CreateeventComponent implements OnInit, OnDestroy {
 
     var eventOpenTms = parse(openTm, "yyyy-MM-dd HH:mm", new Date());  // yyyy-MM-dd
     this.eventTimeslotSelect.eventOpenTms = new Date(eventOpenTms);
-    console.log(eventOpenTms);
+    // console.log(eventOpenTms);
 
     this.eventTimeslotSelect.eventSlotCnt = parseInt(this.newEventForm.value.eventSlotCnt);
     this.eventTimeslotSelect.overbookCnt = parseInt(this.newEventForm.value.overbookCnt);
     this.eventTimeslotSelect.signupCnt = parseInt(this.newEventForm.value.signupCnt);
     this.eventTimeslotSelect.eventNote = this.newEventForm.value.eventNote;
 
-    if (!this.eventTimeslotSelect.privateEventInd) {
+    if (!this.newEventForm.value.privateEventInd) {
       this.eventTimeslotSelect.privateEventInd = false;
     } else {
       this.eventTimeslotSelect.privateEventInd = true;
     }
 
-    //close ind should already be in eventTimeslotSelect. if null, set to false.
+    if (!this.newEventForm.value.intlEventInd) {
+      this.eventTimeslotSelect.intlEventInd = false;
+    } else {
+      this.eventTimeslotSelect.intlEventInd = true;
+    }
+
+    // close ind should already be in eventTimeslotSelect. if null, set to false.
 
     if (!this.eventTimeslotSelect.eventClosed) {
       this.eventTimeslotSelect.eventClosed = false;
     }
 
-    //inject facebook ID for auth
+    // inject facebook ID for auth
 
     this.eventTimeslotSelect.facebookId = this.dataService.userFull.facebookId;
 
-    console.log(this.eventTimeslotSelect);
+    // console.log(this.eventTimeslotSelect);
 
-    //final checks. This is in case of form hacking.
+    // final checks. This is in case of form hacking.
     if (!this.eventTimeslotSelect.eventStartTms || this.eventTimeslotSelect.eventStartTms == null) {
       this.submitResult = "There is not a valid start time selected. Please correct this issue.";
       this.submitProcess = false;
@@ -158,7 +165,7 @@ export class CreateeventComponent implements OnInit, OnDestroy {
       this.submitResult = "There is not a valid open time selected. Please correct this issue.";
       this.submitProcess = false;
     } else {
-      //all is good, lets fire the web service
+      // all is good, lets fire the web service
       this.dataService.updateEvent(this.eventTimeslotSelect).subscribe({next: (data => {
           this.submitResult = data;
           this.submitProcess = false;
@@ -200,6 +207,17 @@ export class CreateeventComponent implements OnInit, OnDestroy {
     //we don't care about this value right now but may snackbar it
   }
 
+  async changeIntlState(event: any) {
+    //parse out event
+    var intlId = event.source.id;
+    intlId = intlId.substring(4);
+    //console.log(signupId);
+    var id: number = parseInt(intlId);
+
+    var rtnTxt = await this.dataService.changeIntlState(id);
+    //we don't care about this value right now but may snackbar it
+}
+
   manageEvent(eventId: number) {
     //takes current event and loads to form
 
@@ -219,7 +237,8 @@ export class CreateeventComponent implements OnInit, OnDestroy {
       signupCnt: selEvent.signupCnt,
       eventId: selEvent.id,
       eventNote: selEvent.eventNote,
-      privateEventInd: selEvent.privateEventInd
+      privateEventInd: selEvent.privateEventInd,
+      intlEventInd: selEvent.intlEventInd
     })
   }
 
@@ -314,7 +333,7 @@ export class CreateeventComponent implements OnInit, OnDestroy {
 
   async changeStartTimeHour(event: any) {
     var newHour = event.value;
-    console.log(newHour);
+    // console.log(newHour);
 
     if (newHour && this.startHourVal && (/^\d+$/.test(newHour))) {
         this.startHourVal = this.pad(newHour);
@@ -325,7 +344,7 @@ export class CreateeventComponent implements OnInit, OnDestroy {
 
   async changeEndTimeHour(event: any) {
     var newHour = event.value;
-    console.log(newHour);
+    // console.log(newHour);
 
     if (newHour && this.endHourVal && (/^\d+$/.test(newHour))) {
         this.endHourVal = this.pad(newHour);
@@ -336,7 +355,7 @@ export class CreateeventComponent implements OnInit, OnDestroy {
 
   async changeOpenTimeHour(event: any) {
     var newHour = event.value;
-    console.log(newHour);
+    // console.log(newHour);
 
     if (newHour && this.openHourVal && (/^\d+$/.test(newHour))) {
         this.openHourVal = this.pad(newHour);

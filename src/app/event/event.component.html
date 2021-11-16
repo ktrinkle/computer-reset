@@ -6,19 +6,26 @@
         </mat-card-header>
         <mat-card-content>
           <app-rules></app-rules>
-        <mat-divider></mat-divider>
+          <mat-divider></mat-divider>
+          <div class="alertmessage"><mat-icon>announcement</mat-icon>There is no bathroom available at Computer Reset.</div>
+          <mat-divider></mat-divider>
           <div class="weathermessage"><mat-icon>warning</mat-icon>Events can be canceled at any time due to local weather conditions and/or Covid-19 pandemic status.
           The volunteers are not responsible for any of your travel costs incurred if an event cancels.</div>
       </mat-card-content>
     <mat-card-actions>
-      <p><button mat-raised-button color="primary" (click)="agreeClick();">I agree to these rules</button> <span *ngIf="agreeInd==true && loadStatus==false">Please wait for events to load.</span></p>
-      <p *ngIf="!loadStatus">Please wait for events to load</p>
+      <p><button mat-raised-button color="primary" (click)="agreeClick();">I agree to these rules</button> <span *ngIf="agreeInd==true && !loadStatus">Please wait for events to load.</span></p>
     </mat-card-actions>
     </mat-card>
     <div *ngIf="agreeInd">
     <form [formGroup]="eventForm" (ngSubmit)="eventSubmit()">
           <!--loading screen div-->
-        <div class="content" fxLayout="row wrap" fxLayoutGap="16px grid" style="padding-left: 24px; padding-right: 24px;" *ngIf="!this.loadStatus">
+          <mat-card style="margin-top:10px;" *ngIf="!loadStatus">
+            <mat-card-header>
+                <mat-card-title>Upcoming events</mat-card-title>
+                <mat-card-subtitle>These events are open for signup:</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+        <div class="content" fxLayout="row wrap" fxLayoutGap="16px grid" style="padding-left: 24px; padding-right: 24px;">
           <div fxFlex="25%" class="mat-header-row mat-header-cell">  </div>
           <div fxFlex="35%" class="mat-header-row mat-header-cell"> Event Date </div>
           <div fxFlex="20%" class="mat-header-row mat-header-cell"> Start Time </div>
@@ -60,6 +67,8 @@
             }"></ngx-skeleton-loader>
           </div>
         </div>
+      </mat-card-content>
+      </mat-card>
       <mat-card style="margin-top:10px;" *ngIf="loadStatus">
         <mat-card-header>
             <mat-card-title>Upcoming events</mat-card-title>
@@ -76,11 +85,8 @@
      <mat-cell *matCellDef="let row">
        <div *ngIf="row.userSlot">
          <span class="unselected-toggle">Signed up</span></div>
-       <div *ngIf="this.moveOrSignup && this.signedupSlot > 0 && !row.userSlot">
-        <mat-button-toggle [value]="row.id">Move to event</mat-button-toggle>
-       </div>
-       <div *ngIf="!(row.userSlot || row.eventClosed) && !this.moveOrSignup && this.signedupSlot == 0">
-        <mat-button-toggle [value]="row.id">Sign up</mat-button-toggle>
+       <div *ngIf="!(row.userSlot || row.eventClosed) && !this.moveOrSignup">
+        <mat-button-toggle [value]="row.id" (click)="changeIntlEvent(row.intlEventInd)">Sign up</mat-button-toggle>
        </div>
      </mat-cell>
    </ng-container>
@@ -107,7 +113,13 @@
 
 <!-- Event note Definition -->
 <ng-container matColumnDef="eventNote">
-  <mat-cell *matCellDef="let row" class="mat-cell-indent"><span *ngIf="row.eventNote"><mat-icon>star</mat-icon> {{row.eventNote}} </span></mat-cell>
+  <mat-cell *matCellDef="let row" class="mat-cell-indent">
+    <div><span *ngIf="row.eventNote || row.intlEventInd"><mat-icon>star</mat-icon></span>
+      <span *ngIf="row.intlEventInd"> International event - for people outside USA</span>
+      <span *ngIf="row.eventNote && row.intlEventInd"> -- </span>
+      <span *ngIf="row.eventNote"> {{row.eventNote}} </span>
+    </div>
+    </mat-cell>
 </ng-container>
 
  <!-- Header and Row Declarations -->
@@ -122,7 +134,11 @@
   <div fxFlex="100%" fxFlex.xs="100%" fxFlex.sm="100%" style="padding: 10px;">
       <p>&nbsp;</p>
                   <p>ID is required for anyone to enter the warehouse. If your real name is different from your
-                  Facebook name, please fill in your real name.</p><p color="primary">If you do not have ID that
+                  Facebook name, please fill in your real name.</p>
+                  <p *ngIf="intlInd">Please bring a copy of your passport photo page as your ID. Please also note that
+                    the US Government requires contact tracing and full vaccination for international visitors.
+                  </p>
+                  <p color="primary">If you do not have ID that
                     matches the name filled in when signing up, you will not be permitted to enter.
                   </p>
                   <p color="primary"><span style="font-weight:bold">
@@ -135,10 +151,10 @@
                 </mat-form-field>
               </div>
 
-              <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="100%" style="vertical-align: middle; min-height: 75px; padding: 10px;">
-               <p>Please select the state you live in.</p>
+              <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="100%" style="vertical-align: middle; min-height: 75px; padding: 10px;" *ngIf="!intlInd">
+                <p>Please select the state you live in.</p>
                 <mat-form-field appearance="fill">
-                              <mat-label>Select your state*</mat-label>
+                    <mat-label>Select your state*</mat-label>
                     <mat-select id="stateCd" formControlName="stateCd" (selectionChange)="changeCityList($event)">
                       <mat-option *ngFor="let state of states" [value]="state.stateCode">
                         {{state.stateCode}}
@@ -148,20 +164,42 @@
                     </mat-form-field>
                   </div>
 
-                  <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="100%" style="vertical-align: middle; min-height: 75px; padding: 10px;">
+                <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="100%" style="vertical-align: middle; min-height: 75px; padding: 10px;" *ngIf="intlInd">
+                  <p>Please select the country you live in.</p>
+                  <mat-form-field appearance="fill">
+                      <mat-label>Select your country*</mat-label>
+                      <mat-select id="countryCd" formControlName="countryCd">
+                        <mat-option *ngFor="let countries of country" [value]="countries.countryCd">
+                          {{countries.countryCd}} - {{countries.countryNm}}
+                        </mat-option>
+                      </mat-select>
+                      <mat-hint align="end">Select the country you live in, as shown on your passport ^</mat-hint>
+                      </mat-form-field>
+                </div>
+
+                  <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="100%" style="vertical-align: middle; min-height: 75px; padding: 10px;" *ngIf="!intlInd">
                     <p>Please select the city or town that you live in.</p>
                     <mat-form-field appearance="fill">
                       <mat-label>Select your city*</mat-label>
-                    <mat-select id="cityNm" formControlName="cityNm">
+                      <mat-select id="cityNm" formControlName="cityNm">
                       <mat-option *ngFor="let city of cities" [value]="city.city">
                       {{city.city}}
                     </mat-option>
                   </mat-select>
-                  <mat-hint align="end">Select the city you live in, as shown on your ID ^</mat-hint>
+                  <mat-hint align="end">Select or enter the city you live in, as shown on your ID ^</mat-hint>
                   </mat-form-field>
                 </div>
 
-                <div fxFlex="100%" fxflex.xs="100%" fxFlex.sm="100%" style="padding: 10px 10px 10px 20px;">
+                <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="100%" style="vertical-align: middle; min-height: 75px; padding: 10px;" *ngIf="intlInd">
+                  <p>Please enter the city or town that you live in.</p>
+                  <mat-form-field appearance="fill">
+                    <mat-label>Enter your city*</mat-label>
+                    <input matInput [value]="cityNm" id="cityNm" formControlName="cityNm">
+                <mat-hint align="end">Select or enter the city you live in, as shown on your ID ^</mat-hint>
+                </mat-form-field>
+              </div>
+
+                <div fxFlex="100%" fxflex.xs="100%" fxFlex.sm="100%" style="padding: 10px 10px 10px 20px;" *ngIf="!intlInd">
                   <mat-slide-toggle color="primary" id="flexibleInd" name="flexibleInd" formControlName="flexibleInd">
                     My schedule is flexible and I can attend any open event.
                   </mat-slide-toggle>
@@ -171,15 +209,11 @@
 <div style="clear: all; padding: 10px;">&nbsp;</div>
               <div class="confirmmessage" *ngIf="submitResult">{{submitResult}}</div>
           </mat-card-content>
-        <mat-card-actions *ngIf="this.moveOrSignup || this.signedupSlot == 0">
+        <mat-card-actions *ngIf="!this.moveOrSignup">
           <button mat-raised-button color="primary" type="submit" [disabled]="(!eventForm.valid || submitProcess)">
-            <span *ngIf="!this.moveOrSignup">Sign up!</span>
-            <span *ngIf="this.moveOrSignup">Change your slot</span></button>
+            <span *ngIf="!this.moveOrSignup">Sign up!</span></button>
           <div *ngIf="submitProcess">Please wait for your signup to process.</div>
     </mat-card-actions>
-    <mat-card-actions *ngIf="this.signedupSlot == -1">
-      <div class="confirmmessage">You have already signed up for an open event.</div>
-</mat-card-actions>
     </mat-card>
     </form>
     </div>

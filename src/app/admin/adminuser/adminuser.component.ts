@@ -49,6 +49,7 @@ export class AdminuserComponent implements OnInit, OnDestroy {
       lastNm: new FormControl(''),
       cityNm: new FormControl(''),
       stateCd: new FormControl('TX'),
+      countryCd: new FormControl('US'),
       realNm: new FormControl(''),
       fbId: new FormControl(''),
       banFlag: new FormControl(''),
@@ -63,7 +64,8 @@ export class AdminuserComponent implements OnInit, OnDestroy {
       lastNm: new FormControl(''),
       facebookId: new FormControl('', [Validators.required]),
       cityNm: new FormControl('', [Validators.required]),
-      stateCd: new FormControl('', [Validators.required]),
+      stateCd: new FormControl(''),
+      countryCd: new FormControl(''),
       fbId: new FormControl('')
     });
 
@@ -184,6 +186,7 @@ export class AdminuserComponent implements OnInit, OnDestroy {
     var signUp: Signup = {realname: this.userAssignEvent.value.realNm,
       cityNm: this.userForm.value.cityNm,
       stateCd: this.userForm.value.stateCd,
+      countryCd: this.userForm.value.countryCd,
       eventId: this.userAssignEvent.value.eventId,
       fbId: this.userAssignEvent.value.fbId,
       firstNm: this.userAssignEvent.value.firstNm,

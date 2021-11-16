@@ -97,7 +97,7 @@
      <ng-container matColumnDef="personLoc">
      <mat-header-cell *matHeaderCellDef> Location </mat-header-cell>
      <mat-cell *matCellDef="let row" class="mat-cell-row1">
-      <span><span *ngIf="row.metroplexInd">Metroplex - </span>{{row.cityNm}}, {{row.stateCd}} <br/>
+      <span><span *ngIf="row.metroplexInd">Metroplex - </span>{{row.cityNm}}, {{row.stateCd}} {{row.countryCd}}<br/>
       Events attended: {{row.eventCnt}}</span>
         </mat-cell>
    </ng-container>
