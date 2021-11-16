@@ -33,7 +33,7 @@ export class AppComponent implements OnInit, OnDestroy {
           accessToken: this.dataService.facebookToken
         };
 
-      this.store.dispatch(currentEvents({ userLoad: this.userLookup }));
+      //this.store.dispatch(currentEvents({ userLoad: this.userLookup }));
    }
 
   ngOnDestroy() {
