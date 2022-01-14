@@ -14,10 +14,11 @@ import { utcToZonedTime } from 'date-fns-tz';
 
 export class EventComponent implements OnInit, OnDestroy {
 
-  public signUp: Signup = {realname: "", cityNm: "", stateCd: "", countryCd: "", eventId: 0,
+  public signUp: Signup = {realname: "", cityNm: "", stateCd: "", eventId: 0,
     fbId: this.dataService.userFull.facebookId,
     firstNm: this.dataService.userFull.firstName,
     lastNm: this.dataService.userFull.lastName,
+    countryCd: this.dataService.userFull.countryCd,
     flexibleInd: false
   };
 
@@ -35,7 +36,7 @@ export class EventComponent implements OnInit, OnDestroy {
   public signedupSlot: number;
   public stopChange: boolean = false;
 
-  public intlInd: boolean;
+  public intlInd: boolean = this.dataService.userFull.countryCd != "";
 
   public agreeClick(): void {
     this.agreeInd = true;
@@ -57,7 +58,7 @@ export class EventComponent implements OnInit, OnDestroy {
         stateCd: new FormControl(''),
         countryCd: new FormControl(''),
         flexibleInd: new FormControl(''),
-        intlInd: new FormControl('')
+        intlInd: new FormControl(this.dataService.userFull.countryCd != "")
       });
 
       //get routed event id if needed
@@ -199,6 +200,10 @@ export class EventComponent implements OnInit, OnDestroy {
       }});
       }
     }
+  }
+
+  changeIntlState(): void {
+    this.intlInd = this.eventForm.value.intlInd ?? false;
   }
 
   //onchange handler next to clear status for submitResult

@@ -115,7 +115,7 @@
 <ng-container matColumnDef="eventNote">
   <mat-cell *matCellDef="let row" class="mat-cell-indent">
     <div><span *ngIf="row.eventNote || row.intlEventInd"><mat-icon>star</mat-icon></span>
-      <span *ngIf="row.intlEventInd"> International event - for people outside USA</span>
+      <span *ngIf="row.intlEventInd"> International signup</span>
       <span *ngIf="row.eventNote && row.intlEventInd"> -- </span>
       <span *ngIf="row.eventNote"> {{row.eventNote}} </span>
     </div>
@@ -150,8 +150,11 @@
                   <mat-hint>Fill in the name on your ID here.</mat-hint>
                 </mat-form-field>
               </div>
+              <div fxFlex="33%" fxFlex.xs="100%" fxFlex.sm="100%" style="vertical-align: middle; min-height: 75px; padding: 10px;">
+                <mat-slide-toggle color="primary" id="intlInd" name="intlInd" formControlName="intlInd" (change)="changeIntlState()">I live outside the USA</mat-slide-toggle>
+              </div>
 
-              <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="100%" style="vertical-align: middle; min-height: 75px; padding: 10px;" *ngIf="!intlInd">
+              <div fxFlex="33%" fxFlex.xs="100%" fxFlex.sm="100%" style="vertical-align: middle; min-height: 75px; padding: 10px;" *ngIf="!intlInd">
                 <p>Please select the state you live in.</p>
                 <mat-form-field appearance="fill">
                     <mat-label>Select your state*</mat-label>
@@ -164,7 +167,7 @@
                     </mat-form-field>
                   </div>
 
-                <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="100%" style="vertical-align: middle; min-height: 75px; padding: 10px;" *ngIf="intlInd">
+                <div fxFlex="33%" fxFlex.xs="100%" fxFlex.sm="100%" style="vertical-align: middle; min-height: 75px; padding: 10px;" *ngIf="intlInd">
                   <p>Please select the country you live in.</p>
                   <mat-form-field appearance="fill">
                       <mat-label>Select your country*</mat-label>
@@ -177,7 +180,7 @@
                       </mat-form-field>
                 </div>
 
-                  <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="100%" style="vertical-align: middle; min-height: 75px; padding: 10px;" *ngIf="!intlInd">
+                  <div fxFlex="34%" fxFlex.xs="100%" fxFlex.sm="100%" style="vertical-align: middle; min-height: 75px; padding: 10px;" *ngIf="!intlInd">
                     <p>Please select the city or town that you live in.</p>
                     <mat-form-field appearance="fill">
                       <mat-label>Select your city*</mat-label>
@@ -190,7 +193,7 @@
                   </mat-form-field>
                 </div>
 
-                <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="100%" style="vertical-align: middle; min-height: 75px; padding: 10px;" *ngIf="intlInd">
+                <div fxFlex="34%" fxFlex.xs="100%" fxFlex.sm="100%" style="vertical-align: middle; min-height: 75px; padding: 10px;" *ngIf="intlInd">
                   <p>Please enter the city or town that you live in.</p>
                   <mat-form-field appearance="fill">
                     <mat-label>Enter your city*</mat-label>

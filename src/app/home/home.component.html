@@ -159,7 +159,7 @@
                   <ng-container matColumnDef="eventNote">
                     <mat-cell *matCellDef="let row" class="mat-cell-indent" [hidden]="row?.eventNote !== '' && !row?.intlEventInd">
                         <span *ngIf="row.eventNote || row.intlEventInd"><mat-icon>star</mat-icon></span>
-                          <span *ngIf="row.intlEventInd"> International event - for people outside USA</span>
+                          <span *ngIf="row.intlEventInd"> International signup</span>
                           <span *ngIf="row.eventNote && row.intlEventInd"> -- </span>
                           <span *ngIf="row.eventNote"> {{row.eventNote}} </span>
                       </mat-cell>
