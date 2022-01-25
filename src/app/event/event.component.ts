@@ -58,7 +58,7 @@ export class EventComponent implements OnInit, OnDestroy {
         stateCd: new FormControl(''),
         countryCd: new FormControl(''),
         flexibleInd: new FormControl(''),
-        intlInd: new FormControl(this.dataService.userFull.countryCd != "")
+        intlInd: new FormControl(this.dataService.userFull.countryCd !== "")
       });
 
       //get routed event id if needed
@@ -100,7 +100,7 @@ export class EventComponent implements OnInit, OnDestroy {
       }
 
       // If the user isn't USA, default. We only show this if we have an international event.
-      if (this.dataService.userFull.countryCd != null ) {
+      if (this.dataService.userFull.countryCd !== "") {
         this.eventForm.patchValue({countryCd: this.dataService.userFull.countryCd});
       }
 
