@@ -154,7 +154,7 @@
                 <mat-slide-toggle color="primary" id="intlInd" name="intlInd" formControlName="intlInd" (change)="changeIntlState()">I live outside the USA</mat-slide-toggle>
               </div>
 
-              <div fxFlex="33%" fxFlex.xs="100%" fxFlex.sm="100%" style="vertical-align: middle; min-height: 75px; padding: 10px;" *ngIf="!intlInd">
+              <div fxFlex="33%" fxFlex.xs="100%" fxFlex.sm="100%" style="vertical-align: middle; min-height: 75px; padding: 10px;" *ngIf="!this.intlInd">
                 <p>Please select the state you live in.</p>
                 <mat-form-field appearance="fill">
                     <mat-label>Select your state*</mat-label>
@@ -167,7 +167,7 @@
                     </mat-form-field>
                   </div>
 
-                <div fxFlex="33%" fxFlex.xs="100%" fxFlex.sm="100%" style="vertical-align: middle; min-height: 75px; padding: 10px;" *ngIf="intlInd">
+                <div fxFlex="33%" fxFlex.xs="100%" fxFlex.sm="100%" style="vertical-align: middle; min-height: 75px; padding: 10px;" *ngIf="this.intlInd">
                   <p>Please select the country you live in.</p>
                   <mat-form-field appearance="fill">
                       <mat-label>Select your country*</mat-label>
@@ -180,7 +180,7 @@
                       </mat-form-field>
                 </div>
 
-                  <div fxFlex="34%" fxFlex.xs="100%" fxFlex.sm="100%" style="vertical-align: middle; min-height: 75px; padding: 10px;" *ngIf="!intlInd">
+                  <div fxFlex="34%" fxFlex.xs="100%" fxFlex.sm="100%" style="vertical-align: middle; min-height: 75px; padding: 10px;" *ngIf="!this.intlInd">
                     <p>Please select the city or town that you live in.</p>
                     <mat-form-field appearance="fill">
                       <mat-label>Select your city*</mat-label>
