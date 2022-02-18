@@ -35,6 +35,7 @@ export class EventComponent implements OnInit, OnDestroy {
   public moveOrSignup: boolean;
   public signedupSlot: number;
   public stopChange: boolean = false;
+  public alreadySignedUp: boolean = false;
 
   public intlInd: boolean = this.dataService.userFull.countryCd !== null;
 
@@ -61,9 +62,9 @@ export class EventComponent implements OnInit, OnDestroy {
         intlInd: new FormControl(this.dataService.userFull.countryCd !== null)
       });
 
-      console.log(this.dataService.userFull);
-      console.log(this.eventForm.value.intlInd);
-      console.log(this.intlInd);
+      //console.log(this.dataService.userFull);
+      //console.log(this.eventForm.value.intlInd);
+      //console.log(this.intlInd);
 
 
       //get routed event id if needed
@@ -150,6 +151,7 @@ export class EventComponent implements OnInit, OnDestroy {
       this.dataService.handleError(err);
     },
     complete: () => {
+      // console.log(this.events);
       this.loadStatus = true;}});
   }
 
