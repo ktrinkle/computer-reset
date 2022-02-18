@@ -14,10 +14,11 @@ import { utcToZonedTime } from 'date-fns-tz';
 
 export class EventComponent implements OnInit, OnDestroy {
 
-  public signUp: Signup = {realname: "", cityNm: "", stateCd: "", countryCd: "", eventId: 0,
+  public signUp: Signup = {realname: "", cityNm: "", stateCd: "", eventId: 0,
     fbId: this.dataService.userFull.facebookId,
     firstNm: this.dataService.userFull.firstName,
     lastNm: this.dataService.userFull.lastName,
+    countryCd: this.dataService.userFull.countryCd,
     flexibleInd: false
   };
 
@@ -34,8 +35,9 @@ export class EventComponent implements OnInit, OnDestroy {
   public moveOrSignup: boolean;
   public signedupSlot: number;
   public stopChange: boolean = false;
+  public alreadySignedUp: boolean = false;
 
-  public intlInd: boolean;
+  public intlInd: boolean = this.dataService.userFull.countryCd !== null;
 
   public agreeClick(): void {
     this.agreeInd = true;
@@ -57,8 +59,13 @@ export class EventComponent implements OnInit, OnDestroy {
         stateCd: new FormControl(''),
         countryCd: new FormControl(''),
         flexibleInd: new FormControl(''),
-        intlInd: new FormControl('')
+        intlInd: new FormControl(this.dataService.userFull.countryCd !== null)
       });
+
+      //console.log(this.dataService.userFull);
+      //console.log(this.eventForm.value.intlInd);
+      //console.log(this.intlInd);
+
 
       //get routed event id if needed
       this.signUp.eventId = this.dataService.eventIdPass;
@@ -82,7 +89,8 @@ export class EventComponent implements OnInit, OnDestroy {
       }
 
       // default us to Dallas, Tx only if a new user
-      if (this.dataService.userFull.stateCode == null && this.dataService.userFull.countryCd == null) {
+      if ((this.dataService.userFull.stateCode == null || this.dataService.userFull.stateCode == "")
+            && this.dataService.userFull.countryCd == null) {
         this.eventForm.patchValue({stateCd: "TX"});
         this.dataService.getCity("TX").pipe(
           takeUntil(this.destroy$)).subscribe(result => {
@@ -99,7 +107,7 @@ export class EventComponent implements OnInit, OnDestroy {
       }
 
       // If the user isn't USA, default. We only show this if we have an international event.
-      if (this.dataService.userFull.countryCd != null ) {
+      if (this.dataService.userFull.countryCd !== null) {
         this.eventForm.patchValue({countryCd: this.dataService.userFull.countryCd});
       }
 
@@ -133,7 +141,7 @@ export class EventComponent implements OnInit, OnDestroy {
         if (event.id === this.signUp.eventId) {
           // console.log(event.id);
           // console.log(this.signUp.eventId);
-          this.intlInd = event.intlEventInd;
+          this.intlInd = event.intlEventInd == true ? true : this.intlInd;
         }
         this.events[index] = event;
       });
@@ -143,6 +151,7 @@ export class EventComponent implements OnInit, OnDestroy {
       this.dataService.handleError(err);
     },
     complete: () => {
+      // console.log(this.events);
       this.loadStatus = true;}});
   }
 
@@ -199,6 +208,10 @@ export class EventComponent implements OnInit, OnDestroy {
       }});
       }
     }
+  }
+
+  changeIntlState(): void {
+    this.intlInd = this.eventForm.value.intlInd ?? false;
   }
 
   //onchange handler next to clear status for submitResult

@@ -90,6 +90,7 @@ export class HomeComponent implements OnInit {
       this.dataService.userFull.realName = userInfo.realNm;
       this.dataService.userFull.cityName = userInfo.cityNm;
       this.dataService.userFull.stateCode = userInfo.stateCd;
+      this.dataService.userFull.countryCd = userInfo.countryCd;
       this.events = data.timeslot;
       this.moveOrSignup = data.moveFlag;
       this.signedupSlot = data.signedUpTimeslot ?? -1;
