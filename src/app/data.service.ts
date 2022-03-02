@@ -4,6 +4,7 @@ import { Observable, throwError } from 'rxjs';
 import { UserSmall, Signup, UserModel, UserEventSignup, UserEventDayOf, UserEventNote, Timeslot, UserManual, openEvent, dumpster } from './data';
 import { environment } from './../environments/environment';
 import { AuthenticationService } from './authentication/authentication.service';
+import { Guid } from 'typescript-guid';
 
 @Injectable({
   providedIn: 'root'
@@ -60,6 +61,11 @@ export class DataService {
     public getFrontPage(userReq: UserSmall): Observable<any>  {
       var url = this.REST_API_SERVER + '/api/computerreset/api/users/frontpage';
       return this.httpClient.post(url, userReq);
+    }
+
+    public getPrivatePage(eventKey: Guid, userReq: UserSmall): Observable<any>  {
+      var url = this.REST_API_SERVER + '/api/computerreset/api/users/privateEvent/' + encodeURIComponent(eventKey.toString()) + '';
+      return this.httpClient.put(url, userReq);
     }
 
     public getUserInfo(userReq: UserSmall): any {
@@ -233,5 +239,7 @@ export class DataService {
       var url = this.REST_API_SERVER + '/api/computerreset/api/ref/country';
       return this.httpClient.get(url);
     }
+
+    // api/events/list/{eventKey}
 
 }

@@ -1,3 +1,5 @@
+import { Guid } from "typescript-guid";
+
 export interface ClaimPrincipal {
     access_token: string;
     expires_on: string;
@@ -36,6 +38,7 @@ export interface ClaimPrincipal {
     privateEventInd: boolean;
     intlEventInd: boolean;
     facebookId?: string;
+    eventKey?: Guid;
   }
 
   export interface TimeslotSmall {
@@ -58,6 +61,7 @@ export interface ClaimPrincipal {
     firstNm: string;
     lastNm: string;
     flexibleInd: boolean;
+    eventKey?: string;
   }
 
   export interface StateList {

@@ -15,6 +15,7 @@ import { UserlistComponent } from './admin/userlist/userlist.component';
 import { StandbyComponent } from './admin/standby/standby.component';
 import { PasteventComponent } from './admin/pastevent/pastevent.component';
 import { DeleteComponent } from './privacy/delete/delete.component';
+import { PrivateeventComponent } from './privateevent/privateevent.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -25,6 +26,7 @@ const routes: Routes = [
     component: DeleteComponent
     },
   { path: 'event', component: EventComponent, canActivate: [LoadGuard] },
+  { path: 'privateevent/:eventKey', component: PrivateeventComponent },
   { path: 'admin', component: AdminComponent, canActivate: [AdminGuard] , children: [
     {
     path: 'userlist',

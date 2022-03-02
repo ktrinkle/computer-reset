@@ -55,6 +55,7 @@ import { reducers, metaReducers } from './store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { EffectsModule } from '@ngrx/effects';
 import { CrEffects } from './store/cr.effects';
+import { PrivateeventComponent } from './privateevent/privateevent.component';
 
 export function appInitFb(appConfigService: AppConfigService) {
   return () => appConfigService.loadFb();
@@ -78,7 +79,8 @@ export function appInitFb(appConfigService: AppConfigService) {
     DialogCancelComponent,
     LoadEventComponent,
     PasteventComponent,
-    DeleteComponent
+    DeleteComponent,
+    PrivateeventComponent
   ],
   imports:[
     BrowserModule,
