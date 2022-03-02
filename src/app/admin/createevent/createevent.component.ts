@@ -398,6 +398,7 @@ export class CreateeventComponent implements OnInit, OnDestroy {
     this.newEventForm.reset();
   }
 
+  isPrivateEvent = (index, item) => item.privateEventInd ?? false;
 
   ngOnDestroy(): void{
 

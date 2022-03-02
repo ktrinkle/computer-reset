@@ -60,10 +60,21 @@
                     </mat-cell>
                   </ng-container>
 
+                  <!-- Private link-->
+                  <ng-container matColumnDef="privateLink">
+                    <mat-header-cell *matHeaderCellDef>Link</mat-header-cell>
+                    <mat-cell *matCellDef="let row">
+                        Private Link:  <a routerLink="/privateevent/{{row.eventKey}}">https://computerresetsignup.azurewebsites.net/privateevent/{{row.eventKey}}</a>
+                    </mat-cell>
+                  </ng-container>
+
                   <!-- Header and Row Declarations -->
                   <mat-header-row *matHeaderRowDef="['eventDate', 'eventTime', 'eventOpen', 'manage']"></mat-header-row>
                   <mat-row *matRowDef="let row; columns: ['eventDate', 'eventTime', 'eventOpen', 'manage']"
                   [ngClass]="{'highlight': selectEventId == row.id}" class="mat-row1"></mat-row>
+                  <mat-row *matRowDef="let row; columns: ['privateLink'], when: isPrivateEvent"
+                    [ngClass]="{'highlight': selectEventId == row.id}" class="mat-row1">
+                  </mat-row>
                   <mat-row *matRowDef="let row; columns: ['openclose','private', 'intl']"
                   [ngClass]="{'highlight': selectEventId == row.id}" class="mat-row2"></mat-row>
                   </mat-table>
