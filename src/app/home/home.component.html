@@ -1,12 +1,12 @@
 <div style="padding: 13px;">
     <mat-card>
       <mat-card-header>
-        <mat-card-subtitle>Welcome {{fullName}} to the Computer Reset Liquidation Signup Site!
+        <mat-card-subtitle>Welcome {{fullName}} to the Computer Reset Liquidation Cleanup Signup Site!
         </mat-card-subtitle>
       </mat-card-header>
         <mat-card-content>
           <p><img src="assets/cr.svg" width="320px" layout-align="center"></p>
-          <p>Events that are open for signup can be found below.
+          <p>Cleanup events that are open for signup can be found below.
             Please note that events are not posted more than 7 days before the event date.</p>
         </mat-card-content>
         <mat-card-content class="alertmessage">
@@ -146,8 +146,8 @@
                    <ng-container matColumnDef="signup">
                     <mat-header-cell *matHeaderCellDef></mat-header-cell>
                     <mat-cell *matCellDef="let row">
-                      <div *ngIf="!row.eventClosed && row.userSlot == 'L'"><button mat-raised-button color="primary" (click)="deleteEvent(row.id);">Remove signup</button></div>
-                      <div *ngIf="row.userSlot && row.userSlot != 'L'">Signed up</div>
+                      <div *ngIf="!row.eventClosed && row.userSlot"><button mat-raised-button color="primary" (click)="deleteEvent(row.id);">Remove signup</button></div>
+                      <!--div *ngIf="row.userSlot && row.userSlot != 'L'">Signed up</div-->
                       <div *ngIf="row.eventClosed && !row.userSlot">Event is full</div>
                       <div *ngIf="!row.eventClosed && !row.userSlot"><button mat-raised-button color="accent" (click)="pickEvent(row.id);">Sign Up</button></div>
                     </mat-cell>
