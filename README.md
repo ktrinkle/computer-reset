@@ -4,6 +4,8 @@ This is the UI for the Computer Reset Liquidation site. This is written in Angul
 
 Hosting is performed on an Azure App Service - this is because of authentication requirements.
 
+**This repository has been archived.** The liquidation has ended and this site is no longer in use.
+
 ## Login flow
 
 Only Facebook authentication is supported, and this is handled via the EasyAuth flow in Azure. Calls in order are:
